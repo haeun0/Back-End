@@ -1,0 +1,696 @@
+JDK (Java Development Kit)
+
+JRE (Java Runtime Enviroment)
+자바실행환경을 도와줌..?
+
+JVM (Java virtual Machine)
+JRE에 들어있음
+
+----------------------------------------------------
+intellij 검색
+https://www.jetbrains.com/ko-kr/idea/download/#section=windows
+
+체크 위에 3개
+
+download 
+
+11
+Azul Zulu
+
+
+D:Students java
+no add sample code
+
+
+
+src / new / package
+com.green.java
+프로젝트 명
+기본 3개 파일 - 도메인의 반대 green.com
+
+
+/new/javaclass
+
+
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+
+
+
+Run HelloWorld.main()
+콘솔창 불러오기
+
+
+주석
+// single line comments
+/* 
+Multi
+line   
+comments  
+ */
+
+--------------------------------------------------------------------
+
+public class VariableNumber {
+    public static void main(String[] args) {
+        //변수 숫자형
+        
+        int n1; //(정수형)변수 선언
+        n1 = 10; //=은 대입연산자, 오른쪽 값 복사하여 왼쪽에 주입
+    }
+}
+
+
+public class VariableNumber {
+    public static void main(String[] args) {
+        //변수 숫자형
+
+        int n1; //(정수형)변수 선언
+        n1 = 10; //=은 대입연산자, 오른쪽 값 복사하여 왼쪽에 주입
+
+        System.out.println(n1);
+
+        n1 = 20;
+        System.out.println(n1);
+    }
+}
+
+
+
+-------------->
+int n1 변수선언 변수선언은 한번만(=초기화, 대입)
+int은  변수 타입
+n1은 변수명 - 리터럴, 값 그 자체!
+
+
+
+
+
+----------------------------------------------
+변수명
+byte n1; //1byte
+short n1; //2byte
+long n1; //8byte
+int n1; //4byte
+
+
+----------------------------------------
+public class VariableNumber2 {
+    public static void main(String[] args) {
+        //리터럴 Literal
+        byte b1 = 127;
+        System.out.println(b1);
+
+        int i1 = 129;
+        int i2 = (int)b1; //자동형변환
+        b1 = (byte)i1; //강제형변환
+
+        System.out.println(b1);
+        b1 = (byte)-129;
+        System.out.println(b1);
+    }
+}
+
+----------------------------------------------------------
+public class VariableChar {
+    public static void main(String[] args) {
+        //변수 선언과 초기화 동시 가능
+        char c1 = 'A'; //문자, 문자열X, 줄따옴표 사용.
+        System.out.println(c1);
+
+        c1 = '한';
+        System.out.println(c1);
+
+        c1 = 'C';
+        System.out.printf("%c : %d \n", c1, (int)c1);
+    }
+}
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50589:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch01.VariableChar
+A
+한
+C : 67 
+
+Process finished with exit code 0
+
+
+------------------>
+System.out.printf("%c : %d \n", c1, (int)c1);
+c1 -> %c 
+(int)c1 ->  \n
+
+아스키 코드
+---------------------------------------------------------------
+변수의 값을 변환하고 싶은 경우 대입연산자(=)를 쓴다!!!!!!!!!!!!!
+
+
+
+
+--------------------------------------------------------------------
+public class VariableBoolean {
+    public static void main(String[] args) {
+        boolean b1 = true, b2 = false;
+        System.out.println(b1);
+        System.out.println(b2);
+
+        b2 = 10 > 2;
+        System.out.println(b2);
+    }
+}
+
+-------------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50609:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch01.VariableBoolean
+true
+false
+true
+
+Process finished with exit code 0
+
+
+
+
+------------------------------------------------------
+public class VariableFloat {
+    public static void main(String[] args) {
+        //double(8byte), float (4byte)
+        float f1 = 10;
+        System.out.println(f1);
+
+        f1 = (float)9.77;
+        f1 = 9.77f;
+        f1 = 9.77F;
+        System.out.println(f1);
+    }
+}
+
+--------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50617:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch01.VariableFloat
+10.0
+9.77
+
+Process finished with exit code 0
+
+-----------------------------------------------------------
+long l1 = 100;
+float f2 = l1; //자동형변환, float 4byte, long 8byte
+
+왜? 자동형변환이 이루어질까??
+
+double d1 = 9.77d;
+double d2 = 9.77D;
+
+-----------------------------------------
+정수형: byte, short, int, long
+실수형: float, bouble
+문자형: char
+불린형: boolean
+
+8개, primitive type(원시 타입, 기본타입)
+나머지 대문자로 시작 reference type(참조타입)
+
+--------------------------------------------------
+문자열
+public class VariableString {
+    public static void main(String[] args) {
+        String s1 = "Hello";
+        String s2 = "world";
+
+        System.out.println(s1);
+        System.out.println(s2);
+
+        String s3 = s1 + s2;
+        //string s3 = "HelloWorld";
+        System.out.println(s3);
+
+        String s4 = s1 + " " + s2;
+        System.out.println(s4);
+    }
+}
+
+----------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50670:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch01.VariableString
+Hello
+world
+Helloworld
+Hello world
+
+Process finished with exit code 0
+
+
+------------------->
+주소값
+String s1 = "Hello";
+"Hello" -> s1
+
+------------------------------------------------------------------------------------
+String r1 = "안녕" + 1;
+"안녕"는 스트링 타입
+1는 정수타입
+
+타입이 다르면 연산X but 연산이 되는 경우 자동형변환이 이루어지고 있다.
+
+-----------------------------------------------------------------------------------------
+public class VariableTest {
+    public static void main(String[] args) {
+        String r1 = "안녕" +1 + 1;
+        // String r1 = "안녕1" + 1;
+        // String r1 = "안녕11"
+        System.out.println(r1);
+
+        String r2 = "안녕" + (1 + 1);
+        System.out.println(r2);
+
+        String r3 = 1 + 1 + "안녕";
+        System.out.println(r3);
+    }
+}
+
+
+----------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50695:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch01.VariableTest
+안녕11
+안녕2
+2안녕
+
+Process finished with exit code 0
+
+
+
+
+
+
+
+-------------------------------------------------------------------
+메소드명, 클래스명 적는...
+public class Naming {
+    public static void main(String[] args) {
+        //단어 + 단어 + 단어
+
+        //Hello World Bye
+        //기법
+        //파스칼 케이스 기법 > 클래스명
+        String Helloworldbye;
+
+        //카멜 케이스 기법 > 변수명, 메소드명
+        String helloWorldBye;
+
+        //스네이크 케이스 기법
+        //String hello-world-bye;
+
+        //이름에 쓸 수 있는 특수기호 2개 : _ , $
+        String _hi, h$i;
+
+        //이름 처음에 숫자 사용할 수 없다. but 처음만 아니면 된다.
+        //String 1oo
+        String a1a;
+
+        //이름에 빈칸 사용할 수 없다.
+        //String hello Wrold;
+    }
+}
+
+
+--------------------------------------------------------------------
+p.21
+VarEx1
+
+
+
+----------------------
+
+VarEx2
+
+public class VarEx2 {
+    public static void main(String[] args) {
+        int x = 10, y = 20, temp = 0;
+        System.out.printf("x : %d, y: %d\n", x, y);
+    }
+}
+
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50764:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.VarEx2
+x : 10, y: 20
+
+Process finished with exit code 0
+
+--------------------
+스와이핑
+temp를 사용한다.
+
+public class VarEx2 {
+    public static void main(String[] args) {
+        int x = 10, y = 20, temp = 0;
+        System.out.printf("x : %d, y: %d\n", x, y);
+
+        temp = x;
+        x = y;
+        y = temp;
+
+        System.out.printf("x : %d, y: %d\n", x, y);
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50786:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.VarEx2
+x : 10, y: 20
+x : 20, y: 10
+
+Process finished with exit code 0
+
+------------------------------------------------------------------------
+
+p.27
+변수의 타입
+
+p.29
+각 타입 크기
+
+p.30
+상수
+
+
+--------------------------------------------------------------
+p.36
+형식화된 출력
+public class PrintfEx1 {
+    public static void main(String[] args) {
+     byte b = 1;
+     short s = 2;
+     char c = 'A';
+     int finger = 10;
+
+     System.out.printf("b=%d\n", b);
+     System.out.printf("s=%d%n", s);
+     System.out.printf("c=%c, %d %n", c, (int)c);
+     System.out.printf("finger=[%5d] \n",finger);
+     System.out.printf("finger=[%-5d] \n",finger);
+     System.out.printf("finger=[%05d] \n",finger);
+    }
+}
+
+
+-------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50830:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.PrintfEx1
+b=1
+s=2
+c=A, 65 
+finger=[   10] 
+finger=[10   ] 
+finger=[00010] 
+
+Process finished with exit code 0
+
+-----------------------------------------------------------------------------
+문자열비교!!!!!!!!!!
+public class VariableString2 {
+    public static void main(String[] args) {
+        String s1 = "hello";
+        String s2 = "hello";
+
+        System.out.println(s1 == s2);
+
+        String s3 = new String("hello");
+        String s4 = new String("hello");
+
+        System.out.println("s3 : " + s3);
+        System.out.println("s4 : " + s4);
+        System.out.println("s3 == s4 " + (s3 == s4));
+        System.out.println("s3.equals(s4) " + s3.equals(s4));
+
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50974:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.VariableString2
+true
+s3 : hello
+s4 : hello
+s3 == s4 false
+s3.equals(s4) true
+
+Process finished with exit code 0
+
+---------------------------------------------------------------------------
+package com.green.java.ch02;
+
+import java.util.Scanner;
+
+public class ScannerEx {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+    }
+}
+
+
+------------------>
+Scanner 클릭 Alt + Enter
+
+무거운 작업을 안쓰고 있다가 쓰겠다고 import해서 사용한다.
+---------------------------------------------------------------------
+
+import java.util.Scanner;
+
+public class ScannerEx {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("두자리 정수를 하나 입력해주세요.>");
+        String input = scan.nextLine();
+        int num = Integer.parseInt(input);
+
+        System.out.println("입력내용 : " + input);
+        System.out.printf("num=%d\n", num);
+    }
+}
+
+
+
+-------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50997:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.ScannerEx
+두자리 정수를 하나 입력해주세요.>
+
+---------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51002:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.ScannerEx
+두자리 정수를 하나 입력해주세요.>120
+입력내용 : 120
+num=120
+
+Process finished with exit code 0
+
+----------------->
+두자리 정수를 하나 입력해주세요.>뒤에 직접입력
+--------------------------------------------------------------------
+import java.util.Scanner;
+
+public class ScannerEx2 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        String name = "장하은";
+        System.out.print("나이 입력 : ");
+
+        //나의 이름은 장하은이고 나이는 00살입니다.
+
+
+        String input = scan.nextLine();
+        int num = Integer.parseInt(input);
+        System.out.print("나의 이름은 " + name + "이고 나이는 " + num + " 살입니다.");
+    }
+}
+
+-------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51140:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.ScannerEx2
+나이 입력 : 
+Process finished with exit code 0
+
+----------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51140:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.ScannerEx2
+나이 입력 : 00
+나의 이름은 장하은이고 나이는 0 살입니다.
+Process finished with exit code 0
+
+----------------------------------------------------------------
+위에거 선생님코드로
+import java.util.Scanner;
+
+public class ScannerEx2 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        String name = "장하은";
+        int age = 0;
+        System.out.print("나이 입력 : ");
+
+        //나의 이름은 장하은이고 나이는 00살입니다.
+
+        String strAge = scan.nextLine();
+        age = Integer.parseInt(strAge);
+
+        System.out.printf("나의 이름은 %s이고 나이는 %d살입니다.", name, age - 1);
+    }
+}
+
+------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51151:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.ScannerEx2
+나이 입력 : 10
+나의 이름은 장하은이고 나이는 9살입니다.
+Process finished with exit code 0
+
+
+---------------------------------------------------------------------------
+package com.green.java.ch02;
+
+public class CastingEx2 {
+    public static void main(String[] args) {
+        int n1 = 10;
+        int n2 = 3;
+//        double a = (double)n1 / n2;
+
+
+
+//        System.out.println(a);
+
+        //10을 3으로 나눠서 소수점이 나타나도록 해주세요.
+        //3.0이 나오지 않도록 해주세요.
+        
+//        책에 있는 계산식사용
+//        double a = (double)n1;
+//        double b = (double)n2;
+//        System.out.printf("%f / %f = %f %n", a, b, a / b);
+//        System.out.printf("%f / %f = %f", a, b, a / b);
+
+        System.out.printf("%f / %d = %f%n", (float)n1, n2, (float)n1 / n2);
+
+
+
+
+//        계산식이 되는지 확인용 그냥 int로 계산해보기
+//        System.out.printf("%d / %d = %d%n", n1, n2, n1 / n2);
+        
+        
+//        선생님코드
+//        System.out.printf("%.3f\n", a);
+
+    }
+}
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51523:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.CastingEx2
+10.000000 / 3 = 3.333333
+
+Process finished with exit code 0
+
+
+-----------------------------------------------------------------------------
+
+마무리
+window + r
+\\192.168.0.62
+share
+파일 복사
+
+greendg1502@gmail.com
+제목은 파일명이랑 같도록
+
+
+https://github.com/GreenArtAcademy502
+<> Code / Local /Download ZIP
+
+
+변수: 값을 저장하기 위해 쓰는
+상수: 값을 변환 할수 없는
+상수의 네이밍 규칙: 
+
+
+
+printf: 개행을 해주지 않는다. / 문자열안에, 문자열사이에 집어넣을 수 있도록
+println: 개행을 해준다.
+
+컴파일 에러, 런타임 에러?
+
+
+------------------------------------------------
+
+-ch01
+ helloWorld
+
+-ch02
+ naming
+ VariableNumber
+ VariableNumber2
+ VariableChar
+ VariableBoolen
+ VarialbeString
+ VarialbeString2
+	객체화...
+	문자열 비교는 == 을 사용하지 말것 .equals사용   s3.equals(s4) 
+ VariableTest
+ VarEx1
+	p.21 
+ VarEx2
+ PrintfEx1
+ PrintfEx2
+ 	System.out.printf("d=%14.10f\n", d);
+	d=  1.2345678000
+	14자리에 실수는 10자리까지 표기해라
+ ScannerEx
+	Scanner scan = new Scanner(System.in);
+	Scanner 여기만 변경가능 = new Scanner(System.in);
+	String input = scan.nextLine();
+	String input = 변수명 그대로.nextLine();
+	String input = scan.nextLine(); 엔터를 치면 scan.nextLine()가 문자열 "1"로 바뀐다.
+	
+        System.out.println("입력내용 : " + input + 1);
+        System.out.printf("num=%d\n", num + 1);
+        ------------>
+        두자리 정수를 하나 입력해주세요.>1
+        입력내용 : 11
+        num=2
+ ScannerEx2
+ CastingEx1
+ CastingEx2
+
+
+
+ 
+
+ 
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

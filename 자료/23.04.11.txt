@@ -1,0 +1,299 @@
+ch03
+
+사망연산자
+public class OperatorEx32 {
+    public static void main(String[] args) {
+        //p.131
+        int x = 10, y = -5, z = 0;
+        int absX, absY, absZ;
+
+        absX = x >= 0 ? x : -x;
+        System.out.println(absX);
+
+    }
+}
+
+------------------------>
+        absX = x >= 0 ? x : -x; x는 10
+                 boolean 10 
+
+        absY = y >= 0 ? y : -y; -y는 5
+        System.out.println(absY);
+
+	음수면 -1을 곱해서 양수로 바꿔서 계산????????
+
+분기문 if
+만약에 true였다면 true가 아니라면
+
+
+----------------------------
+public class OperatorStudy8 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner((System.in));
+        System.out.print("숫자를 입력: ");
+        int num = scan. nextInt();
+        System.out.println("num : " + num);
+//        String a = "짝수", b = "홀수", c;
+//
+//        c = num % 2 == 0 ? a : b;
+//
+//        System.out.println(c);
+
+        //선생님 코드
+        String result = num % 2 == 0 ? "짝수" : "홀수";
+        System.out.printf("숫자 %d는 %s 이다.", num, result);
+
+
+        //num값이 홀수면 "홀수" 출력.
+        //num값이 짝수면 "짝수" 출력.
+
+    }
+}
+
+
+--------------------------------------------------
+
+
+public class OperatorStudy9 {
+    public static void main(String[] args) {
+        //p.133
+        int i=0;
+        i++;
+        System.out.println("i : " + i );
+
+        int z = 0;
+        z = z + 1;
+        z = z + 1;
+        z = z + 2;
+        System.out.println("z : " + z);
+
+        int k = 0;
+        k += 1;
+        k += 2;
+        System.out.println("k : " + k);
+
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=49994:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy9
+i : 1
+z : 4
+k : 3
+
+Process finished with exit code 0
+
+
+굉장히 자주 씀
+
+-------------------------------------------------------------------------------
+
+ch04
+
+//p.136
+조건문 if, switch
+
+        if(조건식){
+            
+        }
+
+
+
+-------------------------------------
+
+
+public class IfStudy1 {
+    public static void main(String[] args) {
+        int num = 10;
+        if(num == 10){
+            System.out.println("num은 10입니다.");
+        }
+    }
+}
+
+--------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50011:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.IfStudy1
+num은 10입니다.
+
+Process finished with exit code 0
+
+false인경우 실행되지않음
+--------------------------------------------------
+public class IfStudy1 {
+    public static void main(String[] args) {
+        int num = 9;
+        if(num == 10){
+            System.out.println("num은 10입니다.");
+        } else {
+            System.out.println("num은 10이 아니다.");
+        }
+    }
+}
+
+------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50015:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.IfStudy1
+num은 10이 아니다.
+
+Process finished with exit code 0
+
+---------------------------------------------------------------------------
+public class IfStudy1 {
+    public static void main(String[] args) {
+        int num = 9;
+        if(num == 10){
+            System.out.println("num은 10입니다.");
+        } else {
+            System.out.println("num은 10이 아니다.");
+        }
+
+        int num2 = 5;
+        if(num2 >= 20) {
+            System.out.println("num2은 20이상");
+        } else if(num >= 10) {
+            System.out.println("num2은 10이상");
+        } else if(num >= 5) {
+            System.out.println("num2은 5이상");
+        } else {
+            System.out.println("num2은 5미만");
+        }
+
+        System.out.println("끝!");
+    }
+}
+
+------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50019:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.IfStudy1
+num은 10이 아니다.
+num2은 5미만
+끝!
+
+Process finished with exit code 0
+
+
+
+
+-----------------------------------------------------------------------
+
+public class FlowEx1 {
+    public static void main(String[] args) {
+        //p.137
+        int x = 0;
+        System.out.printf( "x = %d 일때, 참인 것은 %n", x ); // x는 0  
+
+        if ( x == 0 ) {System.out.println( "x == 0" );} //trud
+        if ( x != 0 ) {System.out.println( "x == 0" );} //false
+        if ( ! (x == 0) ) {System.out.println( "! (x == 0)" );} //false
+        if ( ! (x != 0) ) {System.out.println( "! (x != 0)" );} //ture
+
+    }
+}
+
+----------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50104:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx1
+x = 0 일때, 참인 것은 
+x == 0
+! (x != 0)
+
+Process finished with exit code 0
+
+--------------------------------------------------------------------
+
+public class SwitchStudy1 {
+    public static void main(String[] args) {
+        int level = 5;
+        switch(level) {
+            case 5: // :을 만나면 진입해서 아랫줄로 떨어진다.
+                System.out.println("lever은 5");
+                break; //breack에서 빠져나온다.
+            case 4:
+                System.out.println("lever은 4");
+                break;
+            case 3:
+                System.out.println("lever은 3");
+                break;
+            case 2:
+                System.out.println("lever은 2");
+                break;
+            case 1:
+                System.out.println("lever은 1");
+                break;
+            default:
+                System.out.println("lever은 1~5가 아님"); // 마지막은 break가 없어도됨
+        }
+    }
+}
+
+----------------------
+public class SwitchStudy1 {
+    public static void main(String[] args) {
+        int level = 5;
+        switch(level) {
+            default:
+                System.out.println("lever은 1~5가 아님");
+            break;
+            case 5:
+                System.out.println("lever은 5");
+            case 4:
+                System.out.println("lever은 4");
+            case 3:
+                System.out.println("lever은 3");
+                break;
+            case 2:
+                System.out.println("lever은 2");
+                break;
+            case 1:
+                System.out.println("lever은 1");
+                break;
+
+        }
+    }
+}
+
+------------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50773:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.SwitchStudy1
+lever은 5
+lever은 4
+lever은 3
+
+Process finished with exit code 0
+
+
+문자열 비교할때 switch가 제일 편하다... 왜?
+
+
+
+-------------------------------------------------------------------------
+
+
+[JAVA] Scanner클래스 next(), nextLine() 차이
+https://velog.io/@suyyeon/JAVA-Scanner%ED%81%B4%EB%9E%98%EC%8A%A4-next-nextLine-%EC%B0%A8%EC%9D%B4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

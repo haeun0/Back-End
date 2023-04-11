@@ -1,0 +1,734 @@
+4월 12일(수) 보충수업예정 10시까지!!!!!!!!
+
+
+들을만한 수업
+문제해결을 위한 자바 코딩챌린지
+입문자를 위한 데이터베이스 & SQL기초부터 활용까지
+
+추가로..
+웹퍼블리싱 & 웹개발을위한...
+
+
+
+
+
+
+
+ch03
+----------------------------------------------------------------------------------------------
+산술연산자 
+public class OperatorStudy {
+    public static void main(String[] args) {
+        int num = 5;
+        int result = 4 + num * 3;
+        System.out.println(result);
+    }
+}
+
+-------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52645:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy
+19
+
+Process finished with exit code 0
+---------------------------------
+public class OperatorStudy {
+    public static void main(String[] args) {
+        int num = 5;
+        int result = (4 + num) * 3;
+        System.out.println(result);
+    }
+}
+
+----------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52649:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy
+27
+
+Process finished with exit code 0
+
+
+-------------------------------------------------
+public class OperatorStudy {
+    public static void main(String[] args) {
+        int num = 5;
+        int result = (4 + num) * 3;
+        System.out.println(result);
+
+        result = 11 / num;
+        System.out.println(result);
+
+        result = result - 1;
+        System.out.println(result);
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52657:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy
+27
+2
+1
+
+Process finished with exit code 0
+
+-------------------------------------------------------------
+p.87
+산술연산자 +  -  *  /  %  <<  >> 사칙연산(+,-,,*,/)과 나머지 연산(%)
+비교 연산자 >  <  >=  <=  ==  != 크고 작음과 같고 다름을 비교
+논리연산자 &&  ||  !  &  |  ^  ~  
+
+-----------------------------------------------------------------------------------
+public class OperatorStudy2 {
+    public static void main(String[] args) {
+        int num = 10;
+        int result = num % 2;
+        System.out.printf("%d %% 2 = %d\n", num, result);
+
+        num = 9;
+        result = num % 2;
+        System.out.printf("%d %% 2 = %d\n", num, result);
+    }
+}
+
+--------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52679:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy2
+10 % 2 = 0
+9 % 2 = 1
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------------
+
+public class OperatorStudy4 {
+    public static void main(String[] args) {
+        int num = 5;
+        //num = num - 10;
+        //num = num * -1;
+        num = -num;
+        System.out.println(num);
+
+    }
+}
+
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52701:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy4
+-5
+
+Process finished with exit code 0
+
+----------------------------------------------
+
+public class OperatorStudy5 {
+    public static void main(String[] args) {
+        int num = -5;
+        //num = -num;
+        //num = num * -1;
+        System.out.println(num);
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52710:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy5
+5
+
+Process finished with exit code 0
+
+-----------------------------------------------------------
+
+
+Variable 'n1' might not have been initialized
+변수가 정의 된적 없음
+
+
+public class OperatorStudy6 {
+    public static void main(String[] args) {
+        int n1, n2, val = 10;
+
+        n1 = n2 = val;
+
+        System.out.println(n1);
+        System.out.println(n2);
+        System.out.println(val);
+    }
+}
+
+
+
+------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52729:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy6
+10
+10
+10
+
+Process finished with exit code 0
+-------------------------------------------------------------
+
+p.93
+단항연산자(정수만 가능)
+
+public class OperatorStudy7 {
+    public static void main(String[] args) {
+        int i = 5;
+        i++;
+        i++;
+        System.out.println(i);
+
+        i = 5;
+        ++i;
+        System.out.println(i);
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52736:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy7
+7
+6
+
+Process finished with exit code 0
+
+
+-------------------------------------------------------------------------
+
+        int k = 5;
+        int r = k++ - ++k;
+        System.out.println(r);
+
+-------------->
+       5 - 7 = -2
+
+-------------------------------------------------------------------------    
+p.100  
+숫자를 사용할때 _를 사용하면 구분하기 쉽다.
+
+public class OperatorEx8 {
+    public static void main(String[] args) {
+        int a = 1_000_000;
+        int b = 1_0_0_0_0_0_0;
+        int c = 1000000;
+        //a,b,c 모두 같은 값
+        //a,b,c 모두 같은 값
+
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+    }
+}
+
+------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61188:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx8
+1000000
+1000000
+1000000
+
+Process finished with exit code 0
+
+----------------------------------------------------------
+p.102
+쓸일은 없지만..
+        System.out.printf(" '%c' - '%c' = %d\n", d, a, d - a);
+                                 1       2      3        1  2   3
+	a = 63, d = 65 
+
+
+
+
+public class OperatorEx11 {
+    public static void main(String[] args) {
+        char a = 'a';
+        char d = 'd';
+        char zero = '0';
+        char two = '2';
+
+        System.out.printf(" '%c' - '%c' = %d\n", d, a, d - a);
+        System.out.printf("%c - %d\n", zero, (int)zero);
+        System.out.printf("%c - %d\n", two, (int)two);
+
+    }
+}
+-------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61203:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx11
+ 'd' - 'a' = 3
+0 - 48
+2 - 50
+
+Process finished with exit code 0
+
+
+------------------------------------------------------------------
+
+public class OperatorEx16 {
+    public static void main(String[] args) {
+        //p.105
+        float pi = 3.141592f;
+        float shortPi = (int)(pi * 1_000) /1_000f;
+        System.out.println(pi);
+        System.out.println(shortPi);
+    }
+}
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61208:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx16
+3.141592
+3.141
+
+Process finished with exit code 0
+
+--------------------------------------------------
+
+public class OperatorEx18 {
+    public static void main(String[] args) {
+        //p.107
+        double pi = 3.141592;
+        double shortPi = Math.round(pi * 1_000) / 1_000.0;
+        System.out.println(shortPi);
+
+        System.out.println(Math.round(315.4)); //315
+        System.out.println(Math.round(315.5)); //316 반올림
+        System.out.println(Math.ceil(315.01)); //316.0
+        System.out.println(Math.floor(315.999999)); //315.0 내림
+        //round 위에 마우스를 올려보면 long type
+        //ceil 위에 마우스를 올려보면 double type
+        //floor 위에 마우스를 올려보면 double type
+    }
+}
+
+---------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61225:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx18
+3.142
+315
+316
+316.0
+315.0
+
+Process finished with exit code 0
+
+---------------------------------------------------------------------
+
+public class OperatorEx21 {
+    public static void main(String[] args) {
+        //p.110
+        System.out.printf("10 == 10,0f \t %b\n", 10 == 10.0f); //자동 형변환 10.0f == 10.0f
+        System.out.printf("'0' == 0 \t %b\n", '0' == 0);
+        System.out.printf("'A' == 65 \t %b\n", 'A' == 65);
+
+        System.out.printf("'A' + 1 == 'B' \t %b\n", 'A' + 1 == 'B');
+        System.out.printf("'A' + 1 == 'B' \t %b\n", 'A' + 1 != 'C');
+    }
+}
+
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61277:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx21
+10 == 10,0f 	 true
+'0' == 0 	 false
+'A' == 65 	 true
+'A' + 1 == 'B' 	 true
+'A' + 1 == 'B' 	 true
+
+Process finished with exit code 0
+
+
+
+
+
+!=  같지않지? 다르지? 라는뜻
+!는 반대
+
+
+----------------------------------------------------------
+
+public class OperatorEx23 {
+    public static void main(String[] args) {
+        //p.112
+        String s1 = "abc";
+        String s2 = new String("abc");
+        String s3 = new String("abc");
+        System.out.printf("\"abc\" == \"abc\" ? %b\n", "abc" == "abc");
+        System.out.println("abc".equals("abc"));
+        System.out.printf("s1 == s2 ? %b\n",s1 == s2);
+        System.out.printf("s1 == s3 ? %b\n",s1 == s3);
+        System.out.println(s2.equals(s3));
+
+
+        String s4 = new String("aBc");
+        System.out.println("s1.equals(s4) :" + s1.equals(s4));
+        System.out.println("s1.equalsIgnoreCase(s4) :" + s1.equalsIgnoreCase(s4));
+    }
+}
+
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61320:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx23
+"abc" == "abc" ? true
+true
+s1 == s2 ? false
+s1 == s3 ? false
+true
+s1.equals(s4) :false
+s1.equalsIgnoreCase(s4) :true
+
+Process finished with exit code 0
+
+
+콘솔에 ""를쓰고 싶을때
+"\"abcd\"를 사용해야 "abcd"로 나온다.
+
+대문자로 시작하는 것들은 ==비교를 하면 안된다
+문자는 .equals로
+
+
+
+new String은 무조건 주소값이 다르다!!!!!!!!!!!!!!!!!!!!!!!!!
+
+대소문자를 가린다
+대소문자 상관없이 하는경우 .equalsIgnoreCase 전부 소문자로 바꿔서 확인
+
+
+
+-------------------------------------------------------------------------------
+비교연산자
+
+public class OperatorStudy7 {
+    public static void main(String[] args) {
+        //미만, 초과
+        //이하. 이상
+
+        System.out.println("2 < 2 : " + (2 < 2));
+        System.out.println("1 < 2 : " + (1 < 2));
+        System.out.println("2 <= 2 : " + (2 <= 2));
+        System.out.println("2 > 2 : " + (2 > 2));
+        System.out.println("2 >= 2 : " + (2 >= 2));
+        System.out.println("2 == 2 : " + (2 == 2));
+        System.out.println("2 == 3 : " + (2 == 3));
+        System.out.println("2 != 3 : " + (2 != 3));
+        System.out.println("2 != 2 : " + (2 != 2));
+    }
+}
+
+
+
+----------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61341:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorStudy7
+2 < 2 : false
+1 < 2 : true
+2 <= 2 : true
+2 > 2 : false
+2 >= 2 : true
+2 == 2 : true
+2 == 3 : false
+2 != 3 : true
+2 != 2 : false
+
+Process finished with exit code 0
+
+---------------------------------------------------------------------------------
+
+public class OperatorEx24 {
+    public static void main(String[] args) {
+        //p.116
+        //&& and 연산자
+        // || or 연산자
+        //(2 > 1) && (3 > 2) : ture 전부다 t여야 t가 된다
+        //(2 > 1) && (3 > 2) && (3 >= 5) : fales 하나라도 f면 f가 된다
+
+        //(2 > 1) || (3 > 2) || (3 >= 5) : fales 전부다 f여야 f가 된다
+
+        boolean r1 = (2 > 1) && (3 > 2);
+        System.out.printf("r1 : %b\n", r1);
+
+        boolean r2 = (2 > 1) && (3 > 2) && (3 >= 5);
+        System.out.printf("r1 : %b\n", r2);
+
+        boolean r3 = (2 > 1) || (3 > 2) || (3 >= 5);
+        System.out.printf("r1 : %b\n", r3);
+    }
+}
+
+---------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=61354:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx24
+r1 : true
+r1 : false
+r1 : true
+
+Process finished with exit code 0
+
+&&연산자는 거짓이 될 연산자를 앞에 두는게 좋다, 앞에서 체크해서 f가 뜨면 위에는 연산을 하지않음
+
+||연산자는 진실이 될 연산자를 앞에 두는게 좋다, 앞에서 체크해서 t가 뜨면 위에는 연산을 하지않음
+
+
+
+------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------
+ch03
+
+OperatorStudy1
+	int num = 5;는 초기화 
+	대입연산자는 값을 r valu에 복사하여 대입하는 것 and 최초로 대입하는것을 선언한다라고한다. 이후는 모두 대입한다.
+	
+	int result = 4 + num * 3; 결과값이 result에 대입된다. *,/ 부터 연산 후 +,- 연산  5 * 3 = 15 + 4 = 19가 된다.
+	
+	result = 11 / num; 는 11 / 5 = 2로  int는 정수로만 표현 되기 때문에 .뒤에 숫자는 버린다.
+
+	result = result -1; 는 2 - 1로 마지막 값을 result로 가져와서 연산한다.
+
+	result = 13 % num; 에서 %는 mod 라고 읽는다. 13 % 5의 나머지는 3이 된다.
+	
+	mod는 홀수와 짝수를 구분하기위해 사용 0이나오면 짝수 1이나오면 홀수
+
+
+OperatorStudy2
+	int num = 10; 는 10 -> num으로 들어감
+	int result = num % 2; 는 10 % 2의 나머지는 0
+	System.out.printf("%d %% 2 = %d\n", num, result);  는 num은 10  result는 0
+
+OperatorStudy3
+		
+OperatorStudy4
+        int num = 5;
+        //num = num - 10;
+        //num = num * -1;
+        num = -num;
+        System.out.println(num);
+	변수의 값을 바꾸려면 꼭 = 이 필요하다
+        System.out.println(-num);의 경우 실직적인 num의 값은 변하지 않는다.
+
+OperatorStudy5
+
+
+OperatorStudy6
+	int n1, n2, val = 10; 는 val만 10 이되고
+	n1 = n2 = val; 을 추가해서 val의 값 10을 n2에 n2값을 n1에 넣어준다.
+
+OperatorStudy7
+        //미만, 초과
+        //이하. 이상
+        System.out.println("2 < 2 : " + (2 < 2));
+        System.out.println("1 < 2 : " + (1 < 2));
+        System.out.println("2 <= 2 : " + (2 <= 2));
+        System.out.println("2 > 2 : " + (2 > 2));
+        System.out.println("2 >= 2 : " + (2 >= 2));
+        System.out.println("2 == 2 : " + (2 == 2));
+        System.out.println("2 == 3 : " + (2 == 3));
+        System.out.println("2 != 3 : " + (2 != 3));
+        System.out.println("!(2 != 2) : " + !(2 != 2));
+
+	!뒤에올수있는것boolean 밖에 못온다.??
+	boolean && boolean 밖에 못온다.
+
+
+OperatorEx1
+	++증감연산자
+        int i = 5; 
+        i++; 는 6
+        i++; 는 7
+        System.out.println(i); 결과는 7
+
+        i = 5;
+        ++i;
+        System.out.println(i);
+
+	i++는 실제로 i값을 변경한다
+
+OperatorEx2
+        int i = 5, j = 0;
+        j = i++; 는 i가 원래 가지고 있는 값 5를 가져오고 ++을 해서 6이된다.
+        System.out.printf("j=i++; 실행 후 i = %d, j=%d\n", i, j); 는 i는 6,  j는 5가 된다
+
+        int i2 = 5, j2 = 0;
+        j2 = ++i2; 는 쓰기먼저 했기 때문에 j2는 6이 된다.
+        System.out.printf("j2=++i2; 실행 후 i2 = %d\n", i2, j2); i2, j2 둘다 6
+
+OperatorEx3
+        int i = 5, z = 5;
+        System.out.println(i++); 에서 printlnsms 5, i는 6으로 바뀜
+        System.out.println(++z);
+        System.out.printf("i=%d, j=%d\n", i, z); i는 6, z는 6
+
+        int k = 5;
+        int r = k++ - ++k; 는 5 - 7 =? 
+        System.out.println(r); 는 r은 2가된다
+
+
+OperatorEx8
+	숫자를 빨리 보기 위해 _ 를 넣을수 있다.
+        int a = 1_000_000;
+        int b = 1_0_0_0_0_0_0;
+        int c = 1000000;
+        //a,b,c 모두 같은 값
+
+OperatorEx11
+        char a = 'a'; 
+        char d = 'd';
+        char zero = '0'; 문자 0
+        char two = '2'; 문자 2
+        System.out.printf("%c - %d\n", zero, (int)zero); 에서 %c의 값은 48이된다
+
+OperatorEx16
+        float pi = 3.141592; 는 double 타입이기 때문에 밑줄이 생김
+        float pi = 3.141592f; 으로 변환 시켜줄것
+        float shortPi = (int)(pi * 1_000) / 1_000f; 는 소수점 3번째까지만 나오도록 할수있다.
+        float shortPi = (int)(pi * 1_000) / 1.000f; 도 소수점 3번째까지만 나오도록 할수있다. but 잘 안씀
+
+OperatorEx18
+	Math.round 반올림하여 1자리 숫자가 변경될수있다.
+        System.out.println(Math.round(315.4)); //315
+        System.out.println(Math.round(315.5)); //316 반올림
+        System.out.println(Math.ceil(315.01)); //316.0 올림
+        System.out.println(Math.floor(315.999999)); //315.0 내림
+
+OperatorEx21
+        System.out.printf("10 == 10,0f \t %b\n", 10 == 10.0f); //자동 형변환 10.0f == 10.0f true
+        System.out.printf("'0' == 0 \t %b\n", '0' == 0); //fales 자동형변환이되어 문자가 정수형 숫자로 변경되서 0이 아니라 다른 숫자가 된다.
+
+        System.out.printf("'A' == 65 \t %b\n", 'A' == 65); //true
+
+        System.out.printf("'A' + 1 == 'B' \t %b\n", 'A' + 1 == 'B'); //true
+        System.out.printf("'A' + 1 == 'B' \t %b\n", 'A' + 1 != 'C'); //ture
+
+OperatorEx23
+	문자열 비교는 문조건 .equals
+
+OperatorEx24
+        //p.116
+        //&& and 연산자
+        // || or 연산자	
+        //(2 > 1) && (3 > 2) : ture 전부다 t여야 t가 된다
+        //(2 > 1) && (3 > 2) && (3 >= 5) : fales 하나라도 f면 f가 된다
+        //(2 > 1) || (3 > 2) || (3 >= 5) : fales 전부다 f여야 f가 된다
+
+	&&연산자는 false가(거짓) 될 연산자를 앞에 두는게 좋다, 앞에서 체크해서 f가 뜨면 위에는 연산을 하지않음
+	||연산자는 true가(진실) 될 연산자를 앞에 두는게 좋다, 앞에서 체크해서 t가 뜨면 위에는 연산을 하지않음
+
+        boolean r1 = (2 > 1) && (3 > 2);
+        System.out.printf("r1 : %b\n", r1); //true
+
+        boolean r2 = (2 > 1) && (3 > 2) && (3 >= 5);
+        System.out.printf("r2 : %b\n", r2); //false
+
+        boolean r3 = (2 > 1) || (3 > 2) || (3 >= 5);
+        System.out.printf("r3 : %b\n", r3); //true
+
+
+
+
+------------------------------------------
+실리콘밸리의 해적들 - 다큐영화
+
+\\192.168.0.62
+
+보충수업 날짜 변경 금요일 10시까지...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
