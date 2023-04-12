@@ -7,7 +7,7 @@ public class OperatorEx32 {
         int x = 10, y = -5, z = 0;
         int absX, absY, absZ;
 
-        absX = x >= 0 ? x : -x;
+        absX = x >= 0 ? x : -x; //boolean type ? x : -x; 조건식은 무조건 boolean
         System.out.println(absX);
 
     }
@@ -263,11 +263,155 @@ Process finished with exit code 0
 
 
 
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------정리
+ch03
+OperatorEx32
+        absX = x >= 0 ? x : -x; //boolean type ? x : -x; 조건식은 무조건 boolean
+			// -x 는 x의 값을 변경하는것이 아니라..
+
+ 
+
+OperatorStudy8
+	
+
+
+OperatorStudy9
+        int i=0;
+        i++;
+        System.out.println("i : " + i ); //1씩 올리고 싶을때
+
+        int z = 0;
+        z = z + 1; // 0 + 1 -> 1
+        z = z + 1; // 1 + 1 -> 2
+        z = z + 2; // 2 + 2 -> 4
+        System.out.println("z : " + z); // z = 4
+
+        int k = 0;
+        k += 1;
+        k += 2;
+        System.out.println("k : " + k); // 위에 코드를 줄여서 사용가능
+
+
+ch04
+FlowEx1
+        if ( x == 0 ) {System.out.println( "x == 0" );} // if( ) 안에는 boolean만 가능!!
+
+
+FlowEx5
+        int score = 0;
+        char grade = ' ', opt = ' ';
+
+        System.out.print("점수를 입력하세요 >");
+        Scanner scan = new Scanner(System.in);
+        score = scan.nextInt();
+
+
+        if(score > 100 || score < 0) {
+            System.out.println("점수는 0~100점 사이입니다.");
+        } else {
+            //0~100
+            if(score >= 90) { //90~100
+                grade = 'A';
+            } else if(score >= 80) { // 0~ 89 > 90~89
+                grade = 'B';
+            } else if(score >= 70) { //0~ 79 > 70~79
+                grade = 'C';
+            }
+        }
+
+
+        // 0 ~ 69
+        // 78 > 8, 99 > 9, 71 > 1
+
+
+        if(grade != 'D' ){
+            int num = score % 10;
+            if(num >= 8 || score == 100){
+                opt = '+';
+            }
+            else if(num < 4){
+                opt = '-';
+            } else { // 4, 5, 6, 7
+                opt = '0 ';
+            }
+        }
+
+
+FlowEx6
+        String season = "";
+        if(!"".equals(season)) { // 서순 확인_빈칸 값 비교시 빈칸이 앞쪽으로 올것!!!!!!!!!!!!!!!!!!
+        //  if(!"".equals(season)) = if(!season.equals(""))라고 지금은 가능하시만
+        // String season = null;을 사용할경우 ""과 (season)의 위치를 변경해서 사용할수 없다.
+            System.out.printf("현재의 계절은 %s입니다", season);
+        }
+
+
+SwitchStudy2
+        String grade = "D";
+        switch (score / 10) {
+            case 10: case 9:
+                grade = "A";
+                break;
+            case 8:
+                grade = "B";
+                break;
+            case 7:
+                grade = "C";
+                break;
+        }
+
+        System.out.printf("%d 점의 학점은 %s 입니다.", score, grade);
+
+
+
+
+
 -------------------------------------------------------------------------
 
 
 [JAVA] Scanner클래스 next(), nextLine() 차이
 https://velog.io/@suyyeon/JAVA-Scanner%ED%81%B4%EB%9E%98%EC%8A%A4-next-nextLine-%EC%B0%A8%EC%9D%B4
+
+
+텐서플로우 인공지능
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
