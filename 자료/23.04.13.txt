@@ -1,0 +1,612 @@
+취업정보 세미나
+
+
+채용정보 확인 사이트
+jobkoaea, 사람인, worknet, wanted, Linedin, careerly, 
+
+본인이 했던 일중에 갈등을 해결했던 사례
+수업을 하는 도중에 있었던 일들의 가능해결 사례
+
+4월20일까지
+직업심리검사 제출...
+
+
+-----------------------------------------------------------------------------정리
+ch4
+
+FlowEx13
+
+public class FlowEx13 {
+    //p.159
+    public static void main(String[] args) {
+        // 1~10 사이의 값을 더하기
+        int sum = 100;
+        for(int i =1; i<101; i++) {
+            System.out.printf("sum: %d, i: %d\n", sum, i);
+            //sum = sum + i;
+            sum += i;
+        }
+
+        System.out.println("sum : " + sum);
+
+    }
+}
+
+
+------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59268:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx13
+sum: 100, i: 1
+sum: 101, i: 2
+sum: 103, i: 3
+sum: 106, i: 4
+sum: 110, i: 5
+sum: 115, i: 6
+sum: 121, i: 7
+sum: 128, i: 8
+sum: 136, i: 9
+sum: 145, i: 10
+.....
+sum: 4853, i: 98
+sum: 4951, i: 99
+sum: 5050, i: 100
+sum : 5150
+
+Process finished with exit code 0
+
+
+---------------------------------------------------------------------------
+
+public class FlowEx14 
+
+         for(int i = 1, j=10; i<=10; i++, j--) { 
+            System.out.printf("%d \t %d\n", i, j);
+        }
+
+//int가 for안에 들어있으면 그 안에서만 라이프 싸이클이 다르기 때문에 곂치치 않는다.
+//선언된 이후 부터의 중괄호 끝까지 사용할수 있음
+//
+
+
+-------------------------------------------------------
+
+public class FLowEx17 
+    //p.162
+        int star = 5;
+
+        for(int i = 0; i<star; i++) {
+            for(int j = -1; j< i; j++){
+                System.out.printf("*");
+            }
+            System.out.println();
+        }
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59287:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FLowEx17
+*
+**
+***
+****
+*****
+
+Process finished with exit code 0
+
+//바깥에 있는 인덱스 사용
+
+-------------------------------------------------------------
+
+public class FLowEx18 
+
+        for(int i = 2; i < 10; i++) {
+            for(int z = 1; z<10 ; z++) {
+                System.out.printf("%d x %d = %d\n" , i, z, i*z );
+            }
+            System.out.println();
+        }
+
+
+------------------->
+
+
+
+
+
+
+------------------------------------------------------------------------
+ForQuiz4
+
+        int star = 5;
+        for(int i = star; i >0; i--) {
+            for (int z = 1; z <= star; z++) {
+                if (z < i) {
+                    System.out.print("_");
+                } else {
+                    System.out.printf("*");
+                }
+            }
+            System.out.println();
+        }
+
+
+----------->
+1________1234*
+5________123**
+4________12***
+3________1****
+2________*****
+1________
+
+
+--------------------------------------------------------정리끝
+--------------------------------------------------------
+
+
+
+public class ForQuiz6 {
+    public static void main(String[] args) {
+        for(int i = 1; i <10; i++) {
+            for(int z = 2; z < 10 ; z++){
+                System.out.printf("%d x %d = %d\t", z, i, z*i);
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59385:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.ForQuiz6
+2 x 1 = 2		3 x 1 = 3		4 x 1 = 4		5 x 1 = 5		6 x 1 = 6		7 x 1 = 7		8 x 1 = 8		9 x 1 = 9	
+2 x 2 = 4		3 x 2 = 6		4 x 2 = 8		5 x 2 = 10	6 x 2 = 12	7 x 2 = 14	8 x 2 = 16	9 x 2 = 18	
+2 x 3 = 6		3 x 3 = 9		4 x 3 = 12	5 x 3 = 15	6 x 3 = 18	7 x 3 = 21	8 x 3 = 24	9 x 3 = 27	
+2 x 4 = 8		3 x 4 = 12	4 x 4 = 16	5 x 4 = 20	6 x 4 = 24	7 x 4 = 28	8 x 4 = 32	9 x 4 = 36	
+2 x 5 = 10	3 x 5 = 15	4 x 5 = 20	5 x 5 = 25	6 x 5 = 30	7 x 5 = 35	8 x 5 = 40	9 x 5 = 45	
+2 x 6 = 12	3 x 6 = 18	4 x 6 = 24	5 x 6 = 30	6 x 6 = 36	7 x 6 = 42	8 x 6 = 48	9 x 6 = 54	
+2 x 7 = 14	3 x 7 = 21	4 x 7 = 28	5 x 7 = 35	6 x 7 = 42	7 x 7 = 49	8 x 7 = 56	9 x 7 = 63	
+2 x 8 = 16	3 x 8 = 24	4 x 8 = 32	5 x 8 = 40	6 x 8 = 48	7 x 8 = 56	8 x 8 = 64	9 x 8 = 72	
+2 x 9 = 18	3 x 9 = 27	4 x 9 = 36	5 x 9 = 45	6 x 9 = 54	7 x 9 = 63	8 x 9 = 72	9 x 9 = 81	
+
+Process finished with exit code 0
+
+
+------------------------------------------------------------------------------
+public class FLowEx20 {
+    public static void main(String[] args) {
+        for(int i = 1; i < 4 ; i++) {
+            for(int z = 1; z <4; z++) {
+                System.out.printf("[%d, %d] ", i, z);
+            }
+            System.out.println();
+        }
+    }
+}
+
+------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59399:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FLowEx20
+[1, 1] [1, 2] [1, 3] 
+[2, 1] [2, 2] [2, 3] 
+[3, 1] [3, 2] [3, 3] 
+
+Process finished with exit code 0
+
+-------------------------------------------------------------------------
+//p.165
+public class FLowEx21 {
+    public static void main(String[] args) {
+        int num = 4;
+        for(int i = 1; i < num; i++) {
+            for(int z= 1 ; z < num ; z++) {
+                if(i==z) {
+                    System.out.printf("[%d,%d]", i, z);
+                } else {
+                    System.out.printf("%5c", ' ');
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59424:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FLowEx21
+[1,1]          
+     [2,2]     
+          [3,3]
+
+Process finished with exit code 0
+
+-------------------------------------------------------
+
+public class WhileStudy1 {
+    public static void main(String[] args) {
+        for(int i=0; i<5; i++) { // ( 1번; 2번; 3번;)
+            System.out.println("for");
+        }
+        System.out.println("------");
+        int i=0; //1번
+        while(i<5) { // 2번
+            System.out.println("while");
+            i++; // 3번
+        }
+    }
+}
+
+// 언제 멈춰야할지 알 때 while를 쓴다.
+//ex 주문을 할때 주문+++++하고 종료를 누르면 완료될때 
+
+-------------------------------------------------------------------------
+
+public class FlowEx23 {
+    public static void main(String[] args) {
+/*        int i = 5;
+        while(i>0) {
+            i--;
+            System.out.printf("%d = I can do it.\n", i);
+        }*/
+        
+        int i = 5;
+        while(i-- !=0) {
+            System.out.println(i + " = I can do it.");
+        }
+
+    }
+}
+
+-------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59483:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx23
+4 = I can do it.
+3 = I can do it.
+2 = I can do it.
+1 = I can do it.
+0 = I can do it.
+
+Process finished with exit code 0
+
+----------------------------------------------
+
+public class FlowEx24 {
+    public static void main(String[] args) {
+        int i = 11;
+        System.out.println("카운트 다운 시작");
+
+        while(i-- != 0) {
+            System.out.println(i);
+            for(long z=0; z<2_000_000_000; z++) {
+                int y = 0;
+            }
+        }
+        System.out.println("끝!");
+    }
+}
+
+
+---------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59581:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx24
+카운트 다운 시작
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+끝!
+
+Process finished with exit code 0
+
+//천천히 나오도록...
+//CPU혹사...?
+--------------------------------------------------
+
+
+public class FlowEx25 {
+    public static void main(String[] args) {
+        int num = 0, sum = 0;
+        Scanner scan = new Scanner(System.in);
+        System.out.print("숫자를 입력하세요. (예:12345) > ");
+        String temp = scan.nextLine();
+        int val = Integer.parseInt(temp);
+        while (val > 0) {
+            int oneVal = val % 10; //123를 10으로 나눠서 나머지 3가 oneVal에 들어간다.
+            sum += oneVal; //3 + 2
+            val = (int)(val * 0.1); // val은 12, 12를 10으로 나누면 2가 남는다...? 
+
+        }
+        System.out.println("각 자리수의 합 : " + sum);
+    }
+}
+
+//
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59630:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx25
+숫자를 입력하세요. (예:12345) > 12345
+각 자리수의 합 : 15
+
+Process finished with exit code 0
+
+
+------------------------------------------------------------
+
+public class FlowEx27 {
+    public static void main(String[] args) {
+        int num;
+        int sum = 0;
+        boolean flag = true; //while 조건식으로 사용하세요.
+        Scanner scan = new Scanner(System.in);
+        System.out.println("합계를 구할 숫자를 입력하세요.(끝래려면 0)");
+            while (flag) {
+                System.out.print(">>");
+                num = scan.nextInt();
+
+                if(num == 0) {
+                    flag = false;
+                } else {
+                    sum += num;
+                }
+            }
+        System.out.println("합: " + sum);
+    }
+}
+
+-------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59919:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx27
+합계를 구할 숫자를 입력하세요.(끝래려면 0)
+>>100
+>>100
+>>0
+합: 200
+
+Process finished with exit code 0
+
+
+
+----------------------------------------------------------
+public class WhileStudy2 {
+    public static void main(String[] args) {
+        //do-while문은
+        //do를 실행하고while을 체크한다.
+
+        while (조건식) {
+
+        }
+
+        do {
+
+        } while(조건식);
+
+    }
+}
+
+------------------------------------------------------------
+
+public class WhileQuiz1 {
+    public static void main(String[] args) {
+        int input = 0, answer = 0;
+        //0.0000000 ~ 0.999999999
+        answer = (int)(Math.random() * 5); 
+        //Math.random() *뒤에 숫자5를 넣으면 0.999999x5는 4.999995값이기 때문에 최대값은4 까지밖에 나오지 않는다.(0~4)
+        System.out.println(answer);
+
+    }
+}
+
+
+-----------------------------------------------------
+
+public class WhileQuiz1 {
+    public static void main(String[] args) {
+        int input, answer;
+        answer = (int)(Math.random() * 100) + 1;
+        System.out.println(answer);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("숫자입력 >");
+
+        input = scan.nextInt();
+        while(input != answer) {
+            if (input > answer) {
+                System.out.println("down");
+            } else if (input < answer) {
+                System.out.println("up");
+            }
+            System.out.print("1~100사이의 정수를 입력: ");
+            input = scan.nextInt();
+        }
+        System.out.println("good!");
+
+    }
+}
+
+-------------->
+while의 경우 input = scan.nextInt();를 두번 불러와야한다.
+
+
+
+-------------------------------------------------------------------------
+
+
+public class BreakContinueStudy {
+    public static void main(String[] args) {
+        for(int i = 0; i<10; i++) {
+            System.out.print(i + ", ");
+
+            if(i == 5) {
+                System.out.println("\n5에서 끝!");
+                break;
+            }
+        }
+        System.out.println("----------------");
+        for(int i = 0; i<10; i++) {
+            if(i==5){
+                continue;
+            }
+            System.out.print(i + ", ");
+        }
+    }
+}
+
+
+---------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=60216:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.BreakContinueStudy
+0, 1, 2, 3, 4, 5, 
+5에서 끝!
+----------------
+0, 1, 2, 3, 4, 6, 7, 8, 9, 
+Process finished with exit code 0
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
