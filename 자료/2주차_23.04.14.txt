@@ -348,6 +348,32 @@ Process finished with exit code 0
 
 
 --------------------------------------------------------------
+-------------------------------------------------------------정리
+
+
+배열
+주소값...?
+메모리의 주소값
+
+ex)사람이라는 공간을 차지할때 첫번째 주소 
+int[] numArr = {0, 0, 0, 0, 0}
+0번층, 1번층...4번층까지 값을 넣을 수 있다.
+주소값[층번호 index] = 바꾸고싶은 값;
+
+
+public class ArrayQuiz2 
+        int[] rNumArr = new int[6]; //빈방 6개 만들기
+
+        for (int j = 0; j < rNumArr.length; j++) {
+            rNumArr[j] = j + (int)(Math.random() * 45 + 1);
+        }
+
+        for (int i = 0; i < rNumArr.length; i++) {
+            System.out.printf("[" + rNumArr[i] +"] ");
+        }
+//배열은 추가하는 것과 프린트하는 부분을 따로 나눠서 해라!!!!!!!!!!!
+
+
 
 
 
