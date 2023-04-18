@@ -14,7 +14,7 @@ public class ArrayQuiz8 {
     public static void main(String[] args) {
         int[] numArr = {11, 14, 2, 7, 36, 35};
 
-/*        System.out.printf("[");
+        System.out.printf("[");
 
         for (int i = 0; i < numArr.length; i++) {
 
@@ -26,10 +26,13 @@ public class ArrayQuiz8 {
 
         }
         System.out.printf("]");
-        */
 
 
-/*        int[] copyArr = new int[numArr.length + 2];
+
+
+
+
+  /*      int[] copyArr = new int[numArr.length + 2];
         for (int i = 0; i < numArr.length; i++) {
             copyArr[i] = numArr[i];
         }
@@ -43,14 +46,14 @@ public class ArrayQuiz8 {
                 System.out.printf("%d", copyArr[i]);
             } else {
                 System.out.println("]");
-            }*/
+            }
 
         System.out.printf("[%d", numArr[0]);
         for (int i = 1; i < numArr.length; i++) {
             System.out.printf(", %d", numArr[i]);
         }
         System.out.println("]");
-
+*/
 
 
     }

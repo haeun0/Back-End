@@ -23,6 +23,19 @@ public class ArrayQuiz12 {
 
         }  System.out.println(Arrays.toString(numArr));
 
+        System.out.println("----------------------");
+
+        for (int i = 0; i < numArr.length; i++) {
+            int rIdx = (int)(Math.random() * numArr.length);
+            if(i == rIdx) {continue;}
+            int temp = numArr[i];
+            numArr[i] = numArr[rIdx];
+            numArr[rIdx] = temp;
+
+
+        }  System.out.println(Arrays.toString(numArr));
+
+
 
     }
 }
