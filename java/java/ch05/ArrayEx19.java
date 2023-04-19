@@ -50,15 +50,31 @@ public class ArrayEx19 {
         }*/
 
         String[] titles = {"국어", "영어", "수학"};
-        int[] sumArr = new int[titles.length];
+        int[] titleSumArr = new int[titles.length];
         System.out.print("번호\t");
         for (int i = 0; i < titles.length; i++) {
             System.out.printf("%s\t", titles[i]);
         }
 
-        System.out.println("총점\t평균
-
-
+        System.out.println("총점\t평균");
+        System.out.println("===================");
+        for (int i = 0; i < score.length; i++) {
+            int[] eachScore = score[i];
+            int sum = 0;
+            System.out.printf("%3\t", i +1);
+            for (int z = 0; z < eachScore[z]; z++) {
+                int jumsu = eachScore[z];
+                System.out.printf("%3d\t", jumsu);
+                sum += jumsu;
+                titleSumArr[z] += jumsu;
+            }
+            System.out.printf("%3d\t%4.1f\n", sum, ((double)sum / eachScore.length));
+        }
+        System.out.println("===========================");
+        System.out.println("총점");
+        for (int i = 0; i < titles.length; i++) {
+            System.out.printf("%s: %\n", titles[i], titleSumArr[i]);
+        }
 
 
 

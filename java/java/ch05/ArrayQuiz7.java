@@ -18,11 +18,11 @@ import java.util.Arrays;
 
 public class ArrayQuiz7 {
     public static void main(String[] args) {
-        int[] numArr = {11, 14, 2, 7, 36, 35};
-        int[] copyArr = new int[numArr.length +1];
+        int[] numArr = {11, 14, 2, 7, 36, 35}; // 6개
+        int[] copyArr = new int[numArr.length +1]; // 7개
 
         copyArr[ numArr.length ] = 100;
-        //copyArr[ copyArr.length - 1 ] = 100;
+        //copyArr[ copyArr.length - 1 ] = 100; //무조건 마지막방 개수
 
         for (int i = 0; i < numArr.length; i++) {
             copyArr[i] = numArr[i];
