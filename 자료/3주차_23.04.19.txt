@@ -1,0 +1,854 @@
+TIOBE
+
+
+
+ch06
+객체지향
+
+-----------------------------------
+public class ObjectStudy1 {
+    public static void main(String[] args) {
+        //클래스(class): 붕어빵틀, 설계도
+        //객체 (object): (인스턴스, Instance)클래스로 만든 실체_메모리에 올라간??
+        //객체의 2가지 구성요소: 멤버필드(변수, 상수), 멤버메소드
+        //멤버필드는 명사 담당, 값 저장
+        //멤버메소는 동사담당, 동작담당
+        //e.g. 게임캐릭터, 멤버필드 > 직업, 이름, 레벨, hp, mp, 스테미나 등 값을 저장할 수 있는 것
+        //             , 멤버메소드 > 이동한다, 아이템 줍는다, 아이템 버린다, 공격한다,,,
+        
+        //Method(메소드), Function(함수)
+        //객체안에 존재하면 메소드
+        //객체밖에 존재하면 함수
+    }
+}
+
+
+---------------------------------------
+
+Tv만들기..
+
+
+
+public class Tv { // 사용자 정의 클래스 // 클래스에 이름을 정해주면 타입이 된다. //객체의 이름 
+
+        String color;
+
+        boolean power; //boolean의 기본값은 false
+
+        int channel; // int의 기본값은 0
+
+        void power() { power = !power;} //실행할때 false면 true로 true면 false로 계속 해서 바뀜// flag
+        void channelUp() {++channel;}
+        void channelDown() {--channel;}
+
+    
+}
+
+++++++++++++++++++++++
+
+public class TvTest {
+    public static void main(String[] args) {
+        String str = new String("dd"); // String 객체의 주소값만 담을수 있는 레퍼런스 변수
+        Tv tv = new Tv(); // Tv 객체의 주소값만 담을수 있는 레퍼런스 변수
+        System.out.printf("power : %b\n", tv.power); //담겨있는 주소값에 접근 방법  // 주소값.
+        System.out.printf("channel : %d\n", tv.channel);
+
+        tv.power = true; //접근해서 바꾸기
+        System.out.printf("power : %b\n", tv.power);
+        tv.power(); //호출, 일을 시켰다. // 중괄호에 들어있는 것이 실행됨
+        System.out.printf("power : %b\n", tv.power);
+
+        tv.channelUp();
+        tv.channelUp();
+        System.out.printf("channel : %d\n", tv.channel);
+        tv.channel = 10;
+        System.out.printf("channel : %d\n", tv.channel);
+    }
+}
+
+-------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50568:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.TvTest
+power : false
+channel : 0
+power : true
+power : false
+channel : 2
+channel : 10
+
+Process finished with exit code 0
+
+-----------------------------------------------------------
+
+
+Stack 
+FILO???
+햄버거 처럼? 차근차근 쌓여서 먼저 넣은것(들어간것)은 맨아래, 
+꺼낼때는 맨위에있던 마직막에 들어간것이 먼저 나온다.   
+
+
+Heap
+FIFO
+들어간 순서대로 나오는것
+
+
+
+Stack (Tv tv)  --주소값 가르키기---> Heap( Tv속 메소드)
+
+
+----------------------------------------------------------------------
+
+// 최대, 최소 채널 값 만들기
+
+
+
+public class TvTest2 {
+    public static void main(String[] args) {
+        Tv2 tv = new Tv2();
+
+        for (int i = 0; i < 10; i++) {
+            tv.channelUp();
+        }
+
+        System.out.printf("channel : %d\n", tv.channel);
+
+        for (int i = 0; i < 10; i++) {
+            tv.channelDown();
+        }
+        System.out.printf("channel : %d\n", tv.channel);
+
+
+    }
+}
+
+class Tv2{
+
+    String color;
+
+    boolean power;
+
+    int channel ;
+
+    final int MAX_CHANNEL = 5; //final은 상수 한번 입력된값이 변하지 않는것, 전부다 대문자로 스테이크기법
+    final int MIN_CHANNEL = 1;
+
+    void power() { power = !power;}
+    void channelUp() {
+        if(channel < MAX_CHANNEL){
+        ++channel;
+        }
+    }
+    void channelDown() {
+        if(channel > MIN_CHANNEL){
+        --channel;
+        }
+    }
+
+}
+
+
+----------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50609:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.TvTest2
+channel : 5
+channel : 1
+
+Process finished with exit code 0
+
+-------------------------------------------------------------
+
+public class TvTest4 {
+    public static void main(String[] args) {
+        Tv[] tvArr = new Tv[3]; //tv객체의 주소값만 들어갈수있다.(Tv tv1, tv2, tv3;)
+        for (int i = 0; i < tvArr.length; i++) {
+            tvArr[i] = new Tv();
+            tvArr[i].channel = 10 + i;
+            /*
+                Tv tv = new Tv();
+                tvArr[i] = tv;
+                tv.channel = 10 + i;
+                위에 두줄과 같은뜻
+            */
+
+        }
+        System.out.println(tvArr[2].channel);
+    }
+}
+
+
+---------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50634:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.TvTest4
+12
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------
+
+public class TvTest4_1 {
+    public static void main(String[] args) {
+        Tv[] tvArr = new Tv[3];
+        Tv tv = new Tv();
+        for (int i = 0; i < tvArr.length; i++) {
+            tvArr[i] = tv;
+            tvArr[i].channel = 10;
+
+        }
+        tvArr[0].channel = 1;
+        System.out.println(tvArr[0].channel); //1
+        System.out.println(tvArr[1].channel); //1
+        System.out.println(tvArr[2].channel); //1
+        System.out.println(tv.channel); //1
+        //모두 같은 객체를 가르키고 있다.
+    }
+}
+
+-------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50647:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.TvTest4_1
+1
+1
+1
+1
+
+Process finished with exit code 0
+
+
+------------------------------------------------------------------------------
+
+p. 242
+글래스의 또 다른정의
+
+
+
+p.244!!!!!!!!!!!!!!!!!!!!!!!!
+절차지향??
+비객체지향적 코드
+int hour1, hour2, hour3
+int minutel, minute2, minute3
+float 
+
+객체지향
+ex>시간을 시, 분, 초로  값을 묶는다????
+
+
+
+
+---------------------------------------------------------------
+
+
+
+오른쪽 Generate - Gatter and Satter - 전부다 선택
+
+public class Time {
+
+        //멤버필드--------------------------
+        private  int hour; // private 은닉화...
+        private  int minute;
+        private  int second;
+        //------------------------------------
+
+
+        public boid test() {
+            int gg = 10; //지역변수
+        }
+
+
+        public int getHour() {
+                return hour; 
+        }
+
+        public void setHour(int hour) { 
+                if(hour > 0 && hour < 24) {
+                        this.hour = hour;
+                }
+        }
+
+        public int getMinute() {
+                return minute;
+        }
+
+        public void setMinute(int minute) {
+                this.minute = minute;
+        }
+
+        public int getSecond() {
+                return second;
+        }
+
+        public void setSecond(int second) {
+                this.second = second;
+        }
+}
+
+
++++++++++++++++++++++++++++++
+public class TimeTest {
+        public static void main(String[] args) {
+                Time t1 = new Time();
+                //hour 1~23 저장
+                System.out.println("hour: " + t1.getHour());
+                t1.setHour(5);
+                System.out.println("hour: " + t1.getHour());
+                t1.setHour(-5);
+                System.out.println("hour: " + t1.getHour());
+                t1.setHour(25);
+                System.out.println("hour: " + t1.getHour());
+                t1.setHour(1);
+                System.out.println("hour: " + t1.getHour());
+                t1.setHour(23);
+                System.out.println("hour: " + t1.getHour());
+        }
+}
+
+//원하는 시간을 변경하도록 입력을 요구할때?
+/*             
+                Scanner scan = new Scanner(System.in);
+
+                System.out.print("시간을 입력하시오. ");
+                int hour = scan.nextInt();
+                t1.setHour(hour);
+                System.out.println("hour: " + t1.getHour());
+*/
+
+
+
+---------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50730:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.TimeTest
+hour: 0
+hour: 5
+hour: 5
+hour: 5
+hour: 1
+hour: 23
+
+Process finished with exit code 0
+
+----------------------------------------------------------
+
+p.246
+변수의 종류,,,,
+
+//잠시 메서드부터...
+
+p.249
+메서드
+
+
+public class MyMethod {
+
+        //void > return type,  리턴타입
+        //sum > method name, 메소드명
+        //(int n1, int n2) > parameter, 파라미터, 매개변수
+
+        //정의----------------------------
+        void sum(int n1, int n2) { //매서드의 선언부
+                if(n1 == 20) {
+                        return;
+                }
+
+                System.out.println(n1 + n2); // {에서 }까지 메서드의 구현부
+        }
+        //---------------------------------
+
+        int sum2(int n1, int n2) { //리턴 메소드, 
+                return n1 + n2;
+        }
+}
+
++++++++++++++++++++++++++++++++++
+
+public class MyMethodTest {
+    public static void main(String[] args) {
+        MyMethod mm = new MyMethod(); // 객체화를 먼저!
+        mm.sum(10,20); // 메소드를 호출 한다. viod는 한줄에 있어야 한다. 양옆에 다른것 X
+        mm.sum(10,20);
+        mm.sum(10,223);
+        mm.sum(20,223);
+        int result = mm.sum2(10, 245); //리턴 메소드는 양옆에 다른게 있어도됨, 호출한 부분이 값이된다.
+        System.out.println("result : "+ result);
+
+    }
+
+}
+
+//여러번 사용 가능
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=53291:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.MyMethodTest
+30
+30
+
+Process finished with exit code 0
+
+------------------------------------------------
+
+이전에했던 FlowEx4를 메서드로 작업해보기
+
+import java.util.Scanner;
+
+public class FlowEx4 {
+    public static void main(String[] args) {
+        int score = 0;
+        char grade = 'D';
+
+        System.out.print("점수를 입력하세요 >");
+        Scanner scan = new Scanner(System.in);
+        score = scan.nextInt();
+
+        //90점보다 크거나 같으면 "%d점의 학점은 A입니다."
+        //80점보다 크거나 같으면 "%d점의 학점은 B입니다."
+        //70점보다 크거나 같으면 "%d점의 학점은 C입니다."
+        //나머지 "%d점의 학점은 D입니다."
+
+        if(score >= 90) {
+            grade = 'A';
+        } else if(score >= 80) {
+            grade = 'B';
+        } else if(score >= 70) {
+            grade = 'C';
+        }
+
+        System.out.printf("%d점의 학점은 %c입니다.\n", score, grade);
+
+    }
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+class ScoreObj{
+    
+    char getGreade(int score) {
+        if(score >= 90) {
+            return  'A';
+        } else if(score >= 80) {
+            return  'B';
+        } else if(score >= 70) {
+            return  'C';
+        }
+        return 'D';
+    }
+}
+
+
+public class FlowEx4Method {
+    public static void main(String[] args) {
+        int score = 0, score1 = 0;
+        char grade = 'D' , grade1;
+
+        System.out.print("점수를 입력하세요 >");
+        Scanner scan = new Scanner(System.in);
+        score = scan.nextInt();
+
+        ScoreObj so = new ScoreObj();
+        grade = so.getGreade(score);
+        grade1 = so.getGreade(score1);
+        System.out.printf("%d점의 학점은 %c입니다.\n", score, grade);
+    }
+}
+
+---------------------------->
+
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=53340:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx4Method
+점수를 입력하세요 >100
+100점의 학점은 A입니다.
+
+Process finished with exit code 0
+
+-----------------------------------------------------------------------
+
+FlowEx5 메서드로 변경하기
+
+import java.util.Scanner;
+
+public class FlowEx5 {
+    public static void main(String[] args) {
+        int score = 0;
+        char grade = ' ', opt = ' ';
+
+        System.out.print("점수를 입력하세요 >");
+        Scanner scan = new Scanner(System.in);
+        score = scan.nextInt();
+
+        //100점 > A+
+        //90점보다 크거나 같으면 "%d점의 학점은 A입니다."
+        //80점보다 크거나 같으면 "%d점의 학점은 B입니다."
+        //70점보다 크거나 같으면 "%d점의 학점은 C입니다."
+        //70점 미만 opt없음 무조건 D학점 "%d점의 학점은 D입니다."
+        //1의 3자리가 8점이상 +, 4미만 -, 나머지 0
+
+        if(score > 100 || score < 0) {
+            System.out.println("점수는 0~100점 사이입니다.");
+        } else {
+            //0~100
+            if(score >= 90) { //90~100
+                grade = 'A';
+            } else if(score >= 80) { // 0~ 89 > 90~89
+                grade = 'B';
+            } else if(score >= 70) { //0~ 79 > 70~79
+                grade = 'C';
+            }
+        }
+
+        // 0 ~ 69
+        // 78 > 8, 99 > 9, 71 > 1
+
+
+        if(grade != 'D' ){
+            int num = score % 10;
+            if(num >= 8 || score == 100){
+                opt = '+';
+            }
+            else if(num < 4){
+                opt = '-';
+            } else { // 4, 5, 6, 7
+                opt = '0';
+            }
+        }
+
+        System.out.printf("%d점의 학점은 %c%c입니다.\n", score, grade, opt);
+
+
+
+    }
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+import java.util.Scanner;
+
+class ScoreObj2 {
+    String getGrade(int score) {
+        if(score > 100 || score < 0) {
+            return  "점수는 0~100점 사이입니다.";
+        } else if(score < 70) {
+                return "D";
+            }
+        String grade = "C";
+         if(score == 100) {
+                return String.format("100점의 학점은 A+입니다.");
+            } else if(score >= 90) {
+                grade =  "A";
+            } else if(score >=80) {
+                grade = "B";
+            }
+
+        int num = score % 10;
+
+            if(num >= 8 || score == 100){
+                grade +=  "+";
+            }
+            else if(num < 4){
+                grade += "-";
+            } else {
+                grade += "0";
+            }
+
+        return String.format("%d점의 학점은 %s입니다.\n", score, grade);
+    }
+}
+
+public class FlowEx5Method {
+    public static void main(String[] args) {
+        int score = 0;
+        System.out.print("점수를 입력하세요 >");
+        Scanner scan = new Scanner(System.in);
+        score = scan.nextInt();
+        ScoreObj2 so = new ScoreObj2();
+        String result = so.getGrade(score);
+        System.out.println(result);
+
+    }
+}
+
+----------------------------------------------------------------
+
+FlowEx6 메서드로
+
+import java.util.Scanner;
+
+public class FlowEx6 {
+    public static void main(String[] args) {
+        System.out.print("현재 월을 입력하세요.(1~12) : ");
+        Scanner scan = new Scanner(System.in);
+        int mon = scan.nextInt();
+
+        //switch를 사용하여
+        //mon 값이
+        //3, 4, 5라면 "현재의 계절은 봄입니다."
+        //6, 7, 8라면 "현재의 계절은 여름입니다."
+        //9, 10, 11라면 "현재의 계절은 가을입니다."
+        //12, 1, 2라면 "현재의 계절은 겨울입니다."
+
+        String season = "";
+        switch (mon) {
+            case 3:
+            case 4:
+            case 5:
+                season = "봄";
+                break;
+            case 6:
+            case 7:
+            case 8:
+                season = "여름";
+                break;
+            case 9:
+            case 10:
+            case 11:
+                season = "가을";
+                break;
+            case 12:
+            case 1:
+            case 2:
+                season = "겨울";
+                break;
+            default:
+                System.out.println("잘못된 입력");
+        }
+
+        if(!"".equals(season)) {
+            System.out.printf("현재의 계절은 %s입니다", season);
+        }
+
+
+    }
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+import java.util.Scanner;
+
+
+//swich문으로
+class SeasonObj {
+    String getSeason(int mon) {
+        switch (mon) {
+            case 3:
+            case 4:
+            case 5:
+                return  "봄";
+            case 6:
+            case 7:
+            case 8:
+                return "여름";
+            case 9:
+            case 10:
+            case 11:
+                return "가을";
+            case 12:
+            case 1:
+            case 2:
+                return "겨울";
+            default:
+                return null;
+        }
+    }
+}
+
+/* if문으로 
+class SeasonObj {
+    String getSeason(int mon) {
+        if (mon > 12 || mon <0) {
+            return null;
+        } else if(mon == 12 || mon <=2 ) {
+            return  "겨울";
+        } else if (mon >= 9) {
+            return "가을";
+        } else if(mon >= 6) {
+            return "여름";
+        }else {
+            return "봄";
+        }
+    }
+
+}
+
+*/
+
+public class FlowEx6Method {
+    public static void main(String[] args) {
+        System.out.print("현재 월을 입력하세요.(1~12) : ");
+        Scanner scan = new Scanner(System.in);
+        int mon = scan.nextInt();
+        SeasonObj so = new SeasonObj();
+        String result = so.getSeason(mon);
+        if(result == null) {
+            System.out.println("잘못된 입력입니다.");
+            return;
+        }
+        System.out.printf("현재의 계절은 %s입니다.",result);
+        
+    }
+}
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
