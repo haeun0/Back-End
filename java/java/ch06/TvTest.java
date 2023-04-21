@@ -12,10 +12,13 @@ public class TvTest {
         tv.power(); //호출, 일을 시켰다. // 중괄호에 들어있는 것이 실행됨
         System.out.printf("power : %b\n", tv.power);
 
-        tv.channelUp();
+        tv.channelUp();// Tv객체에 있는 channelUp메서드를 호출
         tv.channelUp();
         System.out.printf("channel : %d\n", tv.channel);
         tv.channel = 10;
         System.out.printf("channel : %d\n", tv.channel);
+
+        Tv tv2 = tv; //Tv클래스의 tv2에 tv의 주소값을 복사해 준다.
+        System.out.printf("channel : %d\n", tv2.channel);
     }
 }

@@ -10,6 +10,9 @@ public class MyMethodTest {
 
         int result = mm.sum2(10, 245); //리턴 메소드는 양옆에 다른게 있어도됨, 호출한 부분이 값이된다.
         System.out.println("result : "+ result);
+
+/*        PrintStream ps = Syetem.out;
+        ps.println("result : \"+ result");*/
     }
 
 

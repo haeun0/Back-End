@@ -3,7 +3,7 @@ package com.green.java.ch06;
 public class ObjectStudy1 {
     public static void main(String[] args) {
         //클래스(class): 붕어빵틀, 설계도
-        //객체 (object): (인스턴스, Instance)클래스로 만든 실체_메모리에 올라간??
+        //객체 (object): (인스턴스, Instance)클래스로 만든 실체_메모리에 올라간,자리를 차지하고있는
         //객체의 2가지 구성요소: 멤버필드(변수, 상수), 멤버메소드
         //멤버필드는 명사 담당, 값 저장
         //멤버메소는 동사담당, 동작담당
@@ -13,5 +13,9 @@ public class ObjectStudy1 {
         //Method(메소드), Function(함수)
         //객체안에 존재하면 메소드
         //객체밖에 존재하면 함수
+
+
+        //대문자로 시작하는 클래스명을 가지고, 레퍼런스 변수는 주소값을 저장한다.
+        //
     }
 }

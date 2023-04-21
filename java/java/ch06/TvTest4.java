@@ -14,6 +14,11 @@ public class TvTest4 {
             */
 
         }
+
+        for (int i = 0; i < tvArr.length; i++) {
+            System.out.println(tvArr[i]);
+        }
+
         System.out.println(tvArr[2].channel);
     }
 }
