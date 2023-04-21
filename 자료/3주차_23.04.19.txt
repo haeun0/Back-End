@@ -31,7 +31,7 @@ Tv만들기..
 
 public class Tv { // 사용자 정의 클래스 // 클래스에 이름을 정해주면 타입이 된다. //객체의 이름 
 
-        String color;
+        String color; //기본값은 null
 
         boolean power; //boolean의 기본값은 false
 
@@ -63,6 +63,9 @@ public class TvTest {
         System.out.printf("channel : %d\n", tv.channel);
         tv.channel = 10;
         System.out.printf("channel : %d\n", tv.channel);
+
+        Tv tv2 = tv; //Tv클래스의 tv2에 tv의 주소값을 복사해 준다.
+        System.out.printf("channel : %d\n", tv2.channel);
     }
 }
 
@@ -75,12 +78,14 @@ power : true
 power : false
 channel : 2
 channel : 10
+channel : 10
 
 Process finished with exit code 0
 
 -----------------------------------------------------------
 
 
+p.263
 Stack 
 FILO???
 햄버거 처럼? 차근차근 쌓여서 먼저 넣은것(들어간것)은 맨아래, 
@@ -104,7 +109,7 @@ Stack (Tv tv)  --주소값 가르키기---> Heap( Tv속 메소드)
 
 public class TvTest2 {
     public static void main(String[] args) {
-        Tv2 tv = new Tv2();
+        Tv2 tv = new Tv2(); //Tv2클래스를 객체화 했다.
 
         for (int i = 0; i < 10; i++) {
             tv.channelUp();
@@ -156,6 +161,9 @@ Process finished with exit code 0
 
 -------------------------------------------------------------
 
+// 객체 추가 하면서 서로 다른값 저장
+// 주소값찍기
+
 public class TvTest4 {
     public static void main(String[] args) {
         Tv[] tvArr = new Tv[3]; //tv객체의 주소값만 들어갈수있다.(Tv tv1, tv2, tv3;)
@@ -170,6 +178,11 @@ public class TvTest4 {
             */
 
         }
+
+        for (int i = 0; i < tvArr.length; i++) {
+            System.out.println(tvArr[i]);
+        }
+
         System.out.println(tvArr[2].channel);
     }
 }
@@ -177,6 +190,9 @@ public class TvTest4 {
 
 ---------------->
 C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50634:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.TvTest4
+com.green.java.ch06.Tv@7a79be86
+com.green.java.ch06.Tv@34ce8af7
+com.green.java.ch06.Tv@b684286
 12
 
 Process finished with exit code 0
@@ -682,14 +698,58 @@ public class FlowEx6Method {
 
 -------------------------------------------------------------------------
 
+public class FlowEx13 {
+    //p.159
+    public static void main(String[] args) {
+        // 1~10 사이의 값을 더하기
+        int sum = 100;
+        for(int i =1; i<101; i++) {
+            System.out.printf("sum: %d, i: %d\n", sum, i);
+            //sum = sum + i;
+            sum += i;
+        }
+
+        System.out.println("sum : " + sum);
+
+    }
+}
+
+
+>>>>>>>>>>>>>>>>>>>>
+
+public class FlowEx13Method {
+    //p.159
+    public static void main(String[] args) {
+        // 최소값~최대값 사이의 값을 더하고 출력
+        //sum: 값
+        printAllSum(1,100);
+        //1 ~ 100 sum = 5050
+
+
+        printAllSum(2, 3);
+        //2~3 sum = 5
+
+    }
+
+    public static void printAllSum(int min, int max) {
+        int sum = 0;
+        for (int i = min; i <= max; i++) {
+            sum += i;
+        } System.out.printf("%d ~ %d sum = %d\n", min, max, sum);
+    }
+}
 
 
 
+----------->
 
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50178:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx13Method
+1 ~ 100 sum = 5050
+2 ~ 3 sum = 5
 
+Process finished with exit code 0
 
-
-
+--------------------------------------------------------------------
 
 
 

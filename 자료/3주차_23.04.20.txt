@@ -1,0 +1,349 @@
+
+// FLowEx17 메서드로
+
+public class FLowEx17 {
+    //p.162
+    public static void main(String[] args) {
+        int star = 5;
+        //*
+        //**
+        //***
+        //****
+        //*****
+
+        for(int i = 0; i<star; i++) {
+            for(int j = -1; j< i; j++){
+                System.out.printf("*");
+            }
+            System.out.println();
+        }
+    }
+
+>>>>>>>>>>>>>>>>>>>>>> 문제가 다름 확인!
+
+public class FLowEx17Method {
+
+    public static void main(String[] args) {
+        int star = 5;
+
+        printStarLine(star); //*****(개행)
+        printStarLine(3); //***(개행)
+
+    }
+
+    public static void printStarLine(int b){
+            for(int j = 0; j< b; j++){
+                System.out.printf("*");
+            }
+            System.out.println();
+    }
+}
+
+
+
+----------------------------------
+
+// FLowEx17 메서드로
+// 재활용성 높이기
+
+
+public class FLowEx17Method {
+    //p.162
+    public static void main(String[] args) {
+        int star = 5;
+
+        printStarLine(star); //*****(개행)
+        printStarLine(3); //***(개행)
+
+        System.out.println("-------------");
+
+        printStarRect(3);
+        //***
+        //***
+        //***
+
+    }
+
+    public static void printStarLine(int a){
+            for(int i = 0; i< a; i++){
+                System.out.printf("*");
+            } System.out.println();
+    }
+
+    public static void printStarRect(int b)  {
+            for (int i = 0; i < b; i++) {
+                for (int j = 0; j < b; j++) {
+                    System.out.printf("*");
+                } System.out.println();
+            }
+    }
+
+}
+
+
+>>>>>>>>>>>>>>>>>>>>>>>
+
+public class FLowEx17Method {
+    //p.162
+    public static void main(String[] args) {
+        int star = 5;
+
+        printStarLine(star); //*****(개행)
+        printStarLine(3); //***(개행)
+
+        System.out.println("-------------");
+
+        printStarRect(3);
+        //***
+        //***
+        //***
+
+    }
+
+    public static void printStarLine(int a){
+            for(int i = 0; i< a; i++){
+                System.out.printf("*");
+            } System.out.println();
+    }
+
+    public static void printStarRect(int b)  {
+            for (int i = 0; i < b; i++) {
+                printStarLine(b);
+            }
+    }
+
+}
+
++++++++++++++++++++++++++
+
+    public static void printStarTri(int star) {
+        for (int i = 1; i <= star; i++) {
+            printStarLine(i);
+        }
+    }
+
+
+
+----------------->
+-------------
+*
+**
+***
+****
+
+Process finished with exit code 0
+
+------------------------------------------------------------------------------
+
+
+// FLowEx18 메서드로
+// 구구단
+
+
+public class FLowEx18 {
+    public static void main(String[] args) {
+        //중첩 for문을 이용하여 2~9단 구구단을 출력
+        //단수가 바뀌면 빈칸 한 줄 추가
+
+
+        for(int i = 2; i < 10; i++) {
+            for(int z = 1; z<10 ; z++) {
+                System.out.printf("%d x %d = %d\n" , i, z, i*z );
+            }
+            System.out.println();
+        }
+
+    }
+}
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>
+
+public class FLowEx18Method {
+    public static void main(String[] args) {
+
+/*        gugudan(4);
+        gugudan(5);
+        *//*
+        4 X 1 = 4
+        ...
+        4 X 9 = 36(개행)
+        */
+
+        gugudan(2, 8);
+        gugudan(5, 7); //보내는값은 arguments 아규먼츠, 인수값
+    }
+
+    public static void gugudan(int dansu){
+        for (int z = 1; z < 10 ; z++) {
+            System.out.printf("%d X %d = %d\n", dansu, z, dansu*z);
+        } System.out.println();
+    }
+
+    public static void gugudan(int sDan, int eDan){{//(타입)이 들어가는곳 파라미터,인자값, 매개변수 이곳이 다르면 같은 이름으로 여러개를 만들수있다
+        for (int i = sDan; i <= eDan; i++) {
+            gugudan(i);
+        }
+    }
+
+}
+
+---------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50374:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FLowEx18Method
+2 X 1 = 2
+2 X 2 = 4
+2 X 3 = 6
+2 X 4 = 8
+2 X 5 = 10
+2 X 6 = 12
+2 X 7 = 14
+2 X 8 = 16
+2 X 9 = 18
+....
+8 X 1 = 8
+8 X 2 = 16
+8 X 3 = 24
+8 X 4 = 32
+8 X 5 = 40
+8 X 6 = 48
+8 X 7 = 56
+8 X 8 = 64
+8 X 9 = 72
+
+
+Process finished with exit code 0
+
+-----------------------------------------------------------------------------
+
+// FlowEx25 메서드로
+
+/*
+   1 + 2 + 3 + 4 + 5 > 결과값 출력
+
+*/
+
+
+import java.util.Scanner;
+
+public class FlowEx25 {
+    public static void main(String[] args) {
+        int num = 0, sum = 0;
+        Scanner scan = new Scanner(System.in);
+        System.out.print("숫자를 입력하세요. (예:12345) > ");
+        String temp = scan.nextLine();
+        int val = Integer.parseInt(temp);
+        while (val > 0) {
+            int oneVal = val % 10;
+            sum += oneVal;
+            val = (int)(val * 0.1);
+
+        }
+        System.out.println("각 자리수의 합 : " + sum);
+    }
+}
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>
+import java.util.Scanner;
+
+public class FlowEx25Method {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("숫자를 입력하세요. (예:12345) > ");
+        String temp = scan.nextLine();
+        int sum = sumStringNumber(temp);
+        System.out.printf("각 자리수의 합 : %d\n", sum);
+    }
+
+    public static int sumStringNumber(String str) {
+        int val = Integer.parseInt(str);
+
+        int sum = 0;
+        while(val > 0) {
+            sum += val % 10;
+            val /= 10;
+        }
+        return sum;
+    }
+
+}
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50718:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.FlowEx25Method
+숫자를 입력하세요. (예:12345) > 12321
+각 자리수의 합 : 9
+
+Process finished with exit code 0
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

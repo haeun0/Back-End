@@ -1,0 +1,1131 @@
+   
+// p.270 재귀 호출
+// 멤버필드 설명
+// 폴더를 탐색할때
+// 폴더 안에 폴더안에 폴더안의 폴더 안의 파일명 출력 등등...은 재귀함수로 구현할경우 깔끔하다
+// 공간할당 개념배우기.. 이렇게 쓰는건 아님..
+
+
+public class Car {
+    static String brand; //static은 바로 객체화!!!!!
+    String model; //인스턴스 클래서
+    int price; //인스턴스 변수
+
+    static void powerOn() {
+        System.out.println("시동 걸림");
+
+    }
+
+    void printInfo() {
+        System.out.printf("model : %s, price: %d\n", model, price);
+    }
+}
+
+
+
++++++++++++++++++++++++++
+
+public class FactorialTest {
+    public static void main(String[] args) {
+        int result = factorial(4); // 4*3*2*1
+        System.out.printf("result : %d\n", result);
+    }
+    static int factorial(int n) {
+        System.out.print(n);
+        int result = 0;
+        if(n==1){
+            return 1;
+
+        }
+        return  n *factorial(n-1);
+    }
+}
+
+
+------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50041:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.FactorialTest
+4321result : 24
+
+Process finished with exit code 0
+
+
+------------------------------------------------------------------------
+
+public class CarTest {
+    public static void main(String[] args) {
+        Car c1 = new Car();
+        Car c2 = new Car();
+
+        c1.brand = "쉐보레";
+        c1.model = "트레버스";
+        c1.price = 4500;
+
+        c2.brand = "페라리";
+        c2.model = "엔초페라리";
+        c2.price = 40_000;
+
+        c1.printInfo();
+        c2.printInfo();
+
+        System.out.println(c1.brand);
+        System.out.println(c2.brand);
+
+    }
+}
+
+------------------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50053:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.CarTest
+model : 트레버스, price: 4500
+model : 엔초페라리, price: 40000
+페라리
+페라리 //아래 주석 확인..
+
+Process finished with exit code 0
+
+
+// 스태틱의 공간은 무조건 1개
+// 클래스 메모리라고 하는곳에 브랜드 공간이 할당된다. 
+// 그래서 둘다 페라리로 찍힘
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+public class CarTest {
+    public static void main(String[] args) {
+        Car c1 = new Car();
+        Car c2 = new Car();
+
+        c1.brand = "쉐보레";
+        c1.model = "트레버스";
+        c1.price = 4500;
+
+        c2.brand = "페라리";
+        c2.model = "엔초페라리";
+        c2.price = 40_000;
+
+        Car.brand = "현대";
+
+        c1.printInfo();
+        c2.printInfo();
+
+        System.out.println(c1.brand);
+        System.out.println(c2.brand);
+
+    }
+}
+
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50063:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.CarTest
+model : 트레버스, price: 4500
+model : 엔초페라리, price: 40000
+현대
+현대
+
+Process finished with exit code 0
+
+-------------------
+
+public class Car {
+    static String brand;
+    String model;
+    int price;
+
+    static void powerOn() {
+        System.out.printf("%s 회사의 차 시동 걸림", brand);
+
+    }
+
+    void printInfo() {
+
+        System.out.printf("brand: %s,model : %s, price: %d\n", brand, model, price);
+    }
+}
+
+
+++++++++++++++++++++++++++++++++
+
+
+package com.green.java.ch06;
+
+public class CarTest2 {
+    public static void main(String[] args) {
+        Car c1 = new Car();
+        c1.model = "소나타";
+        c1.price = 2000;
+
+        Car.brand = "기아";
+        Car.powerOn();
+
+        c1.printInfo();
+        //Integer.parseInt("11");
+    }
+}
+
+
+--------------------------------------------------------------
+
+//메소드 사용
+
+
+public class MyMAthInstance {
+    public int sum(int n1, int n2) {
+
+        return n1 + n2;
+    }
+}
+++++++++++++++++
+
+public class MyMAthStatic {
+    public static int sum(int n1, int n2) {
+        return n1 + n2;
+    }
+}
+
+++++++++++++++++++++++++++++++++++++++
+
+
+public class MyMAthTest {
+    public static void main(String[] args) {
+        int n1 = 10, n2 = 22;
+
+        //MyMathInstance 클래스에 있는 sum메소드
+        //이용하여 n1, n2값을 더한 결과를 콘솔에 출력
+        MyMAthInstance mmi = new MyMAthInstance();
+        int r1 = mmi.sum(n1, n2);
+        System.out.println(r1);
+
+        //MyMAthStatic 클래스에 있는 sum메소드
+        //이용하여 n1, n2값을 더한 결과를 콘솔에 출력
+        int r2 = MyMAthStatic.sum(n1, n2);
+        System.out.println(r2);
+        
+    }
+}
+
+-------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50129:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.MyMAthTest
+32
+32
+
+Process finished with exit code 0
+
+------------------------------------------------------------------------
+
+
+// 메서드란? 일련의 소스를 모아놓은 소스, 계속해서 사용하는 소스를...
+
+// 똑같은 이름의 매개변수를 만드는 기술, 이름은 같고 파라미터가 다른...
+// 오버로딩 을 할려면 타입이 달라야 구별이 가능해서 오버로딩이 가능해진다.
+
+
+public class OverLoadingTest {
+    public static void main(String[] args) {
+        sum(1, 2, 3);
+    }
+
+    public static void sum(int n1, int n2){
+        System.out.println(n1+n2);
+    }
+
+    public static void sum(int n1, int n2, long n3){
+        System.out.println(n1 + n2 + n3);
+    }
+
+    public static int sum(int k1, int k2, int k3){
+        return k1 + k2 + k3;
+    }
+
+
+------------------------------------------------------------
+
+// p.287 가변인자
+//sum( )의 인수값이 계속늘어나도 대응가능
+
+public class VarargsTest {
+    public static void main(String[] args) {
+        sum(1);
+        sum(1,2);
+        sum(1,2,3);
+        sum(1,2,3,4,5,6,7,8,9,10);
+    }
+
+    static void sum(int... nums) {
+    System.out.println(nums.length);
+
+    }
+}
+
+------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50154:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.VarargsTest
+1
+2
+3
+10
+
+Process finished with exit code 0
+
+---------------------------
+
+public class VarargsTest {
+    public static void main(String[] args) {
+        sum(1);
+        sum(1,2);
+        sum(1,2,3);
+        sum(1,2,3,4,5,6,7,8,9,10);
+    }
+
+    static void sum(int... nums) {
+        int sum = 0;
+        for(int i = 0; i < nums.length ;i++ ){
+            sum += nums[i] ;
+        }
+        System.out.println(sum);
+    }
+}
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50162:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.VarargsTest
+1
+3
+6
+55
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>
+
+public class VarargsTest {
+    public static void main(String[] args) {
+        sum(1);
+        sum(1,2);
+        sum(1,2,3);
+        sum(1,2,3,4,5,6,7,8,9,10);
+    }
+
+    static void sum(int... nums) {
+        int sum = 0;
+        
+        for(int val : nums){
+            sum += val;
+        }
+        System.out.println("sum : "+ sum);
+    }
+}
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50166:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.VarargsTest
+sum : 1
+sum : 3
+sum : 6
+sum : 55
+
+Process finished with exit code 0
+
+--------------------------------------
+
+// p.291 생성자
+// p.293 기본 생성자가....
+// p.293 매개변수가 있는 생성자
+
+// Generate / constructor //기본생성자 생성 추가 방법 //ctrl + 클릭하면 선택 취소
+
+
+
+public class Bike {
+    String brand;
+    String model;
+    int price;
+
+
+
+    public Bike(){ //기본 생성자 // Bike b1 = new Bike(); 로 자동생성 가능
+        System.out.println("Bike 생성자");
+    }
+    public Bike(String brand) { //생성자 // 생성자가 하나라도 있으면 기본 생성자를 직접 추가해줘야한다!!!!!!!!!
+        this.brand = brand;
+    }
+    
+    void drive() {
+        System.out.printf("%s브랜드 %s 모델이 ",brand, model); // 보라색일 경우 생성자를 선택한것
+    }
+}
+
++++++++++++++
+
+public class BikeTest {
+    public static void main(String[] args) {
+        Bike b1 = new Bike(); //기본 생성자
+        b1.brand = "혼다";
+
+        Bike b2 = new Bike("야마하");
+
+        System.out.println("b1.brand : " + b1.brand);
+        System.out.println("b2.brand : " + b2.brand);
+    }
+
+}
+
+-------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50180:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.BikeTest
+Bike 생성자
+b1.brand : 혼다
+b2.brand : 야마하
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>
+
+public class BikeTest {
+    public static void main(String[] args) {
+        Bike b1 = new Bike(); //기본 생성자
+        b1.brand = "혼다";
+
+        Bike b2 = new Bike("야마하");
+        b2.brand = "dd";
+        System.out.println("b1.brand : " + b1.brand);
+        System.out.println("b2.brand : " + b2.brand);
+    }
+
+}
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50185:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.BikeTest
+Bike 생성자
+b1.brand : 혼다
+b2.brand : dd
+
+Process finished with exit code 0
+-----------------------------------------------------------------------------
+
+// System.out // 대문자로 시작하면 스태틱.메소드 호출 // 클래스.멤버주소 //객체화 없이 사용할 수 있는건 스태틱이 유일
+// BikeTest2  Bike 부분 선생님 코드 확인!!!!!!!!!!!!!!!!!!!!!
+
+public class Bike {
+    String brand;
+    String model;
+    int price;
+
+
+
+/*    public Bike(){ //기본 생성자 // Bike b1 = new Bike(); 로 자동생성 가능
+        System.out.println("Bike 생성자");
+    }*/
+
+    Bike() {
+        this("야마하", "H2-1", 10000); //내가 가지고 있는 생산자 호출
+    }
+
+    public Bike(String brand) { //생성자 // 생성자가 하나라도 있으면 기본 생성자를 직접 추가해줘야한다!!!!!!!!!
+//        this.brand = brand; //this.은 나 자신을 의미 // b2.brand와 같은 뜻
+    }
+    public Bike(String brand, String model, int price) { // 서순이 달라도 가능
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
+
+    public Bike(String brand, int price, String model) {
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
+
+    public Bike(Bike bike) {
+        this.brand = bike.brand;
+        this.model = bike.model;
+        this.price = bike.price;
+    }
+
+    void drive() {
+        System.out.printf("%s브랜드 %s 모델이 ",brand, model); // 보라색일 경우 생성자를 선택한것
+    }
+}
+
++++++++++++++++++++
+
+// 깊은 ??
+
+public class BikeTest2 {
+    public static void main(String[] args) {
+        Bike b1 = new Bike("야마하", "H2-1",10000);
+        Bike b2 = new Bike(b1);
+        b2.brand = "혼다";
+/*        Bike b2 = b1;
+        b2.brand = "혼다";*/
+
+
+        System.out.println("b1.brand : " + b1.brand);
+        System.out.println("b2.brand : " + b2.brand);
+    }
+
+}
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50199:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.BikeTest2
+b1.brand : 야마하
+b2.brand : 혼다
+
+Process finished with exit code 0
+
+
+>>>>>>>>>>>>>>>>>>>
+
+// 얕은 ??
+
+public class BikeTest2 {
+    public static void main(String[] args) {
+        Bike b1 = new Bike("야마하", "H2-1",10000);
+//        Bike b2 = new Bike(b1);
+//        b2.brand = "혼다";
+        Bike b2 = b1;
+        b2.brand = "혼다";
+
+
+        System.out.println("b1.brand : " + b1.brand);
+        System.out.println("b2.brand : " + b2.brand);
+    }
+
+}
+
+-------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50194:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.BikeTest2
+b1.brand : 혼다
+b2.brand : 혼다
+
+Process finished with exit code 0
+
+-------------------------------------------------------------------
+
+ch7
+객체지향 프로그래밍
+
+상속
+
+//자식은 여럿이어도 되지만 부모는 한개만
+------------------------------------------------
+
+public class Parent {
+    int age;
+}
+
+
+++++++++++++++++++++++++++
+
+public class Child extends Parent {
+
+    void play() {
+        System.out.printf("%d살인 아이가 논다\n",age);
+    }
+
+}
+
+++++++++++++++++++++++++
+
+public class ChildTest{
+    public static void main(String[] args) {
+        Child ch = new Child();
+        ch.play();
+        ch.age = 10;
+        System.out.println(ch.age);
+        ch.play();
+
+        GrandChild gc = new GrandChild();
+        gc.age = 20;
+        gc.play();
+    }
+}
+
+++++++++++++++++++++++++
+public class GrandChild extends Child {
+    
+}
+
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50265:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ChildTest
+0살인 아이가 논다
+10
+10살인 아이가 논다
+20살인 아이가 논다
+
+Process finished with exit code 0
+
+------------------------------------------------------------------
+
+
+
+ex) 사자, 호랑이, 고양이를 만든다
+ 숨쉰다, 밥을 먹는다....
+
+공통적인 부분 - 무늬가 있다 등등을 고양이과에 넣어서 사자, 호랑이,고양이한테 각각 연결한다.
+
+사자-~~~~~~~~~~
+호랑이-~~~~~~~~~~
+고양이-~~~~~~~~~~~ 
+
+각각 사자, 호랑이, 고양이에게 필요한것을 적어준다.
+
+
+동물을 
+
+
+
+
+내려갈수록 디테일해지고
+올라갈수록 ????????
+
+
+-------------------------------------------------------------------
+// note 확인
+
+
+public class Parent {
+    int age;
+
+    public Parent() {
+        System.out.println("-- Parent 기본 생성자 --");
+    }
+}
+
++++++++++++++++++++
+
+public class Child extends Parent {
+    public Child() {
+        System.out.println("-- Child 기본 생성자 --");
+    }
+    void play() {
+        System.out.printf("%d살인 아이가 논다\n",age);
+    }
+
+}
+
++++++++++++++++++++++++++
+
+public class GrandChild extends Child {
+    public GrandChild() {
+        System.out.println("-- GrandChild 기본 생성자 --");
+    }
+}
+
+++++++++++++++++++++++++++++
+
+
+public class GrandChildTest {
+    public static void main(String[] args) {
+        GrandChild gc = new GrandChild();
+
+    }
+}
+
+--------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50270:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.GrandChildTest
+-- Parent 기본 생성자 --
+-- Child 기본 생성자 --
+-- GrandChild 기본 생성자 --
+
+Process finished with exit code 0
+
+
+//그래서 자식의 멤버 클래스는 부모가 가진것과 같거나 많다.
+
+// 이상한점 
+// 왜 GrandChild를 호출 했는데
+// -- GrandChild 기본 생성자 --가 제일 마지막에 나오는걸까??
+
+
+
+
+---------------------------------------------------------------------
+
+// 상속 간단하게 설명!!!!!!!
+//java 의 모든 객체의 기본부모는 extends Object가 있다
+
+class Tv{
+    boolean power;
+    int channerl;
+
+    void power() { power = !power; }
+    void channerlUp() { channerl++;}
+    void ChannerlDown() { channerl--;}
+}
+class CaptionTv extends Tv {
+    boolean caption;
+    void displayCaption(String txt) {
+        if(caption) {
+            System.out.println(txt);
+        }
+    }
+}
+
+public class CaptionTvTest {
+    public static void main(String[] args) {
+        CaptionTv ctv = new CaptionTv();
+        ctv.channerl = 10;
+        ctv.channerlUp();
+        System.out.println(ctv.channerl);
+        ctv.displayCaption("자막 나오니?"); // boolen은 기본이 false라 자막이 안나옴
+        ctv.caption = true;
+        ctv.displayCaption("이제 자막 나오니?");
+    }
+}
+
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50282:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.CaptionTvTest
+11
+이제 자막 나오니?
+
+Process finished with exit code 0
+
+------------------------------------------------------------------------
+
+// p.317 , p.318
+// 1.3 클래스간의 관계 결정하기
+
+tv는 스피커를 가지고있다가 어색하지않으면 포함관계
+
+public class MyTv extends Speaker {
+    int channerl;
+
+    void channerlUp() {
+        channerl++;
+    }
+
+    void channerlDown() {
+        channerl--;
+    }
+
+}
+
+class MyTv2 {
+    int channerl;
+
+    void channerlUp() {
+        channerl++;
+    }
+
+    void channerlDown() {
+        channerl--;
+    }
+    Speaker speaker;
+
+    void volumnUp() {
+        speaker.volumn++;
+    }
+
+    void volumnDown() {
+        speaker.volumn--;
+    }
+
+    int getVolumn() {return  speaker.volumn}
+
+}
+
+class Speaker {
+    int volumn;
+
+    void volumnUp() {
+        volumn++;
+    }
+
+    void volumnDown() {
+        volumn--;
+    }
+}
+
+
+++++++++++++++++++++++++++++++++++++
+
+
+public class MyTvTest {
+    public static void main(String[] args) {
+        MyTv mt = new MyTv();
+        mt.volumnUp();
+        mt.volumnUp();
+        mt.volumnUp();
+
+        System.out.println(mt.volumn);
+
+        MyTv2 mt2 = new MyTv2();
+        mt2.speaker = new Speaker();
+        mt2.volumnUp();
+        mt2.volumnUp();
+
+        System.out.println(mt2.getVolumn());
+    }
+}
+
+--------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50820:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.MyTvTest
+3
+2
+
+Process finished with exit code 0
+
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

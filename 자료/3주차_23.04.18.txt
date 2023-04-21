@@ -1,0 +1,391 @@
+
+%,d    1,000 천단위로 ,를 찍고 싶을때 %d사이에 ,를 넣어주면 된다.
+
+
+System.out.println(Arrays.toString(numArr));
+
+
+
+
+------------------------------------------------------------
+//p.166 향상된 for문, foreach문
+
+
+//p.207
+public class ArrayEx12 {
+    public static void main(String[] args) {
+        String[] names = {"Kim", "Park", "Yi"};
+
+
+        for (int i = 0; i < names.length; i++) {
+            System.out.printf("names[%d]: %s\n", i, names[i]);
+        }
+
+        names[0] = "Yu";
+
+        for (String nm : names) {
+            System.out.println(nm);
+        }
+        
+    }
+}
+
+/*        names[0] = "Yu";
+        int i=0;
+        for (String nm : names) { //nm에 들어가는건 0번방 names가 nm으로 들어감 내려가고 다시 올라와서 반복
+                
+            System.out.printf("names[%d]: %s\n", i++, nm);
+        }
+        // 컬렉션...? 값을 여러개 담을수 있는 존재, 그중 순서가 있는 존재는 foreach문 사용가능
+        // 값만 사용해야할때 사용
+*/
+
+
+
+
+------------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=49975:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch05.ArrayEx12
+names[0]: Kim
+names[1]: Park
+names[2]: Yi
+Yu
+Park
+Yi
+
+Process finished with exit code 0
+
+
+---------------------------------------------------------------
+
+p.214 다차원 배열
+
+타입 선언 방법
+int[행][열] score;
+int score[][][];
+int[] score[];
+
+
+
+
+public class MultiArrayStudy1 {
+    public static void main(String[] args) {
+        int[][] score = new int[4][3];
+
+        int[][] temp = {
+                {0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0},
+
+        };
+
+        System.out.printf("temp.length: %d\n", temp.length);
+        System.out.printf("temp.length: %d\n", temp[0].length);
+        System.out.printf("temp.length: %d\n", temp[1].length);
+        System.out.printf("temp.length: %d\n", temp[2].length);
+
+        int[] arr0 = temp[0];
+        arr0[0] = 30;
+
+        System.out.printf("temp[0][0] > %d\n", temp[0][0]);
+
+        System.out.println(score[0][0]);
+        score[2][1] = 10; // 접근 방법
+
+        System.out.println(score.length); //행
+        System.out.println(score[0].length); // 열
+    }
+}
+
+-------------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50059:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch05.MultiArrayStudy1
+temp.length: 4
+temp.length: 3
+temp.length: 4
+temp.length: 5
+temp[0][0] > 30
+0
+4
+3
+
+Process finished with exit code 0
+
+-------------------------------------------------------
+
+public class MultiArrayStudy2 {
+    public static void main(String[] args) {
+        int[][] mArr = new int[4][3];
+
+        for (int i = 0; i < mArr.length; i++) {
+            for (int z = 0; z < mArr[i].length; z++) {
+                mArr[i][z] = i* mArr.length + (z + 1);
+            }
+        }
+
+        for (int i = 0; i < mArr.length; i++) {
+            System.out.printf("{ %d", mArr[i][0]);
+            for (int z = 1; z < mArr[i].length; z++) {
+                System.out.printf(", %d", mArr[i][z]);
+            }
+            System.out.println("}");
+        }
+
+    }
+}
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50240:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch05.MultiArrayStudy2
+{ 1, 2, 3}
+{ 5, 6, 7}
+{ 9, 10, 11}
+{ 13, 14, 15}
+
+Process finished with exit code 0
+
+----------------------------------------------------------
+
+
+    /*
+    score[0][0] = 100
+    socre[0][1] = 100
+    socre[0][2] = 100
+    socre[1][0] = 20
+    ...
+    score[3][2] = 40
+    sum=570
+    */
+
+
+
+
+public class ArrayEx18 {
+    public static void main(String[] args) {
+        int[][] score = {
+                  {100, 100, 100}
+                , {20, 20, 20}
+                , {30, 30, 30}
+                , {40, 40, 40}
+        };
+
+        for (int i = 0; i < score.length; i++) {
+            for (int z = 0; z < score[i].length; z++) {
+                System.out.printf("score[%d][%d] = %d\n",i,z,score[i][z]);
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < score.length; i++) {
+            for (int z = 0; z < score[i].length; z++) {
+               sum += score[i][z];
+            }
+        }System.out.printf("sum= %d", sum);
+
+
+    }
+}
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50301:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch05.ArrayEx18
+score[0][0] = 100
+score[0][1] = 100
+score[0][2] = 100
+score[1][0] = 20
+score[1][1] = 20
+score[1][2] = 20
+score[2][0] = 30
+score[2][1] = 30
+score[2][2] = 30
+score[3][0] = 40
+score[3][1] = 40
+score[3][2] = 40
+sum= 570
+Process finished with exit code 0
+
+
+----------------------------------------------------------------
+
+
+
+
+총점 국어 영어 수학을 각각 더해서 나타내기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+===================================================질문정리
+
+
+
+2주차 질문(알고싶은것)
+
+
+stack overflow??
+구글에 검색 할때 >> 자바 질문~~~~~~
+
+보기 좋은 코딩 강의 추천영상
+
+유튜브 - 노마드 코더
+https://nomadcoders.co/(초보 코딩 + 프론트엔드)
+
+유튜브 - 개발유튜버 
+유튜브 - 드림코딩(프론트엔드)
+유튜브 - 나도코딩
+
+
+윈도우 터키로 가입해서 쓰면 2000원???
+
+
+단축키 
+Alt + Shift + 클릭, 클릭, 클릭 >>한번에 여러개 수정하기
+
+
+
+-----------
+ 0   1   2   3  4  5
+ []   []   []  []  []  []
+ 10 14 18 22 24 26
+
+int[] arr = 0칸의 주소
+
+arr[0] -> 10+(4*10)???
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
