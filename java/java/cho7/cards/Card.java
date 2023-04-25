@@ -22,6 +22,10 @@ public class Card {
 
 
     }
+    @Override
+    public String toString() {
+        return "kind: " + kind + ", num: " +num;
+    }
 
 
 
