@@ -773,6 +773,71 @@ C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Fi
 Process finished with exit code 0
 
 --------------------------------------------------------------------
+--------------------------------------------------------------------정리
+
+//static을 넣는걸 추천하는 이유는 자동적으로 객체화가된다, 빠르다.
+//생성자를 사용하는이유 객체화하면서 멤버필드값을 초기화 하고 싶을때
+//this와 super의 차이, super는 상위 직속 부모의 주소값, this는 나 자신의 주소값
+//this(); 나 자신의 생성자 호출, super(); 부모에 있는 생성자호출 
+//this.super는 멤버 메소드 호출, 부모의 부모 메소드도 호출가능
+//재귀호출 factorial 
+    static int factorial(int n) {
+        System.out.print(n);
+        int result = 0;
+        if(n==1){
+            return 1;
+
+        }
+        return  n *factorial(n-1);
+    }
+
+//MyMAthInstance 객체화 후에 사용가능 =new
+    public int sum(int n1, int n2) {
+
+        return n1 + n2;
+    }
+
++++++++++++
+        MyMAthInstance mmi = new MyMAthInstance();
+        int r1 = mmi.sum(n1, n2);
+        System.out.println(r1);
+
+//MyMAthStatic 클래스명.sum으로 바로 사용가능
+    public static int sum(int n1, int n2) {
+        return n1 + n2;
+    }
++++++++++++++++
+        int r2 = MyMAthStatic.sum(n1, n2);
+        System.out.println(r2);
+
+//메소드에게 보내는값
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

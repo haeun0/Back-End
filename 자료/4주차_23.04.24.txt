@@ -1,0 +1,523 @@
+
+cho6정리...
+
+private
+값넣는 방법
+1. 생성자를 이용해서 최초값을 넣는다.(한번만 가능)
+2. 메소드를 통해서 넣을수 있다. seter
+
+값 뺄때는 메소드를 이용해서만 가능
+
+변수 하나당 geter, seter한개씩
+
+
+public class Time {
+        private  int hour; // private 캡슐화,은닉화... 멤버필드는 private으로
+        private  int minute;
+        private  int second;
+        //멤버필드중에 상수는 public??
+
+        public int getHour() {
+                return hour;
+        }
+
+        public void setHour(int hour) { //값을 통제하기 좋게해줌..
+                if(hour > 0 && hour < 24) {
+                        this.hour = hour;
+                }
+        }
+
+        public int getMinute() {
+                return minute;
+        }
+
+        public void setMinute(int minute) {
+                this.minute = minute;
+        }
+
+        public int getSecond() {
+                return second;
+        }
+
+        public void setSecond(int second) {
+                this.second = second;
+        }
+}
+
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+cho7정리
+
+
+Child ch = new Child();
+Child를 객체화 하면 내부적으로 연결되어있기 때문에 
+Child를 객체화 하고 그 위의 Parent도 같이 객체화한다.
+
+
+ch.age = 10;
+Child에 age가 없으면 그 위에 age가 있는 곳까지 올라가서 age의 값을 넣어준다.
+
+
+모든 객체 위에 object가 있는데 제일 많이 쓰는것은 equals와  toSt가 있다??
+
+
+
+상속한다.
+포함한다. Tv는 Speaker를 포함한다..?
+
+
+
+
+public class CardDeck
+
+        for (int i = 0; i < Card.KINDS.length; i++) {
+
+            for (int z = 0; z < Card.NUM_MAX; z++) {
+                cards[ i * Card.NUM_MAX + z] = new Card("","");
+            }
+        }
+
+>>>>>>>>>>>>>>>
+
+        int idx = 0;
+        for (int i = 0; i < Card.KINDS.length; i++) {
+
+            for (int z = 0; z < Card.NUM_MAX; z++) {
+                cards[idx++] = new Card("","");
+            }
+        }
+
+
+//더 좋은 소스.,..
+
+
+-------------------------------------------------------------------
+
+
+public class Card {
+    static final String[] KINDS = {"CLOVER", "HEART", "DIAMOND", "SPADE"}; //무늬들
+    static final int NUM_MAX = 13; //무늬별 카드 수
+
+
+
+    String kind; //무늬
+    String num;
+
+    //외부에서 무늬, 번호 값을 받아서 나의 멤버 필드 무늬와 번호에 대입하는 생성자를 만들어 주세요.
+
+    public Card(String kind, String num) {
+        this.kind = kind;
+        this.num = num;
+
+    }
+    @Override
+    public String toString() {
+        return "kind: " + kind + ", num: " +num;
+    }
+
+
+
+}
+
+
+++++++++++++++++++++++
+
+public class CardDeck {
+    Card[] cards;
+    int idx;
+
+    CardDeck() {
+        cards = new Card[52];
+
+/*        for(int i = 0; i< cards.length; i++){
+            cards[i] = new Card("","");
+        }*/
+
+
+        int idx = 0;
+        for (int i = 0; i < Card.KINDS.length; i++) {
+            for (int z = 1; z < Card.NUM_MAX+1; z++) {
+                String num = null;
+             switch(z) {
+                 case 1:
+                     num= "A";
+                     break;
+                 case 11:
+                     num= "J";
+                     break;
+                 case 12:
+                     num= "Q";
+                     break;
+                 case 13:
+                     num= "K";
+                     break;
+                 default:
+                     num = String.valueOf(z); //num = z + ""; //정수열 2를 문자 "2"로 바꿔준다.
+             }
+                cards[idx++] = new Card(Card.KINDS[i],num);
+            }
+        }
+    }
+    void openCards() {
+        for(Card c : cards) {
+            System.out.println(c);
+        }
+    }
+
+    void shuffle() {
+        for (int i = 0; i < cards.length; i++) {
+            int rIdx = (int)(Math.random() * cards.length);
+            Card temp = cards[i];
+            cards[i] = cards[rIdx];
+            cards[rIdx] = temp;
+        }
+    }
+
+
+    Card pick() {
+        if(idx == cards.length) {return null;}
+        Card c = cards[idx];
+        cards[idx++] = null;
+        return c;
+    }
+
+
+}
+
+
++++++++++++++++++++++++++
+
+public class CardTest {
+    public static void main(String[] args) {
+        CardDeck cd = new CardDeck();
+        cd.openCards();
+
+        System.out.println("-------------");
+        cd.shuffle();
+        cd.openCards();
+
+        System.out.println("-------------");
+/*
+        Card c1 = cd.pick();
+        System.out.println(c1.kind + "," + c1.num);
+
+        Card c2 = cd.pick();
+        System.out.println(c2.kind + "," + c2.num);
+*/
+
+        for (int i = 0; i < cd.cards.length; i++) {
+            cd.pick();
+        }
+        cd.pick();
+
+        System.out.println("-------------");
+        cd.openCards();
+    }
+
+}
+
+
+------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51032:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.cards.CardTest
+kind: CLOVER, num: A
+kind: CLOVER, num: 2
+kind: CLOVER, num: 3
+kind: CLOVER, num: 4
+kind: CLOVER, num: 5
+kind: CLOVER, num: 6
+kind: CLOVER, num: 7
+kind: CLOVER, num: 8
+kind: CLOVER, num: 9
+kind: CLOVER, num: 10
+kind: CLOVER, num: J
+kind: CLOVER, num: Q
+kind: CLOVER, num: K
+kind: HEART, num: A
+kind: HEART, num: 2
+kind: HEART, num: 3
+kind: HEART, num: 4
+kind: HEART, num: 5
+kind: HEART, num: 6
+kind: HEART, num: 7
+kind: HEART, num: 8
+kind: HEART, num: 9
+kind: HEART, num: 10
+kind: HEART, num: J
+kind: HEART, num: Q
+kind: HEART, num: K
+kind: DIAMOND, num: A
+kind: DIAMOND, num: 2
+kind: DIAMOND, num: 3
+kind: DIAMOND, num: 4
+kind: DIAMOND, num: 5
+kind: DIAMOND, num: 6
+kind: DIAMOND, num: 7
+kind: DIAMOND, num: 8
+kind: DIAMOND, num: 9
+kind: DIAMOND, num: 10
+kind: DIAMOND, num: J
+kind: DIAMOND, num: Q
+kind: DIAMOND, num: K
+kind: SPADE, num: A
+kind: SPADE, num: 2
+kind: SPADE, num: 3
+kind: SPADE, num: 4
+kind: SPADE, num: 5
+kind: SPADE, num: 6
+kind: SPADE, num: 7
+kind: SPADE, num: 8
+kind: SPADE, num: 9
+kind: SPADE, num: 10
+kind: SPADE, num: J
+kind: SPADE, num: Q
+kind: SPADE, num: K
+-------------
+kind: CLOVER, num: 9
+kind: CLOVER, num: K
+kind: HEART, num: 9
+kind: SPADE, num: 2
+kind: DIAMOND, num: 5
+kind: CLOVER, num: 5
+kind: DIAMOND, num: 4
+kind: CLOVER, num: A
+kind: SPADE, num: A
+kind: HEART, num: 10
+kind: HEART, num: 8
+kind: HEART, num: 5
+kind: DIAMOND, num: Q
+kind: DIAMOND, num: 8
+kind: HEART, num: K
+kind: DIAMOND, num: 3
+kind: HEART, num: Q
+kind: HEART, num: 7
+kind: SPADE, num: K
+kind: DIAMOND, num: 10
+kind: DIAMOND, num: 6
+kind: CLOVER, num: 4
+kind: SPADE, num: 4
+kind: CLOVER, num: 7
+kind: SPADE, num: 9
+kind: SPADE, num: 5
+kind: CLOVER, num: 3
+kind: CLOVER, num: J
+kind: HEART, num: A
+kind: SPADE, num: 8
+kind: DIAMOND, num: K
+kind: CLOVER, num: 8
+kind: CLOVER, num: 2
+kind: SPADE, num: 7
+kind: HEART, num: 3
+kind: HEART, num: 6
+kind: HEART, num: 4
+kind: SPADE, num: 6
+kind: SPADE, num: 10
+kind: DIAMOND, num: 2
+kind: DIAMOND, num: J
+kind: HEART, num: 2
+kind: SPADE, num: J
+kind: HEART, num: J
+kind: DIAMOND, num: 9
+kind: CLOVER, num: 10
+kind: CLOVER, num: Q
+kind: DIAMOND, num: 7
+kind: CLOVER, num: 6
+kind: DIAMOND, num: A
+kind: SPADE, num: 3
+kind: SPADE, num: Q
+-------------
+-------------
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+
+Process finished with exit code 0
+
+
+// cd.pick();으로 빼낸 것은 null로 표기 되기 때문에 null을 표기 하기 위해서 
+// @Override으로 추가 작업....
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------
+//배민기술블로그 객체지향
+
+SPA개발 기법
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

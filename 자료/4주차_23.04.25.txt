@@ -1,0 +1,706 @@
+
+
+p.344
+제어자(modifier), 접근 지시어
+제어자는 클래스, 변수 또는 메서드의 선언주에 함게 사용되어 부가적인의미를 부여한다.
+접근제어자와 public, protected, defalult, private 
+그외 제어자 static, final, abstract, native,  
+
+---------------------------------------------
+
+
+public class ModifierTest {
+
+    private int num1; // 외부에서 접근 불가능
+    int num2; // 같은 패키지에서 접근 가능
+    protected int num3; //
+    public int num4; //완전 오픈
+
+    public void printNum1() { //메소드는 자유....
+        System.out.println(num1);
+    }
+
+}
+
+++++++++++++++++++++++++++++
+
+
+public class AccecesModifier {
+    /*
+    private, default, protected, public // ->->접근할수있는 범위가 늘어난다
+    */
+
+    public static void main(String[] args) {
+        ModifierTest mt1 = new ModifierTest();
+        // mt1.num1 = 10; // private 이라 접근 불가능
+        mt1.num2 = 20; // int 같은 패키지라 접근 가능 //package com.green.java.cho7;
+        mt1.num3 = 30;
+        mt1.num4 = 40; // public 무조건 접근 가능
+    }
+}
+
+-------------------------------------------------------------------------
+
+/*
+    private 멤버필드에 값을 대입하고 추출.
+    <값 주입>
+    1. 생성자 통해서
+    2. stter 메소드 통해서
+    
+    <값 추출>
+    1. getter 메소드 통해서
+*/
+public class HumanTest {
+    public static void main(String[] args) {
+        Human h1 = new Human("홍길동", 24, "개발자");
+        h1.setName("신사임당");
+        h1.setAge(26);
+        h1.setJob("기획자");
+
+        String name = h1.getName();
+        int age = h1.getAge();
+        String job = h1.getJob();
+
+        System.out.printf("이름 :%s, 나이: %d, 직업: %s\n", name, age, job);
+
+    }
+}
+
+
+++++++++++++++++++++++++
+
+
+
+public class Human {
+    private String name;
+    private int age;
+    private String job;
+
+    public Human() {
+        super();
+    }
+
+    public Human(String name, int age, String job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+    }
+
+    public void setName(String name) {
+        this.name = name; // 이름이 같은경우 가까운것을 가져오기 때문에 위에 name에 접근 하기위해서this.을 적어준다.
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public String getJob() {
+        return this.job;
+    }
+
+
+}
+
+
+
+--------------
+
+// p.354, 다형성 상속관계에서만 의미 있음
+public class Poly {
+    /*
+        1. 부모타입은 자식 객체 주소값 저장할 수 있다.
+        2. 자식타입은 부모 객체 주소값 저장할 수 없다.
+        3. 타입은 (알고있는 메소드를 호출할 수 있음)
+                 (메소드를 호출할 수 있냐없냐만 결정)
+                 >> 실제로 실행되는 건 객체 기준이다.
+    */
+    public static void main(String[] args) {
+        Animal ani1 = new Dog(); //대문자로 시작할 때 부모와 자식인 경우 타입이 달라도 담을수있다. = 상속관계일 때 가능
+        ani1.crying();
+        //ani1.jump(); //내가 모르는건 불가능
+
+        //Dog dog1 = new Animal(); //But 자식은 부모를 담을 수 없다
+        Dog dog1 = (Dog)ani1; // 강제형변환 ani1에는 Dog가 담겨있기 때문에 에러는 안뜸
+        dog1.crying();
+        dog1.jump(); // 호출가능
+    }
+}
+
+++++++++++++++++++++++++++++++
+
+
+
+public class Animal {
+    private String name;
+    public void crying() {
+        System.out.println("동물이 운다.");
+    }
+}
+
+class Dog extends Animal {
+    @Override //이름이 다르거나 실수할 경우 확인할수있음
+    public void crying() {
+        System.out.println("멍~멍~");
+    }
+
+    public void jump() {
+        System.out.println("개가 점프!!");
+    }
+}
+
+class bulldog extends Dog {
+
+}
+
+class Cat extends Animal {
+
+}
+
+class Duck extends Animal {
+
+}
+
+---------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50525:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.poly.Poly
+멍~멍~
+멍~멍~
+개가 점프!!
+
+Process finished with exit code 0
+
+
+----------------------------------------------------------------------------------
+
+++++++++++++++++++
+
+public class Poly2 {
+
+    public static void main(String[] args) {
+        Animal ani1 = new Bulldog();
+        boolean r1 = ani1 instanceof Bulldog; // 담을 수 있을때만 형변환 가능
+        System.out.println("r1 : " + r1);
+        Bulldog bd1 = (Bulldog) ani1;
+
+        System.out.println("r2 : " + (ani1 instanceof Cat));
+        //Cat c1 = (Cat)ani1;
+        
+    }
+}
+
+--------------------------------------------------
+++++++++++++++++++
+
+public class PolyQuiz1 {
+    public static void main(String[] args) {
+        Dog dog1 = new Dog();
+        Bulldog bd1 = new Bulldog();
+        Cat cat1 = new Cat();
+        Duck duck1 = new Duck();
+
+        animalCryingCall(dog1);
+        animalCryingCall(bd1);
+        animalCryingCall(cat1);
+        animalCryingCall(duck1);
+
+    }
+
+     static void animalCryingCall(Animal ani) {
+        ani.crying();
+     }
+     
+}
+
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50561:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.poly.PolyQuiz1
+멍~멍~
+으르렁!!
+야옹 야옹
+꽥 꽥
+
+Process finished with exit code 0
+
+-----------------------------------------------
+
++++++++++++++++++++++++++++
+>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+public class PolyQuiz1 {
+    public static void main(String[] args) {
+        Dog dog1 = new Dog();
+        Bulldog bd1 = new Bulldog();
+        Cat cat1 = new Cat();
+        Duck duck1 = new Duck();
+
+        animalCryingCall(dog1);
+        animalCryingCall(bd1);
+        animalCryingCall(cat1);
+        animalCryingCall(duck1);
+
+    }
+
+     static void animalCryingCall(Animal ani) {
+
+         ani.crying();
+        if (ani instanceof Dog) { 
+            Dog dog1 = (Dog)ani; // 호출하고싶으면 형변환
+            dog1.jump();
+        }
+     }
+}
+
+
+----------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50650:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.poly.PolyQuiz1
+멍~멍~
+개가 점프!!
+으르렁!!
+개가 점프!!
+야옹 야옹
+꽥 꽥
+
+Process finished with exit code 0
+
+------------------------------------------------
+
+instanceof 구글 검색
+
+   
+instanceof를 위에서 "객체 타입 확인", "형 변환 가능한지 여부 확인"이라 말했는데 어렵게 느껴진다면
+
+쉽게 말해 instancof는 해당 클래스가 자기집이 맞는지 확인해 주는 것이라고 생각하면 될 것이다.
+
+ 
+
+1. parent instanceof Parent : 부모가 본인 집을 찾았으니 true
+
+2. child instanceof Parent : 자식이 상속받은 부모 집을 찾았으니 true (상속을 받았으니 자기 집이라 해도 무방하다?)
+
+3. parent instanceof Child : 부모가 자식 집을 찾았으니 false (자식 집은 자식 집이지 부모 집은 아니니까)
+
+4. child instanceof Child : 자식이 본인 집을 찾았으니 true
+
+--------------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//    public Animal(String name){
+//        this.name = name;
+//    } 
+//이 추가 될 경우
+
+
+
+public class PolyQuiz1 {
+    public static void main(String[] args) {
+        Dog dog1 = new Dog();
+        Dog dog2 = new Dog("뽀삐");
+        Bulldog bd1 = new Bulldog();
+        Cat cat1 = new Cat();
+        Duck duck1 = new Duck();
+
+        animalCryingCall(dog1);
+        animalCryingCall(bd1);
+        animalCryingCall(cat1);
+        animalCryingCall(duck1);
+
+    }
+
+     static void animalCryingCall(Animal ani) {
+
+         ani.crying();
+        if (ani instanceof Dog) { // ani(는 들어오는값)가 Dog안에 포함되는가?????true
+            Dog dog1 = (Dog)ani; // 호출하고싶으면 형변환
+            dog1.jump();
+        }
+     }
+}
+
+
+++++++++++++++++++++++++++++++++++++
+
+
+public class Animal {
+    private String name;
+
+    public Animal() {
+        
+    }
+
+    public Animal(String name){
+        this.name = name;
+    }
+    public void crying() {
+        System.out.println("동물이 운다.");
+    }
+}
+
+class Dog extends Animal {
+    public Dog() {
+        super("바둑이");
+    }
+
+    public Dog(String name) {
+        super(name);
+    }
+
+    @Override //이름이 다르거나 실수할 경우 확인할수있음
+    public void crying() {
+        System.out.println("멍~멍~");
+    }
+
+    public void jump() {
+        System.out.println("개가 점프!!");
+    }
+}
+
+class Bulldog extends Dog {
+    @Override
+    public void crying() {
+        System.out.println("으르렁!!");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    public void crying() {
+        System.out.println("야옹 야옹");
+    }
+}
+
+class Duck extends Animal {
+    @Override
+    public void crying() {
+        System.out.println("꽥 꽥");
+    }
+}
+
+
+-------------------------------------------------
+CastingTest1,2
+
+
+
+
+---------------------------------
+BindingTest
+
+
+public class BindingTest {
+    public static void main(String[] args) {
+        Parent2 p = new Child2();
+        Child2 c = new Child2();
+
+        System.out.println(p.x);
+        p.method();
+        System.out.println(c.x);
+        c.method();
+    }
+}
+
+class Parent2 {
+    int x = 100;
+    void method() {
+        System.out.println("Parent Method");
+    }
+}
+
+class Child2 extends Parent2 {
+    int x = 200;
+    void method() {
+        System.out.println("Child Method");
+    }
+}
+
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=54552:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.BindingTest
+100
+Child Method
+200
+Child Method
+
+Process finished with exit code 0
+
+
+---------------------------------------------------
+
+public class BindingTest3 {
+    public static void main(String[] args) {
+        Parent3 p = new Child3();
+        Child3 c = new Child3();
+
+        p.method();
+    }
+}
+
+class Parent3 {
+    protected int x = 100;
+    void method() {
+        System.out.println("Parent Method");
+    }
+}
+
+class Child3 extends Parent3 {
+    private int x = 200;
+
+    void method() {
+        System.out.println("x =  " + x);
+        System.out.println("super.x = " + super.x);
+        System.out.println("this.x = " + this.x);
+    }
+}
+
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=54584:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.BindingTest3
+x =  200
+super.x = 100
+this.x = 200
+
+Process finished with exit code 0
+
+--------------------------------------------------------------------
+
+
+package com.green.java.cho7;
+
+public class PolyArgumentTest {
+    public static void main(String[] args) {
+        Product p = new Product(100);
+        Tv2 tv = new Tv2();
+        Computer com = new Computer();
+        Buyer buyer = new Buyer();
+
+        buyer.buy(tv);
+        buyer.buy(com);
+
+        buyer.printState(); //나의 남은 돈은 700만원 입니다.
+
+    }
+}
+class Buyer {
+    private int money;
+    private int bonusPoint;
+
+    public Buyer() {
+        this.money = 1000;
+        this.bonusPoint = 0;
+    }
+
+    public void buy(Product p) {
+
+    /*  줄여서
+        int productPrice = p.getPrice();
+        money = money - productPrice;*/
+        
+        money -= p.getPrice();
+        bonusPoint += p.getBonusPoint();
+        System.out.printf("%s을(를) %d만원에 구매하였습니다.\n", p.toString(), p.getPrice()); //.toString()생략가능
+    }
+
+    public void printState() {
+        System.out.printf("나의 남은 돈은 %,d만원 입니다. 보너스 점수는 %,d점 입니다\n", this.money, this.bonusPoint);
+    }
+
+}
+
+
+
+
+class Product {
+    protected int price;
+    protected int bonusPoint;
+
+    Product(int price) {
+        this.price = price;
+        this.bonusPoint = (int)(price * 0.1 );
+    }
+
+    public int getPrice() {
+        return price;
+    }
+    public int getBonusPoint() {
+        return bonusPoint;
+    }
+
+}
+
+class Tv2 extends Product {
+    public Tv2() {
+        super(100);
+    }
+
+    
+    public String toString() { //toString() Overriding을 위해 만들어줌..? 주소값이 아니라 객체를 출력하기 위해
+        return "Tv";
+    }
+}
+
+class Computer extends Product {
+    public Computer() {
+        super(200);
+    }
+
+    public String toString() {
+        return "Tv";
+    }
+}
+
+
+
+
+-------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=55300:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.PolyArgumentTest
+Tv을(를) 100만원에 구매하였습니다.
+Computer을(를) 200만원에 구매하였습니다.
+나의 남은 돈은 700만원 입니다. 보너스 점수는 30점 입니다
+
+Process finished with exit code 0
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
