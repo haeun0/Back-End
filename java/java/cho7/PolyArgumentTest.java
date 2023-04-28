@@ -18,9 +18,11 @@ class Buyer {
     private int money;
     private int bonusPoint;
 
+
     public Buyer() {
         this.money = 1000;
         this.bonusPoint = 0;
+        printState();
     }
 
     public void buy(Product p) {
@@ -32,10 +34,11 @@ class Buyer {
         money -= p.getPrice();
         bonusPoint += p.getBonusPoint();
         System.out.printf("%s을(를) %d만원에 구매하였습니다.\n", p.toString(), p.getPrice()); //.toString()생략가능
+
     }
 
     public void printState() {
-        System.out.printf("나의 남은 돈은 %,d만원 입니다. 보너스 점수는 %,d점 입니다\n", this.money, this.bonusPoint);
+        System.out.printf("나의 현재 돈은 %,d만원 입니다. 보너스 점수는 %,d점 입니다\n", this.money, this.bonusPoint);
     }
 
 }
@@ -66,12 +69,12 @@ class Product {
 class Tv2 extends Product {
     public Tv2() {
         super(100);
-    }
+    } //생성자... 생성자와 메서드의 다른점??
 
     
     public String toString() { //toString() Overriding을 위해 만들어줌..? 주소값이 아니라 객체를 출력하기 위해
         return "Tv";
-    }
+    } //오브젝트의 메서드를 오버라이딩
 }
 
 

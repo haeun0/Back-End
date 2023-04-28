@@ -6,6 +6,8 @@ public class BindingTest3 {
         Child3 c = new Child3();
 
         // p.method(5); //Parent3는 몰루..
+
+        p.method();
         c.method(5);
     }
 }
