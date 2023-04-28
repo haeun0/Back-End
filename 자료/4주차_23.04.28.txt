@@ -1,0 +1,414 @@
+문자열 다루기??
+substring 문자 자르기
+
+public class StringStudy1 {
+    public static void main(String[] args) {
+        String str = "abcdefghijklmn";
+
+        String r1 = str.substring(0,4);
+        String r2 = str.substring(3,6);
+        // 새로운 문자열을 만들어서 0에서부터 4보다 작은자리수까지 자르고 싶다.
+        System.out.println(str);
+        System.out.println(r1);
+        System.out.println(r2);
+
+        int len = str.length();
+        System.out.println("len : " +len);
+
+    }
+}
+
+-------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50213:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.StringStudy1
+abcdefghijklmn
+abcd
+def
+len : 14
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+public class StringStudy1 {
+    public static void main(String[] args) {
+        String str = "abcdefghijklmn";
+
+        String r1 = str.substring(0,4);
+        String r2 = str.substring(3,6);
+        // 새로운 문자열을 만들어서 0에서부터 4보다 작은자리수까지 자르고 싶다.
+        System.out.println(str);
+        System.out.println(r1);
+        System.out.println(r2);
+
+        String r3 = str.substring(5);//~~부터 주욱...
+        System.out.println("r3 : " + r3);
+
+        int idx = str.indexOf("g"); // 특정한 문자값 찾기
+        System.out.println("idx : " +idx);
+
+        int len = str.length();
+        System.out.println("len : " +len);
+
+        char[] charArr = str.toCharArray();
+        System.out.println(charArr[0]);
+        System.out.println(charArr[1]);
+        charArr[0] = '!';
+        System.out.println(str);
+    }
+}
+
+--------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50304:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.StringStudy1
+abcdefghijklmn
+abcd
+def
+r3 : fghijklmn
+idx : 6
+len : 14
+a
+b
+abcdefghijklmn
+
+Process finished with exit code 0
+
+----------------------------------------
+원하는 글자만 찾아서 프린트 하기
+
+public class StringQuiz1 {
+    public static void main(String[] args) {
+        String fullfileNm = "newjeans.jpg";
+        String fileNm, ext; //파일명, 확장자의 줄임말
+
+        int dotIdx = fullfileNm.indexOf("."); // ..점이 여러개 일때  .lastIndexOf(".");
+
+        fileNm = fullfileNm.substring(0, dotIdx);
+        ext = fullfileNm.substring(dotIdx+1);
+        System.out.println("파일명 : " + fileNm);
+        System.out.println("확장자명 : " + ext);
+    }
+}
+
+-------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50338:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.StringQuiz1
+파일명 : newjeans
+확장자명 : jpg
+
+Process finished with exit code 0
+
+
+--------------------------------
+//원하지 않는 글자 지우기 **
+
+//자바 정규식 //이메일 형식확인 할때
+
+public class StringStudy2 {
+    public static void main(String[] args) {
+        String str = "안녕하세요.**저는 홍길동** 입니다.";
+
+        String r1 = str.replace("*","");
+        System.out.println(r1);
+    }
+}
+
+
+//String r1 = str.replace("*","").trim(); //체이닝기법 //마지막.trim()이 r1에 들어감  
+
+------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50347:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.StringStudy2
+안녕하세요.저는 홍길동 입니다.
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+//클래스명.split
+//모두 소문자로, 모두 대문자로
+
+package com.green.java.ch02;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+public class StringStudy2 {
+    public static void main(String[] args) {
+        String str = "안녕하세요.**저는 홍길동** 입니다.";
+
+        String r1 = str.replace("*","").trim(); //체이닝기법
+        System.out.println(r1);
+
+        String str2 = "A, B, C, D, E";
+        String[] strArr = str2.split(", ");
+        // 원하는 기준대로 잘라서 배열에 넣기(패턴이 있다면 찾아서?? 예를 들면 태그 #)
+        System.out.println(Arrays.toString(strArr));
+
+        String str3 = "AbCdEfG";
+        String r2 = str3.toLowerCase(); // 모두 소문자로
+        System.out.println("r2 : "+ r2);
+        String r3 = str3.toUpperCase(); // 모두 대문자로
+        System.out.println("r3 : "+ r3);
+    }
+}
+
+---------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50402:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.StringStudy2
+안녕하세요.저는 홍길동 입니다.
+[A, B, C, D, E]
+r2 : abcdefg
+r3 : ABCDEFG
+
+Process finished with exit code 0
+
+--------------------------------------------------------------
+//좀더빠른 문자열 합치기
+
+
+package com.green.java.ch02;
+
+public class VariableString3 {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("하하");
+        sb.append("후후");
+
+        System.out.println(sb.toString());
+    }
+}
+
+-------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50530:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.VariableString3
+하하후후
+
+Process finished with exit code 0
+
+-------------------------------------------------
+
+기본...?
+국비 지원으로 아니면 그냥 경력이 없는 후임이 들어와서 일을한다고할 때
+아 얘가 기본이 되어있구나라고 
+느낄수 있을 정도의 기본은 어느정도일까요??? 최소한?
+
+
+----------------------------------------------------
+
+package com.green.java.ch02;
+
+public class VariableEquals {
+    public static void main(String[] args) {
+        NumberBox nb1 = new NumberBox(10);
+        NumberBox nb2 = new NumberBox(10);
+
+        boolean r1 = (nb1 == nb2); //false // ==은 레퍼런스?? 클래스들의 비교는 주소값 비교
+        System.out.println("r1 : " + r1);
+        boolean r2 = nb1.equals(nb2); // false // object의 .equals()는 주소값을 비교하기 때문에
+        System.out.println("r2 : " + r2);
+
+    }
+}
+
+class NumberBox {
+    private int num;
+    NumberBox(int num){
+        this.num = num;
+    }
+
+    int getNum() {
+        return num;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof NumberBox)) { // 같이 않은 타입의 객체가 들어왔는가?
+            return false;
+        }
+        NumberBox nb = (NumberBox)obj;
+//        ((NumberBox) obj).getNum(); // obj.getNum() tab하니까 바로 바껴버리던데.. 이건 무슨뜻인가..
+        return this.num == nb.getNum(); //일단..
+    }
+}
+
+----------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50714:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch02.VariableEquals
+r1 : false
+r2 : true
+
+Process finished with exit code 0
+
+
+-----------------------------------------------------------
+
+package com.green.java.ch03;
+
+public class OperatorEx32Quiz1 {
+    public static void main(String[] args) {
+        int x = 10, y = -5, z = 0;
+        int absX, absY, absZ;
+
+        absX = getAbs(x); //정수면 그대로 마이너스면 양수값으로
+        absY = getAbs(y);
+        absZ = getAbs(z);
+
+        System.out.println("absX : " + absX);
+        System.out.println("absY : " + absY);
+        System.out.println("absZ : " + absZ);
+    }
+
+    public static int getAbs(int val){
+        if (val >= 0) {
+            return val;
+        }
+        return -val;
+
+        //return val >= 0 ? val : -val;
+    }
+
+
+}
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51066:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx32Quiz1
+absX : 10
+absY : 5
+absZ : 0
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> static 빼고 다시..
+
+package com.green.java.ch03;
+
+public class OperatorEx32Quiz1 {
+    public static void main(String[] args) {
+        OperatorEx32Quiz1 get = new OperatorEx32Quiz1();
+        int x = 10, y = -5, z = 0;
+        int absX, absY, absZ;
+
+        absX = get.getAbs(x); //정수면 그대로 마이너스면 양수값으로
+        absY = get.getAbs(y);
+        absZ = get.getAbs(z);
+
+        System.out.println("absX : " + absX);
+        System.out.println("absY : " + absY);
+        System.out.println("absZ : " + absZ);
+    }
+
+    public int getAbs(int val){
+
+        if (val >= 0) {
+            return val;
+        }
+        return -val;
+
+        //return val >= 0 ? val : -val;
+    }
+}
+
+---------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51066:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch03.OperatorEx32Quiz1
+absX : 10
+absY : 5
+absZ : 0
+
+Process finished with exit code 0
+
+
+-------------------------------------------------------------------------------
+
+ch04
+
+package com.green.java.ch04;
+
+public class VendingMachine {
+    private int money;
+
+    
+    public void insert(int money) {
+        this.money += money;
+    }
+
+    public void showMoney() {
+        System.out.printf("현재 잔액은 %,d원입니다.\n",this.money);
+    }
+}
+
+
++++++++++++++++++++++++
+
+public class VendingMachineTest {
+    public static void main(String[] args) {
+        VendingMachine vm = new VendingMachine();
+        vm.insert(10000);
+        vm.insert(10000);
+        vm.insert(10000);
+        vm.insert(10000);
+
+        vm.showMoney(); //현재 잔액은 40,000원입니다.
+    }
+}
+
+
+--------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51437:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch04.VendingMachineTest
+현재 잔액은 40,000원입니다.
+
+Process finished with exit code 0
+
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

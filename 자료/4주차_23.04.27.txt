@@ -1,0 +1,1074 @@
+package com.green.java.cho7.ArrayList;
+
+public class MyArrayListTest {
+    public static void main(String[] args) {
+        MyArrayList myList = new MyArrayList();
+
+        myList.add(10);
+        myList.add(20);
+        myList.add(30);
+        myList.add(40);
+
+
+        System.out.println(myList.toString());
+
+
+        myList.add(4, 100);
+        System.out.println(myList.toString());
+        System.out.println(myList.size());
+
+        int v1 = myList.get(0);
+        for (int i = 0; i < myList.size(); i++) {
+            System.out.println(myList.get(i));
+        }
+    }
+}
+
+
++++++++++++++++++
+
+package com.green.java.cho7.ArrayList;
+
+public class MyArrayList {
+    private int[] items;
+
+    public MyArrayList() {
+        items = new int[0];
+        System.out.println(items.length);
+    }
+
+    public void add(int val) {
+        int[] temp = new int[items.length +1];
+        temp[items.length]  = val;
+        for (int i = 0; i < items.length; i++) {
+            temp[i] = items[i];
+        }
+        items = temp;
+    }
+
+    public void add(int num, int val){
+        if(items.length < num){
+            return;
+        }
+        int[] temp = new int[items.length +1];
+        temp[num] = val;
+        for (int i = 0; i < items.length; i++) {
+            if(num > i) {
+                temp[i] = items[i];
+            } else if(num <= i){
+                temp[i+1] = items[i];
+            }
+        }
+
+        items = temp;
+    }
+
+    public String toString() {
+        String str = "[";
+        if(items.length > 0) {
+            str += items[0];
+            for (int i = 1; i < items.length; i++) {
+                str += ", " +items[i];
+            }
+        }
+        str+="]";
+        return str;
+    }
+
+    public int size() {
+        return items.length;
+    }
+
+    public int get(int idx) {
+        return items[idx];
+    }
+
+}
+
+------------------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50127:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.MyArrayListTest
+0
+[10, 20, 30, 40]
+[10, 20, 30, 40, 100]
+5
+10
+20
+30
+40
+100
+
+Process finished with exit code 0
+
+
+-----------------------------------------------------------------------
+
+
+
+버블 정렬의 개념!!!!!!!!!!!
+
+버블정렬(bubble Sourt)은 이웃한 두 요소의 대소관계를 비교하여 교환을 반복한다.
+
+1회전
+0번방과 1번방을 확인하고 1번방이 더 작으면 0번방과 스와이핑 아니면 패스
+1번방과 2번방을 확인하고 1번방이 더 작으면 2번방과 스와이핑 아니면 패스
+2번방과 3번방을 확인하고 2번방이 더 작으면 3번방과 스와이핑 아니면 패스
+...............반복 제일큰 값이 마지막에 가 있는다.
+2회전
+0번방과 1번방을 확인하고 1번방이 더 작으면 0번방과 스와이핑 아니면 패스
+1번방과 2번방을 확인하고 1번방이 더 작으면 2번방과 스와이핑 아니면 패스
+2번방과 3번방을 확인하고 2번방이 더 작으면 3번방과 스와이핑 아니면 패스
+...............반복 제일큰 값이 마지막에 가 있는다.
+마지막방은 확인아님 이미 1회전때 넣은 가장 큰수가 있기 때문에...
+
+값이 5개 있으면 총 4번 돈다
+
+
+++++++++++++++++++++++++++
+    public void bubbleSourt(){
+        for (int i = items.length-1; i >0; i--) {
+            for (int z = 0; z < i ; z++) {
+                int sideIdx = z+1;
+                if(items[z] > items[sideIdx]){
+                    int temp = items[z];
+                    items[z] = items[sideIdx];
+                    items[sideIdx] = temp;
+                }
+            }
+        }
+    }
+
+++++++++++++++++++++++++++++++
+MyArrayListTest내용이 너무 많이서 정리를 위해 2추가... 
+
+
+public class MyArrayListTest2 {
+    public static void main(String[] args) {
+        MyArrayList myList = new MyArrayList();
+
+       myList.add(10);
+       myList.add(22);
+       myList.add(4);
+       myList.add(200);
+       myList.add(53);
+       myList.add(96);
+
+       myList.bubbleSourt();
+
+        System.out.println(myList.toString());
+
+    }
+}
+
+------------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50887:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.MyArrayListTest2
+0
+[4, 10, 22, 53, 96, 200]
+
+Process finished with exit code 0
+
+
+--------------------------------------------------------
+
+p.375
+추상클래스 
+객체화 않도록 하는 두가지 방법
+1. 클래스 앞에 abstract 붙여주기  public abstract class AbstractStudy1...
+2. 싱글톤(singleton) 기본생성자 앞에 private 붙여주기 private AbstractStudy1();
+//다중상속 불가능 interface는 가능 
+
+package com.green.java.cho7.abstract2;
+
+public abstract class AbstractStudy1 { //추상클래스는 강제성이 있음 // 객체화를 하지않고 부모로서만 쓰고 싶을때 예를 들어 중력...
+
+    abstract void sum(int n1, int n2); // 추상메서드 // 추상적인것들은 객체화 금지 하기위해 막아주기
+
+    int multi(int n1, int n2) { // 일반 메서드를 가질수 도 있음
+        return n1 * n2;
+    }
+
+}
+
+
+class ChildCalss extends AbstractStudy1 { // 무조건 부모의 추상클래스를 강제로 오버라이딩 하게함
+
+    @Override
+    void sum(int n1, int n2) {
+        System.out.println("합계 : "+ (n1 + n2));
+    }
+}
+
+class Child2Calss extends AbstractStudy1 { //마우스over implyment method클릭
+    @Override
+    void sum(int n1, int n2) {
+        System.out.println("sum : "+ (n1 + n2));
+    }
+
+}
+
+
++++++++++++++++++
+
+package com.green.java.cho7.abstract2;
+
+public class AbstractStudyTest1 {
+    public static void main(String[] args) {
+        // AbstractStudy1 acs1 = new AbstractStudy1(); //추상클래스는 객체화할 수없다.
+
+        AbstractStudy1 acs1 = new ChildCalss();
+        acs1.sum(10,20);
+
+        AbstractStudy1 acs2 = new Child2Calss();
+        acs2.sum(10,20);
+    }
+}
+
+------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50910:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.abstract2.AbstractStudyTest1
+합계 : 30
+sum : 30
+
+Process finished with exit code 0
+
+-----------------------------------------------------
+
+
+p.381
+인터페이스
+New Java Class / Interface / 클래스명
+
+
+Fightable
+
+~~able ~~할 수 있는
+
+public interface Fightable { //interface는 다중 상속 가능!!
+    public abstract void sum(int x, int y); // abstract적을 필요없음 무조건 추상임 기본 생성자 못함..
+    void move(int x, int y); // abstract적을 필요없음 무조건 추상임 기본 생성자 못함..
+}
+
+클래스가 인터페이스를 상속받을때는 implements  구현을 해야하니까
+인터페이스가 인터페이스를 상속받을때는 extends 
+
+
++++++++++++++++++++++++++
+
+
+package com.green.java.cho7.abstract2;
+
+public class Fighter implements Fightable { //마우스over implyment method클릭
+
+    @Override
+    public void sum(int x, int y) {
+        System.out.println("파이터 sum : " + (x + y));
+    }
+
+    @Override
+    public void move(int x, int y) {
+        System.out.printf("좌표 %d, %d 로 이동\n",x,y);
+    }
+}
+
+class Fighter2 implements Fightable { //마우스over implyment method클릭
+
+    @Override
+    public void sum(int x, int y) {
+
+    }
+
+    @Override
+    public void move(int x, int y) {
+        System.out.printf("좌표 %d, %d 로 날아서 이동\n",x,y);
+    }
+}
+
+
+---------------------------
+ch08
+
+예외처리(exception handiling)
+
+사용법..
+
+public class TryCatchStudy1 {
+    public static void main(String[] args) {
+        try {
+            //예외가 발생될 가능성이 있는 로직(source) 위치 
+        } catch (Exception e ) {
+            //예외가 발생되었을 때 하고 싶은 작업(로직) 위치
+        } finally {
+            //옵션, 예외가 발생이 되는 안되는 무조건 실행하고 싶은 로직 위치
+        }
+    }
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+public class TryCatchStudy1 {
+    public static void main(String[] args) {
+
+        try {
+            int r1 = 10 / 0;
+            System.out.println("다음줄");
+            //예외가 발생될 가능성이 있는 로직(source) 위치
+        } catch (Exception e ) {
+            //예외가 발생되었을 때 하고 싶은 작업(로직) 위치
+        } finally {
+            //옵션, 예외가 발생이 되는 안되는 무조건 실행하고 싶은 로직 위치
+        }
+        System.out.println("끝");
+    }
+}
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50976:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy1
+
+끝
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>예외 발생으로 catch (Exception e ) 실행
+
+
+public class TryCatchStudy1 {
+    public static void main(String[] args) {
+
+        try {
+            int r1 = 10 / 0; //예외가 발생 되면 실행되지 않음
+            System.out.println("다음줄"); // 실행되지 않음
+            //예외가 발생될 가능성이 있는 로직(source) 위치
+        } catch (Exception e ) { // 에러캐치
+            e.printStackTrace();
+            System.out.println("예외 발생!");
+            //예외가 발생되었을 때 하고 싶은 작업(로직) 위치
+        } finally {
+            //옵션, 예외가 발생이 되는 안되는 무조건 실행하고 싶은 로직 위치
+        }
+        System.out.println("끝");
+    }
+}
+
+------------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50980:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy1
+java.lang.ArithmeticException: / by zero
+	at com.green.java.ch08.TryCatchStudy1.main(TryCatchStudy1.java:7)
+예외 발생!
+끝
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>예외가 발생하지 않을경우
+
+public class TryCatchStudy1 {
+    public static void main(String[] args) {
+
+        try {
+//            int r1 = 10 / 0; //예외가 발생 되면 실행되지 않음
+            System.out.println("다음줄"); // 실행되지 않음, 확인하지않음
+            //예외가 발생될 가능성이 있는 로직(source) 위치
+        } catch (Exception e ) { // 에러캐치
+            e.printStackTrace();
+            System.out.println("예외 발생!");
+            //예외가 발생되었을 때 하고 싶은 작업(로직) 위치
+        } finally {
+            System.out.println("파이널리");
+            //옵션, 예외가 발생이 되는 안되는 무조건 실행하고 싶은 로직 위치
+        }
+        System.out.println("끝");
+    }
+}
+
+
+--------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50988:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy1
+다음줄
+파이널리
+끝
+
+Process finished with exit code 0
+
+---------------------------------------------------
+
+public class TryCatchStudy2 {
+    public static void main(String[] args) {
+        String str = "123";
+        try {
+            int num = Integer.parseInt(str);
+            System.out.println("num : "+ num);
+
+        } catch (Exception e ) { // 에러캐치
+            e.printStackTrace();
+            System.out.println("예외 발생!");
+
+        } finally {
+            System.out.println("파이널리");
+
+        }
+        System.out.println("끝!");
+    }
+}
+
+---------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=50996:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy2
+num : 123
+파이널리
+끝!
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>에러발생
+
+public class TryCatchStudy2 {
+    public static void main(String[] args) {
+        String str = "1a23";
+        try {
+            int num = Integer.parseInt(str);
+            System.out.println("num : "+ num);
+
+        } catch (Exception e ) { // 에러캐치
+            e.printStackTrace();
+            System.out.println("예외 발생!");
+
+        } finally {
+            System.out.println("파이널리");
+
+        }
+        System.out.println("끝!");
+    }
+}
+
+--------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51002:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy2
+java.lang.NumberFormatException: For input string: "1a23"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.base/java.lang.Integer.parseInt(Integer.java:652)
+	at java.base/java.lang.Integer.parseInt(Integer.java:770)
+	at com.green.java.ch08.TryCatchStudy2.main(TryCatchStudy2.java:7)
+예외 발생!
+파이널리
+끝!
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+에러의 종류..
+예외계의 최상위 부모 Exception
+
+package com.green.java.ch08;
+
+public class TryCatchStudy2 {
+    public static void main(String[] args) {
+        String str = "1a23";
+        try {
+            int num = Integer.parseInt(str);
+            System.out.println("num : "+ num);
+
+        } catch (NumberFormatException e) {
+            System.out.println("넘버포맷 예외 발생");
+        } catch (Exception e ) { // 에러캐치 맨 아래 있어야 한다. 에러의 최상위 부모
+            e.printStackTrace();
+            System.out.println("예외 발생!");
+
+        } finally {
+            System.out.println("파이널리");
+
+        }
+        System.out.println("끝!");
+    }
+}
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51007:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy2
+넘버포맷 예외 발생
+파이널리
+끝!
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>
+
+public class TryCatchStudy2 {
+    public static void main(String[] args) {
+        String str = "1a23";
+        try {
+            int r1 = 10 / 0;
+            int num = Integer.parseInt(str);
+            System.out.println("num : "+ num);
+
+        } catch (ArithmeticException e) {
+            System.out.println("숫자 예외 발생");
+        } catch (NumberFormatException e) {
+            System.out.println("넘버포맷 예외 발생");
+        } catch (Exception e ) { // 에러캐치 맨 아래 있어야 한다. 에러의 최상위 부모
+            e.printStackTrace();
+            System.out.println("예외 발생!");
+
+        } finally {
+            System.out.println("파이널리");
+
+        }
+        System.out.println("끝!");
+    }
+}
+
+----------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51011:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy2
+숫자 예외 발생
+파이널리
+끝!
+
+Process finished with exit code 0
+
+-----------------------------------------------------------------------------
+파이널리에 대해...
+
+public class TryCatchStudy3 {
+    public static void main(String[] args) {
+        int r = div(10, 3);
+        System.out.println("r : " +r);
+    }
+
+    public static int div(int n1, int n2) {
+
+       int r = 0;
+
+       try {
+            r= n1/ n2;
+
+            if(r % 2 == 0) {  return 100; }
+       } catch (Exception e) {
+            e.printStackTrace();
+
+       } finally {
+           System.out.println("파이널리");
+       }
+       return r;
+    }
+}
+
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51024:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy3
+파이널리
+r : 3
+
+Process finished with exit code 0
+
+
+------------------------------------
+
++++++++++++++
+
+    public static void main(String[] args) {
+        int r = div(10, 0);
+        System.out.println("r : " +r);
+    }
+
+-------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51039:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy3
+java.lang.ArithmeticException: / by zero
+	at com.green.java.ch08.TryCatchStudy3.div(TryCatchStudy3.java:14)
+	at com.green.java.ch08.TryCatchStudy3.main(TryCatchStudy3.java:5)
+파이널리
+r : 0
+
+Process finished with exit code 0
+
+
+>>>>>>>>>>>>>>>>
+
+public class TryCatchStudy3 {
+    public static void main(String[] args) {
+        int r = div(10, 5);
+        System.out.println("r : " +r);
+    }
+
+    public static int div(int n1, int n2) {
+
+       int r = 0;
+
+       try {
+            r= n1/ n2;
+
+            if(r % 2 == 0) {  return 100; }
+       } catch (Exception e) {
+            e.printStackTrace();
+
+       } finally {
+           System.out.println("파이널리");
+       }
+       return r;
+    }
+}
+
+----------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51044:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy3
+파이널리
+r : 100
+
+Process finished with exit code 0
+
+
+----------------------------------------------------------
+예외처리로 분기처리?
+
+public class TryCatchStudy4 {
+    public static void main(String[] args) {
+        int type = 1;
+        try {
+            System.out.println("ddd");
+            if( type == 0 ) {
+                throw new Exception("고의로 예외 발생");
+            } else if (type == 1) {
+                throw new ArithmeticException("dd");
+            }
+        } catch (ArithmeticException e) {
+            System.out.println("arithmetic 에러 메시지 : " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("에러 메세지 ; " + e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println("끝!");
+    }
+}
+
+
+------------>
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51079:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy4
+ddd
+arithmetic 에러 메시지 : dd
+끝!
+
+Process finished with exit code 0
+------------------------------------------------------
+
+public class TryCatchStudy5{
+    public static void main(String[] args) {
+        getConnection(); //Alt + Enter
+    }
+
+    public static void getConnection() throws Exception {
+        System.out.println("DB 연결!!");
+    }
+}
+
+//에러!!!!
+
+>>>>>>>// Alt + Enter
+
+public class TryCatchStudy5{
+    public static void main(String[] args) {
+        try {
+            getConnection(); 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getConnection() throws Exception {
+        System.out.println("DB 연결!!");
+    }
+}
+------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51095:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch08.TryCatchStudy6
+DB 연결!!
+
+Process finished with exit code 0
+
+
+------------------------------------
+폭탄돌리기...
+
+public class TryCatchStudy5{
+    public static void main(String[] args) {
+        try {
+            getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getConnection() throws Exception { // throws Exception 던질수도있다 안던질수도있고
+        System.out.println("DB 연결!!");
+    }
+
+    public static void otherGetConnecion()  {
+        getConnection();
+    }
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+public class TryCatchStudy5{
+    public static void main(String[] args) {
+        try {
+            getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getConnection() throws Exception { // throws Exception 던질수도있다 안던질수도있고
+        System.out.println("DB 연결!!");
+    }
+
+    public static void otherGetConnecion() throws Exception {
+        getConnection();
+    }
+}
+
+>>>>>>>>>>>>>>>>>>>>>>예외처리
+
+public class TryCatchStudy5 {
+    public static void main(String[] args) {
+        try {
+            getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getConnection() throws Exception { // throws Exception 던질수도있다 안던질수도있고
+        System.out.println("DB 연결!!");
+    }
+
+    public static void otherGetConnecion() throws Exception {
+        getConnection();
+    }
+
+    public static void otherGetConnecion2() {
+        try {
+            getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+
+
+보충.........
+
+
+
+ForStudy1
+
+ForQuiz1
+ForQuiz2
+
+
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------총 정리
+
+CastingEx1
+
+
+double타입 int로 영면환
+        double d = 85.4;
+        int score = (int)d;
+
+
+        long l1 = 10;
+        float f1 = l1; // float에 long을 담을 수있다... 왜?
+
+상수는 한번 입력된 값이 변하지 않는 수.. final int MAX_NUM = 16;
+리터럴은 값 그 자체
+
+ 
+\로 시작 하는 문자 이스케이프문자? \n
+
+
+문자열 다루기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

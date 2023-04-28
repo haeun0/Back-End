@@ -1,0 +1,552 @@
+//Buyer가 산 목록을 10개까지 저장 할수있게 해주세요
+
+package com.green.java.cho7;
+
+public class PolyArgumentTest2 {
+    public static void main(String[] args) {
+        Buyer3 b = new Buyer3();
+        b.buy(new Tv3());
+        b.buy(new Computer3());
+        b.buy(new Audio3());
+        b.buy(new Audio3());
+        b.printState();
+
+    }
+}
+
+class Buyer3 {
+    private int money;
+    private int bonusPoint;
+    private Product3[] items;
+    private int idx;
+
+    public Buyer3() {
+        this.money = 1000;
+        this.bonusPoint = 0;
+        this.items = new Product3[10];
+        this.idx = 0;
+        printState();
+    }
+
+    public void buy(Product3 p) {
+
+    /*  줄여서
+        int productPrice = p.getPrice();
+        money = money - productPrice;*/
+        items[idx++] = p;
+        money -= p.getPrice();
+        bonusPoint += p.getBonusPoint();
+
+        System.out.printf("%s을(를) %d만원에 구매하였습니다.\n", p.toString(), p.getPrice()); //.toString()생략가능
+
+    }
+
+    public void printState() {
+        System.out.printf("나의 현재 돈은 %,d만원 입니다. 보너스 점수는 %,d점 입니다\n", this.money, this.bonusPoint);
+    }
+
+
+
+}
+
+
+
+
+class Product3 {
+    protected int price;
+    protected int bonusPoint;
+
+    Product3(int price) {
+        this.price = price;
+        this.bonusPoint = (int)(price * 0.1 );
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getBonusPoint() {
+        return bonusPoint;
+    }
+
+}
+
+
+class Tv3 extends Product3 {
+    public Tv3() {
+        super(100);
+    } //생성자... 생성자와 메서드의 다른점??
+
+
+    public String toString() { //toString() Overriding을 위해 만들어줌..? 주소값이 아니라 객체를 출력하기 위해
+        return "Tv";
+    } //오브젝트의 메서드를 오버라이딩
+}
+
+
+class Computer3 extends Product3 {
+    public Computer3() {
+        super(200);
+    }
+
+    public String toString() {
+        return "Computer";
+    }
+}
+
+class Audio3 extends Product3 {
+    public Audio3() {super(50);}
+
+    public String toString() {return "Audio";}
+}
+
+
+--------------->
+
+나의 현재 돈은 1,000만원 입니다. 보너스 점수는 0점 입니다
+Tv을(를) 100만원에 구매하였습니다.
+Computer을(를) 200만원에 구매하였습니다.
+Audio을(를) 50만원에 구매하였습니다.
+Audio을(를) 50만원에 구매하였습니다.
+나의 현재 돈은 600만원 입니다. 보너스 점수는 40점 입니다
+
+Process finished with exit code 0
+
+
+--------------------------------------------------------------------------
+
++++++++++++++++++++++++
+>>>>>>>>>>>>>>>>>>>>>>>
+//구매한 제품명 저장하기
+
+class Buyer3 {
+    private int money;
+    private int bonusPoint;
+    private Product3[] items;
+    private int idx;
+
+    public Buyer3() {
+        this.money = 1000;
+        this.bonusPoint = 0;
+        this.items = new Product3[10];
+        this.idx = 0;
+        printState();
+    }
+
+    public void buy(Product3 p) {
+
+    /*  줄여서
+        int productPrice = p.getPrice();
+        money = money - productPrice;*/
+        items[idx++] = p;
+        money -= p.getPrice();
+        bonusPoint += p.getBonusPoint();
+        
+    /*  좋지않은.. 너무많이 계산해야됨
+        for(int i = 0; i < items.length;i++) {
+            if (items[i] == null) {
+                items[i] = p;
+                break;
+            }
+        }*/
+
+        System.out.printf("%s을(를) %d만원에 구매하였습니다.\n", p.toString(), p.getPrice()); //.toString()생략가능
+
+    }
+
+    public void summary() {
+
+        System.out.print("구입하신 제품은 ");
+        //좋은 퍼포먼스 코드-----------
+        if(idx > 0) {
+            System.out.printf("%s", items[0]);
+            for (int i = 1; i < idx; i++) {
+                System.out.printf(", %s", items[i]);
+            }
+        } 
+        
+    /*  좋지 않은 퍼포먼스 코드------------
+        for (int i = 0; i < idx; i++) {
+            if(i !=0) {
+                System.out.print(", ");
+            }
+            System.out.print(items[i]);
+        }
+    */
+        System.out.printf(" 총 %,d개 입니다\n", idx);
+    }
+
+--------------->
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51511:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.PolyArgumentTest2
+나의 현재 돈은 1,000만원 입니다. 보너스 점수는 0점 입니다
+Tv을(를) 100만원에 구매하였습니다.
+Computer을(를) 200만원에 구매하였습니다.
+Audio을(를) 50만원에 구매하였습니다.
+Audio을(를) 50만원에 구매하였습니다.
+구입하신 제품은 Tv, Computer, Audio, Audio 총 4개 입니다
+나의 현재 돈은 600만원 입니다. 보너스 점수는 40점 입니다
+
+Process finished with exit code 0
+
+
+
+
+-----------------------------------------------------------------
+
+
+ArrayList사용법..
+배열을 여러개 담을 수있는 크기가 정해져있지않음 계속 늘어남
+객체생성, 담을때는 .add, 빼낼때는 list.get(방번호)
+
+메커니즘 추가하려는 배열앞의 배열에 그 다음 주소값을 변경,,,
+변경이 쉬운 대신 검색속도가 느리다 앞의 주소값을 확인하고 확인 확인......
+
+
+
+
+import java.util.ArrayList;
+
+public class ArrayListStudy1 {
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList();
+        list.add(10); //0번방
+        list.add(20); //1번방
+        list.add("ddd");
+
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        System.out.println(list.get(2));
+    }
+}
+
+//ArrayList에 넣고 빼는 방법 
+
+------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51577:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.ArrayListStudy1
+10
+20
+ddd
+
+Process finished with exit code 0
+
+-------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>
+형변환
+
+
+public class ArrayListStudy1 {
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList(); // 빼기 어려우니까 이렇게 쓰면 안된다...
+        list.add(10); //0번방
+        list.add(20); //1번방
+        list.add("ddd");
+
+        Object obj = 10;
+
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        System.out.println(list.get(2));
+        
+        int n1 = (int)list.get(0);
+        int n2 = (int)list.get(1);
+        String str1 = (String)list.get(2);
+    }
+}
+
+
+--------------------------------------------------------------------
+import java.util.ArrayList;
+
+public class ArrayListStudy2 {
+    public static void main(String[] args) {
+
+        ArrayList<Integer> list = new ArrayList<>();
+        //generic 제네릭 int형만 받고 int형으로 뱉어낸다, 형변환 없어도됨
+        //list.add("11");
+        //list.add(10.1);
+        //list.add(true);
+        list.add(10);
+        list.add(13);
+
+        int n1 = list.get(0);
+        System.out.println(list);
+    }
+}
+------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51604:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.ArrayListStudy2
+[10, 13]
+
+Process finished with exit code 0
+
+
+------------------------------------------------------------------------
+
+import java.util.ArrayList;
+
+public class ArrayListStudy3 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+
+        System.out.println(list);
+    }
+}
+
+
+-------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51610:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.ArrayListStudy3
+[10, 20, 30]
+
+Process finished with exit code 0
+
+
+>>>>>>>>>>>>>>>>>
+
+import java.util.ArrayList;
+
+public class ArrayListStudy3 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        System.out.println(list);
+
+        list.add(1, 100); //값을 변경하고싶으면 넣고싶은 곳, 값
+        list.add(0, 300);
+        System.out.println(list);
+    }
+}
+
+------------>
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51618:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.ArrayListStudy3
+[10, 20, 30]
+[300, 10, 100, 20, 30]
+
+Process finished with exit code 0
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+import java.util.ArrayList;
+
+public class ArrayListStudy3 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        System.out.println(list);
+
+        list.add(1, 100); //값을 변경하고싶으면 넣고싶은 곳, 값
+        list.add(0, 300);
+        System.out.println(list);
+
+        int removeValue = list.remove(4); //4번방을 지우고 지운 값을 removeValue에 저장
+        System.out.println("removeValue : " + removeValue);
+        System.out.println(list);
+        System.out.println(list.size());
+    }
+}
+
+--------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51623:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.ArrayListStudy3
+[10, 20, 30]
+[300, 10, 100, 20, 30]
+removeValue : 30
+[300, 10, 100, 20]
+4
+
+Process finished with exit code 0
+
+
+--------------------------------------------------------
+package com.green.java.cho7.ArrayList;
+
+public class MyArrayList {
+    private int[] items;
+
+    public MyArrayList() {
+        items = new int[0];
+        System.out.println(items.length);
+    }
+
+    public void add(int val) {
+        int[] temp = new int[items.length +1];
+        temp[items.length]  = val;
+        for (int i = 0; i < items.length; i++) {
+            temp[i] = items[i];
+        }
+        items = temp;
+    }
+
+    public void add(int num, int val){
+        int[] temp = new int[items.length +1];
+        temp[num] = val;
+        for (int i = 0; i < items.length; i++) {
+            if(num > i) {
+                temp[i] = items[i];
+            } else if(num <= i){
+                temp[i+1] = items[i];
+            }
+        }
+
+        items = temp;
+    }
+
+    public String toString() {
+        String str = "[";
+        if(items.length > 0) {
+            str += items[0];
+            for (int i = 1; i < items.length; i++) {
+                str += ", " +items[i];
+            }
+        }
+        str+="]";
+        return str;
+    }
+}
+
+
+++++++++++++++++++++++++++++
+
+
+public class MyArrayListTest {
+    public static void main(String[] args) {
+        MyArrayList myList = new MyArrayList(); //빼기 어려우니까 이렇게 쓰면 안된다...
+
+        myList.add(10);
+        myList.add(20);
+        myList.add(30);
+
+
+        System.out.println(myList.toString());
+
+
+        myList.add(2, 100);
+        System.out.println(myList.toString());
+    }
+}
+
+------------------>
+
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=52286:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.cho7.ArrayList.MyArrayListTest
+0
+[10, 20, 30]
+[10, 20, 100, 30]
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------정리
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
