@@ -1,0 +1,180 @@
+
+package com.green.java.ch06;
+
+public class MyMethodTest
+
+/*
+
+체인링 기법  .메소드 호출.메소드 호출 
+리턴 메서드일때, 레퍼런스 타입이였을때..? .이 가능하다
+String str = "a_b다_라_마바";
+String r1 = str.trim().replace("_", "*").toUpperCase();
+System.out.println(r1);
+
+*/
+
+
+
+--------------->
+
+A*B다*라*마바
+
+
+-------------------------------------------------------------
+
+package com.green.java.ch06.vendingmachine;
+객체지향적으로 ...
+
+package com.green.java.ch06.vendingmachine;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class VendingMachineObj {
+    private int moeny;
+    private List<Drink> list = new ArrayList<>(); // 더 유연한 부모 List
+
+
+    public void insert(int moeny) {
+        this.moeny += moeny;
+
+    }
+    public void showMoney() {
+        System.out.println("money : " + this.moeny);
+    }
+
+    public VendingMachineObj() {
+        list = new ArrayList<>();
+        list.add(new Drink(1000, "콜라", "코카콜라", 500));
+        list.add(new Drink(1500, "사이다", "칠성", 450));
+        list.add(new Drink(2000, "환타", "코카콜라", 500));
+    }
+
+    public void showMenus() {
+        System.out.println(" 번호 \t 메뉴명 \t 가격 \t 회사 \t 용량 ");
+        int num = 1;
+            for(Drink d : list) {
+                System.out.printf("%d. \t %s \t %,d원 \t %s \t %,dml\n", num++, d.getNm(), d.getPrice(), d.getCompany(), d.getMl());
+            }
+    }
+
+    public void purchaseDrink(int num) {
+        int idx = num -1;
+        this.moeny -= list.get(idx).getPrice();
+        System.out.printf("%s을(를) 구매하였습니다.\n", list.get(idx).getNm());
+
+    }
+
+}
+
+
++++++++++++++++++++++++++++
+package com.green.java.ch06.vendingmachine;
+
+public class VendingMachineObjTest {
+    public static void main(String[] args) {
+        VendingMachineObj vm = new VendingMachineObj();
+        vm.insert(10_000);
+        vm.insert(10_000);
+        vm.insert(10_000);
+
+        vm.showMenus();
+        vm.purchaseDrink(1);
+        vm.purchaseDrink(2);
+        /*
+        번호 \t 메뉴명 \t 가격 \t 회사 \t 용량
+        1. \t 콜라 \t 1,000원 \t 코카콜라 \t 500ml;
+        2. \t 사이다 \t 1,500원 \t 칠성 \t 450ml;
+        3. \t 환타 \t 2,000원 \t 코카콜라 \t 500ml;
+
+        */
+        vm.showMoney();
+
+    }
+}
+
+------------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=56310:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch06.vendingmachine.VendingMachineObjTest
+ 번호 	 메뉴명 	 가격 	 회사 	 용량 
+1. 	 콜라 	 1,000원 	 코카콜라 	 500ml
+2. 	 사이다 	 1,500원 	 칠성 	 450ml
+3. 	 환타 	 2,000원 	 코카콜라 	 500ml
+콜라을(를) 구매하였습니다.
+사이다을(를) 구매하였습니다.
+money : 27500
+
+Process finished with exit code 0
+
+
+-----------------------------------------------------------------------
+
+package com.green.java.blackjack;
+
+
+A 2 3 4 5 6 7 8 9 10  J  Q  K
+1                         11 12 13  ( J,Q,K는 모두 11점 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
