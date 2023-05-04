@@ -1,0 +1,193 @@
+데이터 베이스,,
+
+RDB - Oracle, MS-SQL, MYSQL, MariaDB
+데이타베이스 별로 장단점이 따로 있고 여러개를 쓰기도 한다.
+
+CRUD(Create>insert / Read>selct / Update>update / Delete >delete) DML
+
+POJO(Planin Old Java Object)
+
+정보처리기사
+정보처리기술사
+정보시스템감리사
+정보관리기술사, 컴퓨터시스템응용기술사...
+
+멀티프로세싱?
+c분할 방식?
+여러개의 프로그램을 띄워서 사용하는것
+
+쓰레드?
+한소프트웨어 안에서 비동기적으로 움직이도록 하는것?
+쓰래드가 한개라면 처리단위가한개.. 체스 턴제게임등 한명이 끝나야 다른사람이 움직일수있음
+
+Bootstrap?
+https://getbootstrap.kr/
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+package com.green.java.ch06;
+
+Factorial
+재귀호출 나 자신을 다시 호출하는
+public class FactorialTest {
+    public static void main(String[] args) {
+        int result = factorial(4); // 4*3*2*1
+        System.out.printf("result : %d\n", result);
+
+        // 폴더를 탐색할때
+        // 폴더 안에 폴더안에 폴더안의 폴더 안의 파일명 출력 등등...은 재귀함수로 구현할경우 깔끔하다
+    }
+
+
+-----------------------------
+
+private 값 변경은
+1. 생성자를 통해서
+2. setter를 통해서
+
+----------------------------------------------------------------------------------
+포함은 has a 
+Tv는 Speakr를 가지고 있다, 포함
+class MyTv2 {
+    int channerl;
+    void channerlUp() {
+        channerl++;
+    }
+    void channerlDown() {
+        channerl--;
+    }
+    Speaker speaker;
+
+    MyTv2() {speaker = new Speaker();}
+
+    void volumnUp() {
+        speaker.volumn++;
+    }
+    void volumnDown() {
+        speaker.volumn--;
+    }
+    int getVolumn() {return  speaker.volumn;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

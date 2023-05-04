@@ -1,0 +1,406 @@
+package com.green.java.cho7.abstract2;
+
+public abstract class AbstractStudy1
+
+추상 메서드
+구현부가 없이 선언부만 있는것
+abstract void sum(int n1, int n2);
+추상메서드가 있으면 클래스에도 abstract이 있어야함
+
+
+p.490
+wapper
+
+
+----------------------------------------
+
+throws Exception
+빨간줄 more action
+
+----------------------------------------------------------------------------
+ch09
+Warpper
+
+
+package com.green.java.ch09;
+//p.490
+import java.util.ArrayList;
+
+public class WarpperStudy1 {
+    public static void main(String[] args) {
+        //primitive type >
+        //정수형 > byte shor, int, long
+        //실수형 > float, double
+        //문자형 > char
+        //불린형 > boolean
+
+        // List<int> list = new ArrayList<>(); 불가능
+        Integer i1 = 10;
+        int i2 = 10;
+
+        String s1 = Integer.toString(i2);
+        String s2 = i1.toString();
+
+        System.out.println(i1 == i2);
+
+        Byte b1 = 10;
+        Short sh1 = 10;
+        Long l1 = 10L;
+
+        Float f1 = 10.1f;
+        Double d1 = 10.1;
+
+        Character c1 = 'c';
+        
+    }
+}
+
+-------------->
+
+C:\Users\Administrator\.jdks\azul-11.0.18\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=59628:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath D:\Students\java\out\production\java com.green.java.ch09.WarpperStudy1
+true
+
+Process finished with exit code 0
+
+-------------------------------------------------------------------------
+
+https://mariadb.org/
+Downlad
+Version MariaDB Server 10.11.2
+
+
+
+
+green502
+
+
+Enable access from remote machines for'root' user는 실무라면 선택 X
+
+혹시 지워야할경우..
+appwiz.cpl - mariaDB 제거  필요한경우 remove선택.....
+
+window +r
+cmd검색
+
+
+
+
+--------------------
+옛날 옛적에,,
+mysql --version입력
+C:\Windows\system32>mysql --version
+mysql  Ver 15.1 Distrib 10.11.2-MariaDB, for Win64 (AMD64), source revision cafba8761af55ae16cc69c9b53a341340a845b36
+
+C:\Windows\system32>
+
+C:\Windows\system32>mysql -uroot -p
+Enter password: ********
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.11.2-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]>
+
+Ctrl + c 나가기
+-----------------------------
+
+유저네임 오른쪽 새로생성 데이터베이스
+java선택 쿼리
+
+
+CREATE TABLE t_test(
+
+
+);
+
+-- 예약어를 피하기 위해_
+
+>>>>>>>>>>>>
+
+CREATE TABLE t_test(
+	id BIGINT UNSIGNED auto_increment
+	, nm VARCHAR(100) NOT NULL
+	, age INT NOT NULL
+	, addr VARCHAR(200)
+	, created_at DATETIME DEFAULT NOW()
+	, PRIMARY KEY(id)
+);
+-- 주석
+-- id 컬럼
+-- nm 컬럼
+-- age 컬럼
+.... 
+
+-- ctrl shift F9
+-- BIGINT UNSIGNED 양수만 쓰겠다 
+-- not null 값넣지 않는것을 허용하지 않겠다
+-- DATETIME 날짜와 시간
+-- DEFAULT NOW() 비어있으면 오늘
+-- PRIMARY KEY(id)
+-- AUTO_INCREMENT는 i++??
+------------->
+
+/* 구분자를 ";" 으(로) 변경 */
+/* 127.0.0.1 에 MariaDB or MySQL (TCP/IP) 을(를) 통해 연결 중, 사용자 이름 "root", 암호 사용: Yes… */
+SELECT CONNECTION_ID();
+/* 문자 집합: utf8mb4 */
+SHOW /*!50002 GLOBAL */ STATUS;
+SELECT NOW();
+SHOW VARIABLES;
+/* 연결됨. 스레드-ID: 7 */
+SHOW TABLES FROM `information_schema`;
+SHOW DATABASES;
+/* "Unnamed" 세션 시작 */
+/* 액세스가 거부되었습니다 */
+USE `information_schema`;
+SELECT `DEFAULT_COLLATION_NAME` FROM `information_schema`.`SCHEMATA` WHERE `SCHEMA_NAME`='information_schema';
+SHOW TABLE STATUS FROM `information_schema`;
+SHOW FUNCTION STATUS WHERE `Db`='information_schema';
+SHOW PROCEDURE STATUS WHERE `Db`='information_schema';
+SHOW TRIGGERS FROM `information_schema`;
+SELECT *, EVENT_SCHEMA AS `Db`, EVENT_NAME AS `Name` FROM information_schema.`EVENTS` WHERE `EVENT_SCHEMA`='information_schema';
+SHOW COLLATION;
+SHOW VARIABLES;
+CREATE DATABASE `java` /*!40100 COLLATE 'utf8mb4_general_ci' */;
+SHOW DATABASES;
+/* "Unnamed" 세션 시작 */
+USE `java`;
+SELECT `DEFAULT_COLLATION_NAME` FROM `information_schema`.`SCHEMATA` WHERE `SCHEMA_NAME`='java';
+SHOW TABLE STATUS FROM `java`;
+SHOW FUNCTION STATUS WHERE `Db`='java';
+SHOW PROCEDURE STATUS WHERE `Db`='java';
+SHOW TRIGGERS FROM `java`;
+SELECT *, EVENT_SCHEMA AS `Db`, EVENT_NAME AS `Name` FROM information_schema.`EVENTS` WHERE `EVENT_SCHEMA`='java';
+SHOW ENGINES;
+SHOW CHARSET;
+CREATE TABLE t_test(
+	id BIGINT UNSIGNED auto_increment
+	, nm VARCHAR(100) NOT NULL
+	, age INT NOT NULL
+	, addr VARCHAR(200)
+	, created_at DATETIME DEFAULT NOW()
+	, PRIMARY KEY(id)
+);
+/* 영향 받은 행: 0  찾은 행: 0  경고: 0  지속 시간 1 쿼리: 0.015 초 */
+
+F5...
+
+MariaDB11.jpg
+
+스키마? 컬럼?
+
+	컬럼
+
+로우   ( 레코드 )
+
+틀에 맞춰서.. 
+
+-------------------------------
+
+테이블 날릴 때 쓰는 명령어
+DROP TABLE t_test;
+
+
+----------------------------------
+내용 추가하기
+
+-- Data Definition Language
+CREATE TABLE t_test(
+	id BIGINT UNSIGNED AUTO_INCREMENT
+	, nm VARCHAR(100) NOT NULL
+	, jumin CHAR(9) NOT null
+	, age INT NOT NULL
+	, addr VARCHAR(200)
+	, created_at DATETIME DEFAULT NOW()
+	, PRIMARY KEY(id)
+);
+
+DROP TABLE t_test;
+
+-- Data Mamipulation Language
+-- CRUD
+
+INSERT INTO t_test
+( nm, jumin, age, addr)
+VALUES
+( '신사임당', '9012112', 30, '대구시');
+
+INSERT INTO t_test
+( nm, jumin, age, addr)
+VALUES
+( '홍길동', '9510142', 25, '서울시');
+
+
+---------------------------------------------------- Read (Select문)
+
+-- Read (Select문)
+SELECT * FROM t_test;
+-- *는 all 모든 컬럼을 다뿌리겠다..
+
+SELECT nm, jumin FROM t_test;
+-- nm, jumin만 보여줘
+
+SELECT nm, jumin AS '주민번호' FROM t_test;
+-- 컬럼명 변경...
+
+-------------------
+SELECT문
+WHERE 조건식
+
+SELECT * FROM t_test
+WHERE nm = '홍길동';
+-- 이름이 홍길동인사람만
+
+SELECT * FROM t_test
+WHERE nm = '신사임당'
+AND age > 27;
+-- 이름이 신사임당이면서 나이가 27인사람
+
+SELECT * FROM t_test
+WHERE age = 25 OR age = 27;
+-- 나이가 25이면서 27일사람 없음!
+
+SELECT * FROM t_test
+WHERE age IN (25, 27);
+-- 나이가 25인사람, 27인사람
+
+SELECT * FROM t_test
+WHERE age >= 15 AND age <= 30;
+-- 보다
+SELECT * FROM t_test
+WHERE age BETWEEN 27 and 30;
+-- 나이가 27~30
+
+
+---------------------
+
+like문
+원하는 글 찾을때
+속도가 느림
+
+SELECT * FROM t_test
+WHERE nm LIKE '%사임%';
+-- 글에 사임이 있으면 앞뒤로 뭐가 있든 상관하지 않음
+
+
+---------------------------------------------------------- U (update문)
+수정하는..
+
+-- U (update문)
+
+
+UPDATE t_test
+SET nm = '유관순'
+WHERE id = 2;
+-- 2번째의 이름을 유관순으로 바꾼다
+
+UPDATE t_test
+SET age = 27
+, addr = '부산시'
+WHERE id = 3;
+-- 3번째의 나이와 주소를 바꾼다.
+
+
+
+INSERT t_test
+SET nm = '강감찬'
+, jumin = '971211212'
+, age = 21
+, addr = '경북';
+-- 추가를 한번에? 이것도 가능..
+
+----------------------------------------------------------------- Delete
+
+-- Delete
+
+DELETE FROM t_test
+WHERE id = 4;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
