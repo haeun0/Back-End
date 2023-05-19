@@ -1,0 +1,464 @@
+빈 등록..
+
+@RestController 백엔드만 할때?
+@RequestMapping("/test")  
+@Serevice 로직 담당
+@Autowired
+
+작업의 순서
+Contrller -> Service -> DB
+값은 담아서 객체에 주소값만 보내주는식으로 작업하는게 정신 건강에 좋은....
+
+
+
+Controller
+Serive
+Mapper
+는 기본적으로 들어간다
+
+
+MVC패턴
+- Model
+  persitence? DB, Entity
+- View 
+  화면 F.E 카테고리를 나눈다
+- Controller
+  Mapper?
+
+req -? C -> S -> DB 
+DB -> S -> C -> res -> view?
+
+Entity
+저장경로 테이블과 똑같음?
+테이블에 있는것을 Entity에 넣어주면 된다.
+public class BoardEntity {
+    private int iboard;
+    private String title;
+    private String ctnt;
+    private String writer;
+    private String createdAt;
+    private String updatedAt;
+}
+spring22
+-------------------------------------------------------------------------
+
+// Controller에서는 전달만!
+//생성자를 통한 주입을 사용할것!!
+    private final BoardService service;
+
+    @Autowired
+    public BoardController(BoardService service){
+        this.service = service;
+    }
+
+
+-------------------------------------------------------------------------
+    @PutMapping
+    public void putboard(@RequestBody BoardEntity entity) {
+        System.out.println(entity);
+    }
+
+
+++++++++++++
+
+
+    <update id="upBoard">
+        UPDATE t_board
+        SET title = #{title}
+        , ctnt = #{ctnt}
+        , writer = #{writer}
+        , updated_at = current_timestamp()
+        WHERE iboard = #{iboard}
+    </update>
+
+++++++++++++++++++
+
+@Mapper
+public interface BoardMapper {
+    void insBoard(BoardEntity entity);
+    void updBoard(BoardEntity entity);
+}
+
+-------------------------------------------------------------------------
+생성부터 업데이트까지 한번에 보기
+
+create table t_board(
+    iboard int unsigned auto_increment,
+    title varchar(100) not null,
+    ctnt text not null,
+    writer varchar(10) not null,
+    created_at datetime default current_timestamp(),
+    updated_at datetime default current_timestamp(),
+    primary key (iboard)
+);
+
+select * from t_board;
+
+
++++++++++++++++++++++++++
+
+# db config
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://localhost:3306/board?chacterEncoding=UTF-8&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=green502
+
+# mybatis config
+mybatis.type-aliases-package=com.green.board
+mybatis.mapper-locations=mybatis/mapper/**/*.xml
+
+
+++++++++++++++++++++++++
+
+package com.green.board;
+
+import lombok.Data;
+
+@Data
+public class BoardEntity {
+    private int iboard;
+    private String title;
+    private String ctnt;
+    private String writer;
+    private String createdAt;
+    private String updatedAt;
+}
+
+++++++++++++++++++++++++
+
+
+package com.green.board;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/board")
+public class BoardController {
+    private final BoardService service;
+
+    @Autowired
+    public BoardController(BoardService service){
+        this.service = service;
+    }
+
+
+    @PostMapping
+    public int boradPost(@RequestBody BoardEntity entity) {
+        System.out.println(entity);
+        return service.insBoard(entity);
+    }
+
+    @PutMapping
+    public int putboard(@RequestBody BoardEntity entity) {
+        System.out.println(entity);
+        return service.updBoard(entity);
+    }
+}
+
+
++++++++++++++++++++++
+
+package com.green.board;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface BoardMapper {
+    int insBoard(BoardEntity entity);
+    int updBoard(BoardEntity entity);
+}
+
+
++++++++++++++++++++
+
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.board.BoardMapper">
+    <insert id="insBoard" parameterType="BoardEntity">
+        INSERT INTO t_board
+        (title, ctnt, writer)
+        VALUES
+        (#{title}, #{ctnt}, #{writer})
+    </insert>
+
+    <update id="updBoard">
+        UPDATE t_board
+        SET title = #{title}
+        , ctnt = #{ctnt}
+        , writer = #{writer}
+        , updated_at = current_timestamp()
+        WHERE iboard = #{iboard}
+    </update>
+</mapper>
+
+
+
+++++++++++++++++++++++++
+
+package com.green.board;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BoardService {
+    private final BoardMapper mapper;
+
+    @Autowired
+    public BoardService(BoardMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    public int insBoard(BoardEntity entity) {
+        System.out.println("service-insBoard");
+        return mapper.insBoard(entity);
+    }
+
+    public int updBoard(BoardEntity entity) {
+        System.out.println("service-updBoard");
+        return mapper.updBoard(entity);
+    }
+}
+
+
+
+------------------------------------------------------------------------
+deledte
+path Variable로 수정
+
+    <delete id="delBoard">
+        DELETE FROM t_board
+        where iboard = #{iboard}
+    </delete>
+
+++++++++++++++++++++++++
+
+
+    int delBoard(BoardEntity entity);
+
+++++++++++++++++++++++++
+
+    public int delBoard(BoardEntity entity) {
+        return mapper.delBoard(entity);
+    }
+
+++++++++++++++++++++++++
+
+    @DeleteMapping("/{iboard}")
+    public int delboard(@PathVariable int iboard) {
+        BoardEntity entity = new BoardEntity();
+        entity.setIboard(iboard);
+        return service.delBoard(entity);
+    }
+
+
+
+--------------------------------------------------
+iboard
+title
+ctnt
+writer
+created_at
+updated_at
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

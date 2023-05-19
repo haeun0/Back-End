@@ -1,0 +1,372 @@
+
+-- 05/15
+
+-- pageCnt: 50 (페이지당 글 수) 한페이지에 몇개씩 보여줄 것인가 
+-- cureentPage: 1> limit 0, 50
+-- cureentPage: 2> limit 50, 50
+-- cureentPage: 3> limit 100, 50
+-- cureentPage: 4> limit 150, 50
+-- (cureentPage - 1) * rowCnt 페이징 처리
+
+SELECT *
+FROM t_tborad
+ORDER BY iboard DESC
+LIMIT 0, 50;
+
+-- 가장 나중에 가입한 고객의 pk, 이름, 성 출력
+SELECT customer_id, first_name, last_name 
+from customer
+order by customer_id DESC
+LIMIT 1; 
+
+SELECT customer_id, first_name, last_name
+FROM customer
+WHERE customer_id = (
+	SELECT MAX(customer_id)
+	FROM customer
+);
+
+--------------------------------------------------------------------------
+p.239 상관 서브쿼리 / 비상관 서브쿼리
+상관 서브쿼리는 서브쿼리 안에서 사용
+
+
+-- 도시id, 도시명 > india(인도) 나라가 아닌 나라들의 도시id, 도시명
+
+SELECT city_id, city
+from city
+WHERE country_id != (
+	SELECT country_id
+	FROM country
+	WHERE country = 'india'
+);
+
+
+SELECT A.city_id, A.city
+FROM city A
+INNER JOIN (
+	SELECT country_id
+	FROM country
+	WHERE country = 'india'
+) B
+ON A.country_id != B.country_id; 
+
+-------------------------------------------------
+
+-- Canada, Mexico의 도시id, 도시명을 출력
+
+SELECT city_id, city
+FROM city
+WHERE country_id IN
+(
+	SELECT country_id
+	FROM country
+	WHERE country IN ('canada', 'Mexico')
+);
+
+
+
+--------------------------------------------------------------------------
+
+-- all 연산자 p.230
+SELECT * 
+FROM customer
+WHERE customer_id != ALL 
+(
+	SELECT customer_id
+	FROM payment
+	where amount = 0
+);
+-- NOT IN이랑 비슷?
+
+--------------------------------------------------------------------------
+p.233 다중 열 서브쿼리
+
+
+-- 다중 열 서브쿼리 
+-- 배우 성이 'MONROE'인 사람이 PG 영화등급에 출연했다. 배우id, 영화id가 궁금.
+
+SELECT A.actor_id, C.film_id
+FROM actor A
+INNER JOIN film_actor B
+ON A.actor_id = B.actor_id
+INNER JOIN film C
+ON B.film_id = C.film_id
+WHERE last_name = 'MONROE'
+AND C.rating = 'PG';
+
+
+-- 다중열
+SELECT * FROM actor
+WHERE (first_name, last_name) IN
+		(	
+			SELECT first_name, last_name
+			FROM actor
+			where last_name = 'MONROE'
+		);
+		
+-- 이전에 했던 다중열...
+SELECT * FROM actor
+WHERE (first_name, last_name) IN 
+		(	('CATE','MCQUEEN'),('CUBA','BIRCH')	);
+
+
+
+---------------------------------------------------------------------------
+
+-- case문
+-- 문법
+SELECT 
+	CASE
+	
+	END 
+FROM customer;
+
+-- CASE로 시작, END로 끝난다. 
+>>>>>>>>>>>>>>>
+
+SELECT 
+	active,
+	CASE
+		WHEN active = 1
+		THEN '활성화'
+		ELSE '비활성화'
+	END active_str
+	, if(active = 1, '활성화','비활성화') active_str2
+FROM customer;
+
+-- when then, when then, when then, when then 계속 가능
+-- if는 한번만 가능
+
+
+------------------------
+
+-- 만약 PG, G 전체이용, NC-17  17세 이상, PG-13 13세 이상, R은 청소년관람불가 
+SELECT 
+	*,
+	CASE WHEN rating IN('PG','G') THEN '전체이용'
+		  WHEN rating = 'NC-17' THEN '17세 이상'
+		  WHEN rating = 'PG-13' THEN '13세 이상'
+		  ELSE' 청소년관람불가'
+	END rating_str
+FROM film;
+
+-- 모두 한가지씩 대입시 더깔끔
+SELECT 
+	*,
+	CASE rating WHEN 'PG' THEN '전체이용'
+		    WHEN 'G' THEN '전체이용'
+		    WHEN 'NC-17' THEN '17세 이상'
+		    WHEN 'PG-13' THEN '13세 이상'
+		  ELSE' 청소년관람불가'
+	END rating_str
+FROM film;
+
+----------------------------------------------------------------------------
+-- first_name / last_name / num_rentals ( active = 0 > 0)
+
+SELECT A.first_name, A.last_name, 
+		CASE A.active WHEN '0' THEN '0'
+						  ELSE COUNT(B.rental_id)		
+		END num_rentals
+FROM customer A
+INNER JOIN rental B
+ON A.customer_id = B.customer_id
+GROUP BY A.customer_id;
+
+SELECT A.first_name, A.last_name, 
+		if(A.active = '0', '0', COUNT(B.rental_id)) num_rentals
+FROM customer A
+INNER JOIN rental B
+ON A.customer_id = B.customer_id
+GROUP BY A.customer_id;
+
+
+SELECT first_name, last_name, 
+		CASE WHEN active = '0' THEN '0'
+				ELSE (
+					SELECT COUNT(*) FROM rental
+					WHERE rental.customer_id = customer.customer_id
+			  )		
+		END num_rentals
+FROM customer
+-- select문이 계속해서 실행되서 느릴수있음
+
+
+--------------------------------------------------------------------------
+
+-- rental테이블에서 2005-05 ~ 08월 각 달의 렌탈 수 출력.
+
+SELECT date_format(rental_date, '%Y-%m') mon , COUNT(rental_date) cnt
+FROM rental
+WHERE date_format(rental_date, '%Y-%m') BETWEEN '2005-05' AND '2005-07'
+GROUP BY mon;
+
+-- 화면단, 자바단, DB단 > MVC 패턴
+-- M: Model > DB 
+-- V: View > 프론트 엔드
+-- C: Controller > Java
+
+
+SELECT
+SUM(
+	CASE date_format(rental_date, '%Y-%m') WHEN '2005-05' THEN 1 ELSE 0 END
+) may_rentals	
+, SUM(
+	CASE date_format(rental_date, '%Y-%m') WHEN '2005-06' THEN 1 ELSE 0 END
+) june_rentals	
+, SUM(
+	CASE date_format(rental_date, '%Y-%m') WHEN '2005-07' THEN 1 ELSE 0 END
+) july_rentals	
+
+FROM rental
+WHERE date_format(rental_date, '%Y-%m') BETWEEN '2005-05' AND '2005-07';
+
+
+----------------------------------------------------------------------
+p.287 트랜잭션
+계좌이체.. 
+여러가지의 업무를 한개로 보자!
+AND 중간에 한개라도 에러가 터지면 다시 돌리겠다
+오토커밋을 끄고 마지막에 에러가 없을경우에 커밋을 해준다.
+
+다중 사용자 데이터 베이스
+
+-- autocommit 끄기
+SET autocommit = 0;
+
+INSERT INTO person
+(person_id, fname, lname, birth_date, eye_color)
+VALUES
+(4, '테스트', '김', '2030-05-15', 'BR');
+
+SELECT * FROM person;
+
+-- 실행한것 돌리기
+ROLLBACK;
+
+-- 실행 커밋하기
+COMMIT;
+
+-----------------------------------------------------------------------
+p.295  스토리지엔진 테이블의 성격
+MyiSAM: 테이블 잠금을 사용하는 넌트랙션 엔진
+InooDB: 행 수준 잠금을 사용하는 트랜잭션 앤진
+
+-- 확인하려면
+테이블 </> CREATE코드
+
+
+-----------------------------------------------------------------------
+p.299 인덱스
+
+탐색이 빨라짐
+실제 순서가 바뀌는게 아니라 
+내부 테이블이 마련되고 순서대로 정렬된다 
+정리된 중간부터 확인하고 찾는 값이 아니면 그 위로 확인X
+AND 나머지에서 정리된 중간부터 확인하고 찾는 값이 아니면 그 위로 확인X
+이름을 찾는다거나 숫자를 찾을때등..?
+ 
+기본적으로 pk걸리는 3가지
+id값(pk), 인덱스값, 유니크
+
+pk에 절때 안들어가는 값 
+NULL
+
+DB에서 제약조건을 거는 이유는...
+잘못된 값이 들어가지 않도록 
+
+
+-----------------------------------------------------------------------
+p.317 뷰
+
+내가 작성한 쿼리문을 저장해뒀다가 쓰기
+예를 들면 Short URL
+
+-- 뷰 문법 
+CREATE VIEW 쓰고 싶은 뷰이름 AS 쿼리
+
+-- 쓰고 싶을 경우
+SELECT * FROM view_test_1;
+
+-- 지우고 싶을 경우
+DROP VIEW view_test_1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

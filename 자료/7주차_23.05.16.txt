@@ -1,0 +1,357 @@
+https://mangkyu.tistory.com/28
+정규화 정리 참고
+
+정규화(Normalization)란? 정규화 예시,1NF, 2NF,3NF, BCNF
+
+정규화는 이상현상이 있는 릴레이션을 분해하여 이상현상을 없애는 과정이다.
+이상현장이 릴레이션을 분해하여 여러 개의 릴레이션을 생성하게 된다. 
+이를 단계별로 구분하여 정규형이 높아질수록 이상현상은 줄어들게 된다.
+
+정규화의 장점
+- 데이터베이스 변경시  이상 현상을 제거할 수있다.
+- 정규화된 데이터 베이스 구조에서는 새로운데이터형의 출고 인한 확장 시, 
+   그 구조를 변경하지 않아도 되거나 일부만 변경해도된다
+
+정규화의 단점
+- 릴레이션의 분해로 릴레이션간의 JOIN연산이 많아진다.
+
+제 1정규형1NF
+1. 각 칼럼이 하나의 값(속성)만을 가져야 한다.
+2. 하나의 컬럼은 같은 종류나 타입(type)의 값을 가져야한다.
+각 컬럼이 유일한(unique) 이름을 가져야한다.
+칼럼의 순서가 상관없어야한다.
+
+
+제2 정규형 2NF
+1. 1정규형을 만족해야한다.
+2. 모든 컬럼이 부분적 종속이 없어야한다.
+
+제3 정규형 3NF
+1. 2정규형을 만족해야한다.
+2. 기본키를 제외한 속성들간의 이행 종속성으 
+
+
+---------------------------------------------------------------------------
+
+N:N은 테이블이 무조건 3개 나온다
+사람의 테이블 취미의 테이블 사람과 취미의 테이블
+
+
+
+---------------------------------------------------------------------------
+-- 05/16
+테이블 생성 해보기
+
+CREATE TABLE t_deal(
+	id INT UNSIGNED AUTO_INCREMENT,
+	deal_date DATE NOT NULL,
+	price INT UNSIGNED NOT NULL DEFAULT 0,
+	PRIMARY KEY (id)
+);
+
+-- 생성된 테이블 수정
+ALTER TABLE t_deal MODIFY price INT NOT NULL DEFAULT 0;
+
+DROP TABLE t_deal_sub;
+
+CREATE TABLE t_deal_sub(
+	deal_id INT UNSIGNED,
+	seq INT UNSIGNED,
+	provider_cd CHAR(1) NOT NULL,
+	parts_id INT UNSIGNED NOT NULL,
+	quantity INT UNSIGNED NOT NULL,
+	PRIMARY KEY(deal_id, seq),
+	FOREIGN KEY(deal_id) REFERENCES t_deal(id),
+	FOREIGN KEY(provider_cd) REFERENCES t_provider(cd),
+	FOREIGN KEY(parts_id) REFERENCES t_parts(id)
+);
+
+SELECT *FROM t_deal_sub;
+
+CREATE TABLE t_provider(
+	cd CHAR(1) PRIMARY KEY,
+	nm VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE t_parts(
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nm VARCHAR(10) NOT NULL,
+	price INT UNSIGNED NOT NULL 
+);
+
+
+INSERT INTO t_provider
+(cd, nm)
+VALUE
+('A','알파'),
+('B','브라보'),
+('C','찰리');
+
+
+INSERT INTO t_parts
+(nm, price)
+VALUE
+('모니터', 200000),
+('마우스', 10000),
+('키보드', 30000);
+
+
+INSERT INTO t_deal
+(deal_date)
+VALUES
+( '2023-10-20'),
+( '2023-10-20'),
+( '2023-10-22');
+
+ 
+INSERT INTO t_deal_sub
+( deal_id, seq ,provider_cd, parts_id, quantity )
+VALUES
+( 1, 1, 'A', 1, 10 ),
+( 1, 2, 'B', 2, 10 ),
+( 1, 3, 'C', 3, 10 ),
+( 2, 1, 'A', 1, 20 ),
+( 2, 2, 'B', 2, 10 ),
+( 3, 1, 'A', 2, 30 ),
+( 3, 2, 'C', 3, 5 );
+
+
+SELECT * from t_deal_sub;
+
+ 
+UPDATE t_deal A
+INNER JOIN (
+	SELECT A.deal_id, SUM(A.quantity * C.price) calc_price
+	FROM t_deal_sub A
+	INNER JOIN t_parts C
+	ON A.parts_id = C.id
+	GROUP BY A.deal_id
+) B
+ON A.id = B.deal_id
+SET A.price = B.calc_price;
+-- JOIN걸어서 업데이트하기, 고오급 업데이트
+
+
+-- DB43, _2
+-- 연습문제랑 같이 보이도록
+SELECT A.deal_id '전표번호', date_format(B.deal_date, '%m/%d') '날짜', 
+		D.cd '공급자', D.nm '공급자명', C.nm '부품명', 
+		C.price '단가', A.quantity '수량', A.quantity * C.price '금액'
+from t_deal_sub A
+INNER JOIN t_deal B
+ON A.deal_id = B.id
+INNER JOIN t_parts C
+ON C.id = A.parts_id
+INNER JOIN t_provider D
+ON D.cd = A.provider_cd
+ORDER BY A.deal_id, A.seq;
+
+
+------------------------------------------------------------------------
+
+ERD
+데이터 도식화?
+무료 사이트
+https://app.diagrams.net/
+
+
+1:N
+END1
+
+도식화
+END2
+
+
+파일 > 배포 > 링크
+
+---------------------------------------------------------------------------
+lorem ipsum
+
+lorem picsum
+https://picsum.photos/200/300
+/가로/세로
+
+
+
+JSON
+List Images
+
+[
+    {
+        "id": "0",
+        "author": "Alejandro Escamilla",
+        "width": 5616,
+        "height": 3744,
+        "url": "https://unsplash.com/...",
+        "download_url": "https://picsum.photos/..."
+    }
+]
+
+
+https://picsum.photos/v2/list
+
+{"id":"0","author":"Alejandro Escamilla","width":5000,"height":3333,"url":"https://unsplash.com/photos/yC-Yzbqy7PY","download_url":"https://picsum.photos/id/0/5000/3333"},
+
+
+햄거버 > 도구 > 확장 프로그램 > 햄버거 > Chrome 웹 스토어
+jason formatter 검색 > 크롬에 추가
+
+
+>>>>>>>>>>>>>
+
+{
+"id": "0",
+"author": "Alejandro Escamilla",
+"width": 5000,
+"height": 3333,
+"url": "https://unsplash.com/photos/yC-Yzbqy7PY",
+"download_url": "https://picsum.photos/id/0/5000/3333"
+}
+
+
+자바스크립트에서(JSON표기법)
+[ ] 배열
+{ } 객체
+" " 속성명
+: " " 키값, value
+, 구분
+
+
+------------------------------------------------------------------------
+JO -> JSON -> 통신 -> JSON -> JO -> DB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

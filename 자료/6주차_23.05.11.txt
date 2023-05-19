@@ -1,0 +1,463 @@
+INNER JOIN : 너도 있고 나도있는것만, 교집합?
+LEFT JOIN : from에 나오는것은 다 나옴 but join에 값이 없으면 null, 순서 중요!
+
+
+-- 05/11
+
+DB34_2_3_4
+SELECT 1 as num, 'abc' as str
+union
+SELECT 9 as num, 'xyzaa' as str;
+
+-- union은 기본적으로 중복 제거
+-- 컬럼개수가 같아야 합칠수있다.
+
+>>>>>>>>>>>>>>>>>>>>>
+
+SELECT 1 as num, 'abc' as str
+UNION all
+SELECT 9 as num, 'xyzaa' as str
+UNION all
+SELECT 1 as num, 'abc' as str;
+
+-- 중복 제거를 하지 않겠다
+
+>>>>>>>>>>>>>>>>>>>>
+
+SELECT 1 as num, 1 as str
+UNION all
+SELECT 9 , 'xyzaa'
+UNION all
+SELECT 1 , 1;
+
+-- 무조건 위에 있는 컬럼명을 가져감 안넣어도됨
+
+-------------------------------------------------------------------------
+-- 고객의 이름, 성/ 배우의 이름, 성 같이 띄워 부세요 union 이용
+
+SELECT first_name, last_name
+FROM customer
+UNION
+SELECT first_name, last_name
+FROM actor;
+
+>>>>>>>>>>>>>>>>>>>
+
+SELECT 'customer' as typ, first_name, last_name
+FROM customer
+UNION
+SELECT 'actor', first_name, last_name
+FROM actor
+ORDER BY first_name;
+
+--------------------------------------------------------------------------
+-- 배우, 고객 둘다 이름이(fnm) J or D로 시작하는 사람 리스트
+
+SELECT first_name, last_name
+FROM customer
+WHERE first_name REGEXP '^[JD]'
+UNION
+SELECT first_name, last_name
+FROM actor
+WHERE first_name REGEXP '^[JD]';
+
+SELECT * FROM (
+	SELECT first_name, last_name
+	FROM customer
+	UNION
+	SELECT first_name, last_name
+	FROM actor) A
+WHERE first_name REGEXP '^[JD]';
+
+
+--------------------------------------------------------------------------
+-- customer와 actor 둘다 있는 이름
+SELECT A.first_name, A.last_name 
+FROM(
+	SELECT 'customer' as typ, first_name, last_name
+	FROM customer
+	WHERE first_name REGEXP '^J' AND last_name REGEXP '^D'
+	union
+	SELECT 'actor', first_name, last_name
+	FROM actor
+	WHERE first_name REGEXP '^J' AND last_name REGEXP '^D'
+) A
+GROUP BY A.first_name, A.last_name
+HAVING COUNT(1) > 1;
+
+
+-- customer와 actor에서 곂치지 않는 이름
+SELECT A.first_name, A.last_name 
+FROM(
+	SELECT 'customer' as typ, first_name, last_name
+	FROM customer
+	WHERE first_name REGEXP '^J' AND last_name REGEXP '^D'
+	union
+	SELECT 'actor', first_name, last_name
+	FROM actor
+	WHERE first_name REGEXP '^J' AND last_name REGEXP '^D'
+) A
+GROUP BY A.first_name, A.last_name
+HAVING COUNT(1) = 1;
+
+
+--------------------------------------------------------------------------
+p.163
+-- 6.5.2
+SELECT 'customer' as typ, first_name, last_name FROM actor
+WHERE last_name REGEXP '^L'
+UNION
+SELECT 'actor', first_name, last_name FROM customer
+WHERE last_name REGEXP '^L';
+
+
+-- 6.5.3
+SELECT 'customer' as typ, first_name, last_name FROM actor
+WHERE last_name REGEXP '^L'
+UNION
+SELECT 'actor', first_name, last_name FROM customer
+WHERE last_name REGEXP '^L'
+ORDER BY last_name;
+
+
+-------------------------------------------------------------------------
+ch07 데이터 생성, 조작과 변환
+p.165
+
+
+ansi모드....?
+
+
+
+
+CREATE TABLE string_tbl(
+	char_fld CHAR(30),
+	vchar_fld VARCHAR(30),
+	text_fld text
+);
+
+INSERT INTO string_tbl
+( char_fld, vchar_fld, text_fld )
+VALUES
+(
+	'This is char data',
+	'This is varchar data',
+	'This is text data'
+);
+
+SELECT * FROM string_tbl;
+
+UPDATE string_tbl
+SET vchar_fld = 'This is a piece of extremely long varchar data';
+
+UPDATE string_tbl
+SET text_fld = 'This string didn''t WORK, but it does now';
+UPDATE string_tbl
+SET text_fld = 'This string didn\'t WORK, but it does now';
+-- 텍스트 필드에 홑따옴표 넣기
+
+SELECT @@SESSION.sql_mode;
+-- 개인용 쎄션? 개인공간
+
+SET sql_mode = 'ansi';
+-- 모드 변경 'strict'등
+
+SHOW WARNINGS;
+
+-- pageContext 개인
+-- request 개인
+-- session 개인
+-- appication 공용
+
+---------------------------
+
+SELECT *, QUOTE(text_fld) FROM string_tbl;
+
+UPDATE string_tbl
+SET text_fld = 'This s\'tring didn''t WORK, but it does now';
+-- 'This s\'tring didn''t WORK, but it does now' 로 표기됨
+-- 이스케이프 문자까지 다 보여줌
+
+--------------------------------------------------------------------------
+-- DB에서는 가공 왠만하면 하지마라....
+SELECT lname, fname, CONCAT(lname, ' ', fname)
+FROM person;
+
+
+--------------------------------------------------------------------------
+p.193 문자열 조작
+
+DB35
+SELECT lname, CHAR_LENGTH(lname)
+FROM person;
+-- LENGTH( )말고 CHAR_LENGTH( ) 유니코드에 적합
+
+
+--------------------------------------------
+
+DB36
+SELECT lname, POSITION('ur' IN lname)
+FROM person;
+-- person의 lname에서  ur이 몇개인지 찾아줘 
+
+DB38
+SELECT text_fld, POSITION('n' IN text_fld)
+FROM string_tbl;
+-- string_tbl 에서 n이 몇번째인지 찾아줘
+
+>>>>>>>>>>>>>>>>>>>>>>>
+
+SELECT text_fld, POSITION('n' IN text_fld), LOCATE('n',text_fld, 12)
+FROM string_tbl;
+-- 12번째 뒤에서 부터 n을 찾아줘
+
+------------------------------------------
+DB39
+SELECT '안녕' = '안녕'
+		, 'abc' = 'ABC'
+		, 'abc' = 'cba'
+		, STRCMP('ABC', 'ABCC')
+		, STRCMP('abc', 'ac'); 
+
+
+
+--------------------------------------------------------------------------
+
+
+SELECT NAME, NAME LIKE '%y', NAME REGEXP '^[C]' FROM category;
+-- if 문이나 case문에서 더 배울 예정
+
+
+--------------------------------------------------------------------------
+
+-- fname중에 BA를 전부다 DA로 바꾸겠다.
+-- 실제로 바꾼건 아님 바꾸려면 update문 필요!
+SELECT first_name, REPLACE(first_name, 'BA', 'DA') FROM customer;
+
+
+-------------------------------------------------------------------------
+-- 이름에서 PH > TH 바꾸고, NI > NA ==> STECHANAE
+-- REPLACE안에 REPLACE....
+SELECT first_name, REPLACE(REPLACE(first_name, 'PH', 'TH'), 'NI', 'NA')
+FROM customer;
+
+
+-------------------------------------------------------------------------
+-- insert 사용해서 문자열 삽입하기
+SELECT 'goodbye world', INSERT('goodbye world', 9, 0, 'cruel ');
+
+
+-------------------------------------------------------------------------
+-- 영화제목 빈간에 NICE 추가해 주세요
+SELECT title, INSERT(title, POSITION(' ' in title), 0,' NICE') 
+FROM film;
+
+------------------------------------------------------------------------
+-- SUBSTRING, SUBSTRING, SUBSTR
+SELECT email, SUBSTRING(email, 3), SUBSTRING(email, 3, 6), SUBSTR(email, 3, 3)
+FROM customer;
+
+
+-- 사용자 이메일 쪼개서 @ 기준으로 아이디 / 도메인
+SELECT email, 
+SUBSTR(email, 1 , POSITION('@' IN email)-1) AS email_id, 
+SUBSTRING(email, POSITION('@' IN email)+1) AS domain
+FROM customer;
+
+
+------------------------------------------------------------------------
+-- 숫자
+SELECT (38 * 59) / (78 - (8 * 6));
+-- 연산가능
+
+SELECT MOD(9, 2);
+-- 나머지 1
+
+SELECT TRUNCATE(1123.3456, 1);
+-- 실수를 몇자리까지 보여줄것인지
+
+
+
+SELECT TRUNCATE(1123.3456, 1), ABS(-10), ABS(10);
+-- ABS는 절대값??
+
+------------------------------------------------------------------------
+-- 현재 시각, 날짜
+SELECT NOW(), CURRENT_DATE(), CURRENT_TIME(), CURRENT_TIMESTAMP();
+
+-- 현재 날짜로부터 5일뒤
+SELECT date_add(CURRENT_DATE(), INTERVAL 5 DAY);
+
+-- 현재로 부터 '01:27:11' 시간 뒤
+SELECT DATE_ADD(NOW(), INTERVAL '01:27:11' HOUR_SECOND);
+
+DB40
+-- 문자열을 날자열로 형변환
+SELECT CAST('2023-05-11 16:46:30' AS DATETIME), 
+CONVERT('2023-05-11 16:46:30', DATETIME);
+
+
+
+------------------------------------------------------------------------
+-- 1953-09-02 > 1955-10-02
+SELECT * FROM employees
+WHERE emp_no = 10001;
+
+UPDATE employees
+SET birth_date = DATE_ADD(birth_date, interval '2-1' YEAR_MONTH)
+WHERE emp_no = 10001;
+
+
+------------------------------------------------------------------------
+DB41
+SELECT 
+	CURDATE()
+	, SYSDATE()
+	, WEEKDAY(NOW()) -- 월(0), 화(1), 수(1), 목(3), 금(4), 토(5), 일(6)
+	, DAYNAME(NOW())
+	, LAST_DAY(NOW()) -- 그 달의 마지막 일
+	, LAST_DAY('2023-06-11')
+	, DATE_SUB(NOW(), INTERVAL '2' YEAR)
+	, EXTRACT(YEAR FROM NOW()) -- 정보 뽑아내기 YEAR, month, day등..
+	, DATEDIFF('2023-09-20', '2023-05-11') -- d-day?
+	;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
