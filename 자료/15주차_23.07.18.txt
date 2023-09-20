@@ -1,0 +1,35 @@
+        <![CDATA[
+        
+
+        ]]>
+
+
+
+SELECT A.itodo, group_concat(A.repeat_day SEPARATOR ',') repeat_day
+FROM p_day A
+INNER JOIN p_todo B
+ON A.itodo = B.itodo
+GROUP BY A.itodo;
+
+
+itodo /  repeat_day
+1      /   6
+3      /   5,4,3,2,1,0,6
+5      /   5,3,0
+
+
+---------->
+SELECT C.itodo, C.ctnt, C.deadline_date deadlineDate, DATE_FORMAT(C.deadline_time, '%H:%i') deadlineTime, C.finish_yn finishYn, D.repeat_day repeatDay
+, E.nick_nm,E.nm 
+FROM p_todo C
+INNER JOIN(
+SELECT A.itodo, group_concat(A.repeat_day SEPARATOR ',') repeat_day
+FROM p_day A
+INNER JOIN p_todo B
+ON A.itodo = B.itodo
+GROUP BY A.itodo
+) D
+ON C.itodo = D.itodo
+INNER JOIN p_plant E
+ON E.iplant = C.iplant
+WHERE DATE_FORMAT(C.deadline_date, '%Y-%m') <= '2023-07';

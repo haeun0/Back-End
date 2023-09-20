@@ -1,0 +1,138 @@
+2차 때 피드백 받은거 녹이기
+데이터 베이스에서 crud 녹이기
+소셜 로그인
+
+2차 피드백
+반응형...강요는 아님 하면 좋은거
+
+레스트 풀한 주소값..
+주소값에 메소드 들어가면 안됨
+(post, get등으로 처리..?)
+ 
+서비스 대상 쫌더 넓게..
+
+토큰 사용기간 
+길어봤자 3시간 정도로
+
+비밀번호 수정, 에디터 부분
+
+
+
+_________________________________________________________________________________________________________________
+
+
+
+@Entity
+// 테이블 이름
+@Table(name="T_USER", 
+//DB의 중복된 조건 막기 unique
+uniqueConstraints = { @UniqueConstraint(name = "unique_tuser_provider_uid", columnNames = {"provider_type", "uid"})})
+
+// extendx로 중복 줄이기
+public class UserEntity extends BaseEntity
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+자동으로 만들어줌..
+
+package com.green.greengram.feed;
+
+import com.green.greengram.common.entity.FeedEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface FeedRepository extends JpaRepository<FeedEntity, Long> {
+
+    //jpql, QueryDSL, NativeSQL
+    List<FeedEntity> findByLocationAndIuser(String location, Long iuser);
+}
+
+
+SELECT * FROM f_feed
+WEHRE locateion=? and iuser =?
+
+
+where의 서브쿼리는 되는데,
+from절에서 서브쿼리는 안됨...? 
+-------------------------------------------------------------------------------------------------------------------------------
+github.com/sbsteacher
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+캐시기능때문에 퍼포먼스를 올리기 위해 있는..
+캐시+관리
+
+
+비영속 -- 비영속상태의 친구를 세이브하면 insert
+영속 -- 영속상태의 친구를 세이브하면 update
+준영속 -- 영속이었다가 풀린 애
+삭제 -- 아예 매니저가 삭제한애 =비영속?
+
+insert는 save..
+entity가 필요하다
+feed를 사용하려면 feedentity와 feedrepository사용
+
+유저
+캠핑 예약
+소셜로그인
+문의 게시판
+지역지도
+
+관리자 사이트
+차트(방문자 현황,  )
+상점관리(배송)
+아이템관리(카테고리, 아이템, 재고관리 )
+게시판 관리(게시판 관리, 게시물 관리)
+
+
+상점관리(배송)
+배송( http://1004web.kr/index.php?mid=board_HJSp58&page=2&document_srl=7794 )
+- 배송/ 반품 설정
+- 지역별 배송비 설정?
+
+
+
+
+
+아이템관리(카테고리, 아이템, 재고관리 )
+아이템
+- 상품명
+- 판매가
+- 상품이미지
+- 카테고리 선택
+- 재고
+- 판매중인지 아닌지 선택(진열상태 : 진열함or 진열안함 / 아이템 노출관리)
+- del_yn
+
+-- 아이템 재고관리에 재고 수량, 품절표시
+
+
+
+추천 상품관리 참고
+http://1004web.kr/index.php?mid=board_HJSp58&page=2&document_srl=7808
+
+
+
+
+게시판 관리(게시판 관리, 게시물 관리)
+기세판 목록
+게시판 유형
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

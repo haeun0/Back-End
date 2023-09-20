@@ -1,0 +1,221 @@
+반복하는데
+월, 수 
+최초 등록 때 반복 처리를 할꺼다
+
+어떻게?
+
+e팀 - 그 날이 되어야 반복한것이 보이도록 함
+
+해보려는것 - 그 날이 되지 않아도 반복이 보이도록( 인서트가 아닌.. )
+
+
+1. 달의 한페이지 가져 오기(주로 짤라서 6월 25~30일, 8월 1~5일) --> 0일, 1월, 2화 ,3수, 4목, 5금, 6토 // 23년 5월 6-1
+자바에서 가져온거 add 해서 return 시켜줌
+그러면 그것을 가지고 프론트에서 점을 찍을 수 있도록한다
+>>>>>>>>>>>>
+
+
+    @GetMapping("/list")
+    @Operation(summary = "캘린더에 표시할 전체 Todo리스트 정보", description = "finishYn =0(완료되지 않은 투두), delYn=0(삭제되지 않은 투두)만 출력")
+    public List<TodoVo> getTodoAll() {
+        return SERVICE.getTodoAll();
+    }
+
+
+
+토요일 / 월요일
+
+요일값 구하기
+_________________________________________________________________________________________________
+
+TDD...
+
+
+
+#구분선 꼭 필요!!
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mariadb://192.168.0.62:3306/todo_haeun_test
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:init/schema.sql
+      data-locations: classpath:init/data.sql
+
+#셋팅을 할 때
+#없는 부분은 추가 되고
+#있는 부분은 변경된다
+
+
+
+--------------------------------------------------------------------------------------------
+슬라이스 테스트...
+
+
+1. Mapper 추가
+
+2. MapperTEST 추가
+
+3. Mapper.xml 추가 
+
+4. 테스트(원하는 내용이 나오는지 확인)
+
+
+--------------------------------------------------------------------------------------------
+1. Mapper 추가
+package com.green.todotestapp;
+
+import com.green.todotestapp.model.TodoInsDto;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface TodoMapper {
+    int insTodo(TodoInsDto dto);
+}
+
+
+
+1-1. 추가
+package com.green.todotestapp.model;
+
+import lombok.Data;
+
+@Data
+public class TodoInsDto {
+    private Long itodo;
+    private String ctnt;
+    private String pic;
+}
+
+
+2. MapperTEST 추가
+package com.green.todotestapp;
+
+import com.green.todotestapp.model.TodoInsDto;
+import org.junit.jupiter.api.Test;
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@MybatisTest
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class TodoMapperTest {
+
+    @Autowired
+    private TodoMapper mapper;
+
+    @Test
+    void insTodo() {
+        TodoInsDto dto1 = new TodoInsDto();
+        dto1.setCtnt("테스트1");
+        dto1.setPic("main.jpg");
+
+        int result1 = mapper.insTodo(dto1);
+        assertEquals(1, result1);
+        assertEquals(2, dto1.getItodo());
+
+        //------------------------------------
+        
+        TodoInsDto dto2 = new TodoInsDto();
+        dto2.setCtnt("테스트2");
+
+        int result2 = mapper.insTodo(dto2);
+        assertEquals(1, result2);
+        assertEquals(2, dto2.getItodo());
+
+    }
+}
+
+3. Mapper.xml 추가 
+    <insert id="insTodo" useGeneratedKeys="true" keyProperty="itodo" >
+        INSERT INTO t_todo
+        SET ctnt = #{ctnt}
+    </insert>
+
+
+4. 테스트(원하는 내용이 나오는지 확인)
+
+(
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:init/schema.sql  스키마 참조?
+
+DROP TABLE IF EXISTS `t_todo`;
+
+CREATE TABLE IF NOT EXISTS `t_todo` (
+    `itodo` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `ctnt` varchar(100) NOT NULL,
+    `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+    `del_yn` tinyint(4) DEFAULT 0 CHECK (`del_yn` in (0,1)),
+    `pic` varchar(100) DEFAULT NULL,
+    `finish_yn` tinyint(4) DEFAULT 0 CHECK (`finish_yn` in (0,1)),
+    `finished_at` datetime DEFAULT NULL,
+    PRIMARY KEY (`itodo`)
+    );
+
+      data-locations: classpath:init/data.sql
+
+INSERT INTO `t_todo`
+    (`itodo`, `ctnt`, `created_at`, `del_yn`, `pic`, `finish_yn`, `finished_at`)
+VALUES
+   (1, '첫번째', '2023-06-13 16:56:30', 0, NULL, 0, NULL),
+   (2, '두번째', '2023-06-13 16:56:37', 0, NULL, 0, NULL),
+   (3, '세번째', '2023-06-13 16:56:42', 0, NULL, 0, NULL),
+   (4, '네번째', '2023-06-13 16:56:47', 0, NULL, 1, '2023-06-13 17:21:44');
+
+ 실제로 인서트 하지 않음
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

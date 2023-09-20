@@ -1,0 +1,286 @@
+글쓰기 에디터...
+
+이미지처리 방식은 두가지 
+1. local 
+2. upload
+
+
+순서
+1. 글쓰기를 누르는순간 보드 insert(PK를 얻기 위해서)
+등록하는순간 생성된 PK를 반환 
+
+2. 사진을 업로드 하면 받은 PK로 이미지 업로드
+
+3.
+< 취소를 누르는 순간 보드, 이미지 다 같이 삭제 처리>
+< 저장을 누르면 update로 처리>
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+todoTestApp에
+package com.green.todotestapp.utils;에서
+
+
+    //폴더 삭제
+    public static void delFolder(String path) {
+        File file = new File(path);
+        if(file.exists() && file.isDirectory()) { // 존재하는지 체크 && 그게 디렉토리인지 확인
+            File[] fileArr = file.listFiles();
+            for(File f : fileArr) {
+                // 디렉토리인지 확인 아니면 삭제를 반복 디렉도리가 맞다면 (String path)로 들어감
+                if(f.isDirectory()) { // 재귀처리
+                    delFolder(f.getPath());
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        file.delete(); // 다 삭제 되었으면 파일 삭제
+    }
+
++++++++++++++++++++++++++++++++++++++
+
+package com.green.todotestapp;
+
+import com.green.todotestapp.utils.MyFileUtils;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+
+public class DelFolderTest {
+    @Test
+    public void delfolder() {
+        String path = MyFileUtils.getAbsolutePath("/home2");
+
+/*        File folder = new File(path); // 파일이 있으면 삭제 안됨
+        if (folder.exists()){
+            folder.delete();
+        }
+*/
+
+        MyFileUtils.delFolder(path); // 파일 삭제 가능
+    }
+}
+
+
+
+
+_______________________________________________________________________________________________________________
+
+로그인 기능..
+
+this는 상수..
+
+substring
+substr
+
+
+
+
+______________________________________________________________________________________________________________
+
+
+https://ko.imgbb.com/
+무료 이미지 호스팅사이트
+https://ibb.co/VpmwWLc
+https://i.ibb.co/x8HFS2t/image.png
+
+https://ajh322.tistory.com/328
+구글 이미지 url업로드
+
+
+
+
+
+
+
+sbsteacher
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <select id="selCateItem" resultType="ItemSelPageVo">
+        SELECT iitem, name, pic, price, created_at createdAt
+        FROM item
+        WHERE iitem_category = #{iitemCategory}
+        ORDER BY created_at DESC
+        LIMIT ${startIdx}, ${row}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+{
+  "success": true,
+  "code": 0,
+  "msg": "Success",
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpYXQiOjE2OTA0MzU1ODAsImV4cCI6MTY5MDQzOTE4MH0.5-31wYtvMltVZwpjhBKtVCOauAxtTrnuB2MfPuBiTxo",
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpYXQiOjE2OTA0MzU1ODAsImV4cCI6MTY5MTczMTU4MH0.b9k2K1rliDTrs7o4xrTEg3RBdQfK0A_FipBDtAr9ZT0"
+}
+
+
+
+
+
+
+1 양의나라 유기농 양고기 양갈비 양꼬치 프렌치렉 숄더랙 캠핑 냉장 냉동
+https://shop-phinf.pstatic.net/20230707_82/1688717233690Q4wyF_JPEG/2023-07-05-%ED%86%B5%ED%95%A9(%EB%A0%88%EC%8A%A4%ED%84%B0%ED%99%94)_00-B(%EB%A9%94%EC%9D%B8%EC%BB%B7)-White.jpg?type=w860
+https://shop-phinf.pstatic.net/20230707_9/1688711081470OpcqO_JPEG/2023-07-05-%ED%86%B5%ED%95%A9(%EB%A0%88%EC%8A%A4%ED%84%B0%ED%99%94)_00-F(%EC%96%91%EC%9D%98%EB%82%98%EB%9D%BC-%EC%83%81%ED%92%88%EC%86%8C%EA%B0%9C).jpg?type=w860
+https://shop-phinf.pstatic.net/20230727_41/1690420072542etFSx_JPEG/%EC%88%84%EB%8D%94%EB%9E%99_02.jpg?type=w860
+https://shop-phinf.pstatic.net/20230727_267/1690420081407BxGDX_JPEG/%EC%88%84%EB%8D%94%EB%9E%99_03.jpg?type=w860
+
+7 국내산 돼지 김해 뒷고기 도래창 특수부위 꼬들살 두항정살 뽈살 돼지혀 콧등살 덜미살 돈설 모듬 뽈항정살 돈뽈항정 캠핑고기 캠핑음식
+https://shop-phinf.pstatic.net/20230517_264/1684295111010qDJNq_GIF/KakaoTalk_20230517_120843241.gif?type=wg860
+https://shop-phinf.pstatic.net/20230505_228/1683294197732KiNAg_GIF/ezgif.com-video-to-gif_(2).gif?type=wg860
+https://shop-phinf.pstatic.net/20230201_244/16752328140812mSnV_JPEG/1.jpg?type=w860
+https://shop-phinf.pstatic.net/20230201_130/1675233745595PTuKQ_JPEG/1.jpg?type=w860
+
+
+8 램 양꼬치 양깍두기 양고기 캠핑음식 1kg
+https://shop-phinf.pstatic.net/20220507_287/1651898800013xVfC4_JPEG/detail_01.jpg?type=w860
+https://shop-phinf.pstatic.net/20220507_8/1651900053368Cg2QX_JPEG/SE-a975f8b8-c6f6-4b55-a471-59ef6e600a57.jpg?type=w860
+https://shop-phinf.pstatic.net/20220507_281/1651898799296kegCp_JPEG/detail_03.jpg?type=w860
+https://shop-phinf.pstatic.net/20220507_140/1651898799375nI8Sq_JPEG/detail_05.jpg?type=w860
+
+9 냉동삼겹살 구이용 보쌈용 대패삼겹살 1+1행사 1kg
+https://shop-phinf.pstatic.net/20201209_163/1607494693105FQjAG_JPEG/%EC%82%BC%EA%B2%B9%EC%82%B4%EA%B5%AC%EC%9D%B4(%EC%98%A4%EC%8A%A4)_1+1.jpg?type=w860
+
+10 육감 캠핑고기세트 바베큐세트 2인 4인
+https://shop-phinf.pstatic.net/20211109_260/1636390226272fcDSK_JPEG/KakaoTalk_20211108_134311425_04.jpg?type=w860
+https://shop-phinf.pstatic.net/20211211_45/1639210045924pBHLw_JPEG/%EC%85%80%EB%A0%89_(2).jpg?type=w860
+https://shop-phinf.pstatic.net/20230609_21/1686283174658kA3Lt_JPEG/002.jpg?type=w860
+
+11 삼겹살 목살 통삼겹살 통항정살 옛날 냉삼 냉동 수입 통삼겹 캠핑
+https://shop-phinf.pstatic.net/20230509_15/1683638054424jPfWT_JPEG/-%EC%82%BC%EA%B2%B9%EC%82%B4-%EC%83%81%EB%8B%A8_01.jpg?type=w860
+https://shop-phinf.pstatic.net/20230509_129/1683638061504a456f_JPEG/-%EC%82%BC%EA%B2%B9%EC%82%B4-%EC%83%81%EB%8B%A8_02.jpg?type=w860
+
+12 양어깨살(큐브) 1kg 양고기 양깍두기 양꼬치
+https://shop-phinf.pstatic.net/20220205_173/16440202585505JOOR_JPEG/%EB%B0%B0%EC%86%A1%EC%95%88%EB%82%B4_%EB%B3%B5%EC%82%AC.jpg?type=w860
+https://shop-phinf.pstatic.net/20190419_214/101408045_15556529270115MWXx_JPEG/%BB%F3%BC%BC1.jpg?type=w860
+https://shop-phinf.pstatic.net/20220430_19/1651287107243IxX2J_JPEG/%EC%83%81%EC%84%B81.jpg?type=w860
+https://shop-phinf.pstatic.net/20190315_102/101408045_1552625850247EgRq1_JPEG/%BB%F3%BC%BC%BE%E7%B3%E4.jpg?type=w860
+https://shop-phinf.pstatic.net/20190329_267/101408045_1553835715549V6f9X_JPEG/%B9%E8%BC%DB%BE%C8%B3%BB%BB%F3%BC%BC.jpg?type=w860
+
+13 삼겹살2kg 항정살 등갈비 이베리코 오겹살 듀록 통삼겹 냉동 통오겹살
+https://shop-phinf.pstatic.net/20230112_181/167348536493023NGg_JPEG/%EC%9E%AC%EA%B5%AC%EB%A7%A4%EC%9C%A8.jpg?type=w860
+https://shop-phinf.pstatic.net/20230112_89/1673484695527KJINw_JPEG/%EB%A9%94%EC%9D%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.jpg?type=w860
+https://shop-phinf.pstatic.net/20230112_127/1673485373783C5yYJ_JPEG/8p_%EB%82%98%EB%A7%8C%EC%9D%98-%EC%A3%BC%EB%AC%B8%EC%A0%9C%EC%9E%91.jpg?type=w860
+https://shop-phinf.pstatic.net/20230503_186/16830788589545xqFe_PNG/%EC%A0%9C%EB%AA%A9%EC%9D%84-%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94_-001_(6).png?type=w860
+https://shop-phinf.pstatic.net/20230112_287/1673490547641yesFs_JPEG/%EA%B0%88%EB%B3%80%ED%98%84%EC%83%81.jpg?type=w860
+
+14 2kg 돼지 뒷다리살 후지 앞다리살 제육볶음 불고기용 다짐육 삼겹살 냉동 (업소용 도매)
+https://shop-phinf.pstatic.net/20210824_296/16297850856438vMzm_JPEG/2.jpg?type=w860
+https://shop-phinf.pstatic.net/20210824_49/1629785111248Hf6W5_JPEG/3.jpg?type=w860
+https://shop-phinf.pstatic.net/20210824_70/1629785128979nkTat_JPEG/4.jpg?type=w860
+https://shop-phinf.pstatic.net/20210825_111/1629869656035dspoe_JPEG/2.jpg?type=w860
+-----------------------------------------------
+
+15 농심 짜파게티 만능소스 280g
+https://ai.esmplus.com/goandup/nongshim/nongshimsauce01.jpg
+
+
+16 후이펑 스리라차 소스 255g 후이퐁 쓰리라차 0칼로리소스
+https://coudae.s3.ap-northeast-2.amazonaws.com/A00564592/s/1228670/55603284033.png
+https://coudae.s3.ap-northeast-2.amazonaws.com/A00564592/cloud/610/823B%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202023-07-18%20160039.png
+
+
+17 오뚜기 데리야끼소스 2kg
+https://thumbnail6.coupangcdn.com/thumbnails/remote/q89/image/vendor_inventory/730b/9568f03f5809cf9df6c169a597d638013fd4a8c400963042a56e866ad32f.jpg
+
+18 면사랑 멸치육수 1.8L
+https://shop-phinf.pstatic.net/20211028_147/1635420211219chd3Q_JPEG/%EB%B0%91%EA%B5%AD%EB%AC%BC%EB%A9%B8%EC%B9%98860detail.jpg?type=w860
+
+
+19 스리라차 핫 칠리 시즈닝 481g
+https://gi.esmplus.com/matti01/%EC%8A%A4%EB%A6%AC%EB%9D%BC%EC%B0%A8%ED%95%AB%EC%B9%A0%EB%A6%AC%EC%8B%9C%EC%A6%88%EB%8B%9D481g%EC%9C%84%EC%95%84%EB%9E%98%EB%BA%8C%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80_20200428.jpg
+
+
+20 마라탕 소스 재료 하이디라오 마라 소스 요리 만들기 110g
+https://shop-phinf.pstatic.net/20220913_253/1663036466044E2vfK_JPEG/haidilao_package_notice.jpg?type=w860
+https://shop-phinf.pstatic.net/20211126_139/1637901689687AebzW_JPEG/%EA%B0%84%ED%8E%B8%ED%95%9C%EC%8B%9D_%EB%86%8D%EC%B6%95%EC%95%A1_%EC%83%81%EC%84%B8%EB%B0%B0%EB%84%88_01.jpg?type=w860
+https://shop-phinf.pstatic.net/20220621_171/1655776787547w2vk9_JPEG/%EA%B0%84%ED%8E%B8%ED%95%9C%EC%8B%9D_%EB%86%8D%EC%B6%95%EC%95%A1_%EC%83%81%EC%84%B8%EB%B0%B0%EB%84%88_02.jpg?type=w860
+https://shop-phinf.pstatic.net/20211126_265/1637901689701caibq_JPEG/%EA%B0%84%ED%8E%B8%ED%95%9C%EC%8B%9D_%EB%86%8D%EC%B6%95%EC%95%A1_%EC%83%81%EC%84%B8%EB%B0%B0%EB%84%88_03.jpg?type=w860
+
+
+21 청수식품 우동 다시 1.8L
+https://shop-phinf.pstatic.net/20200910_7/1599712332405z0pIl_JPEG/good_detail304.jpg
+
+
+22 플라잉구스 스리라차 소스 저칼로리 핫칠리 200ml
+https://gi.esmplus.com/yourim003/saem/huyfong/bn-intro.jpg
+https://gi.esmplus.com/yourim003/saem/flying-goose/flying-goose.jpg
+
+
+
+24 라오간마 라조장 고추 유라죠우 275g 라오깐마 중국 고추 기름 두반장 소스
+https://shop-phinf.pstatic.net/20190926_112/1569482096799I1VlJ_JPEG/%C1%DF%B1%B9%BF%E4%B8%AE%C0%E7%B7%E1_%C6%E4%C0%CC%C1%F6_1.jpg?type=w860
+
+----------------------------------------
+
+25 반건조생선 볼락 가자미 참돔 열기 민어 임연수 서대박대 고등어 참가자미 조기 구이 말린
+https://shop-phinf.pstatic.net/20230615_139/1686794660028qJ0dI_PNG/%EB%B0%98%EA%B1%B4%EC%A1%B0%EC%83%9D%EC%84%A0_%ED%8A%B9%EA%B0%80_%EC%9D%B4%EB%B2%A4%ED%8A%B8.png?type=w860
+https://shop-phinf.pstatic.net/20210923_78/1632374431411WlJ0T_PNG/%EB%B0%98%EA%B1%B4%EC%A1%B0%EC%83%9D%EC%84%A0_2.png?type=w860
+https://shop-phinf.pstatic.net/20210923_35/1632374448482sLVlc_PNG/%EB%B0%98%EA%B1%B4%EC%A1%B0_%EC%83%9D%EC%84%A03.png?type=w860
+
+26 반건조생선볼락 고등어 열기 민어 박대 서대 임연수 우럭 참돔 가자미 참가자미 구이 말린
+https://shop-phinf.pstatic.net/20230325_148/1679747759682BcwDF_PNG/%EC%82%AC%EB%B3%B8_-%EC%A0%9C%EB%AA%A9%EC%9D%84-%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94_-001_(7).png?type=w860
+https://shop-phinf.pstatic.net/20230621_88/1687317342413feGD8_JPEG/%EC%86%8D%EC%B4%88%EC%82%AC%EC%9D%B4%EB%B2%84_%EB%B0%98%EA%B1%B4%EC%A1%B0%EC%83%9D%EC%84%A0_%EC%9E%84%EC%97%B0%EC%88%98_%EB%B3%BC%EB%9D%BD_%EC%B0%B8%EB%8F%94_%EB%AF%BC%EC%96%B4_%EC%97%B4%EA%B8%B0_%EA%B0%80%EC%9E%90%EB%AF%B8_%EC%9A%B0%EB%9F%AD_%EA%B3%A0%EB%93%B1%EC%96%B4_%EC%96%91%EB%AF%B8%EB%A6%AC_%EB%B0%95%EB%8C%80_%EC%84%9C%EB%8C%80_%EA%B8%88%EC%A1%B0%EA%B8%B0_%EC%95%8C%EB%8F%84%EB%A3%A8%EB%AC%B5%EA%B5%AC%EC%9D%B4_%EB%A7%90%EB%A6%B0%EC%82%BC%EC%B9%98_%EA%B3%A0%EB%93%B1%EC%96%B4_001_1.jpg?type=w860
+https://shop-phinf.pstatic.net/20230224_133/1677211688676bl1pQ_GIF/%EC%86%8D%EC%B4%88_%EB%B0%98%EA%B1%B4%EC%A1%B0%EC%83%9D%EC%84%A0_%EC%9E%84%EC%97%B0%EC%88%98_%EB%B3%BC%EB%9D%BD_%EC%B0%B8%EB%8F%94_%EB%AF%BC%EC%96%B4_%EC%97%B4%EA%B8%B0_%EA%B0%80%EC%9E%90%EB%AF%B8_%EC%9A%B0%EB%9F%AD_%EA%B3%A0%EB%93%B1%EC%96%B4_%EC%96%91%EB%AF%B8%EB%A6%AC_%EB%B0%95%EB%8C%80_%EC%84%9C%EB%8C%80_%EC%A1%B0%EA%B8%B0_%EA%B8%88%EC%A1%B0%EA%B8%B0_%EB%8F%84%EB%A3%A8%EB%AC%B5__%EC%95%8C_%EA%B5%AC%EC%9D%B4_%EB%A7%90%EB%A6%B0_%EC%82%BC%EC%B9%98_%EA%B3%A0%EB%93%B1%EC%96%B4_50.gif?type=wg860
+https://shop-phinf.pstatic.net/20230224_125/1677211688555kt8lV_GIF/%EC%86%8D%EC%B4%88_%EB%B0%98%EA%B1%B4%EC%A1%B0%EC%83%9D%EC%84%A0_%EC%9E%84%EC%97%B0%EC%88%98_%EB%B3%BC%EB%9D%BD_%EC%B0%B8%EB%8F%94_%EB%AF%BC%EC%96%B4_%EC%97%B4%EA%B8%B0_%EA%B0%80%EC%9E%90%EB%AF%B8_%EC%9A%B0%EB%9F%AD_%EA%B3%A0%EB%93%B1%EC%96%B4_%EC%96%91%EB%AF%B8%EB%A6%AC_%EB%B0%95%EB%8C%80_%EC%84%9C%EB%8C%80_%EC%A1%B0%EA%B8%B0_%EA%B8%88%EC%A1%B0%EA%B8%B0_%EB%8F%84%EB%A3%A8%EB%AC%B5__%EC%95%8C_%EA%B5%AC%EC%9D%B4_%EB%A7%90%EB%A6%B0_%EC%82%BC%EC%B9%98_%EA%B3%A0%EB%93%B1%EC%96%B4_51.gif?type=wg860
+
+
+27 가자미밥상 손질 순살 가자미 흰살생선 구이 튀김
+https://shop-phinf.pstatic.net/20210120_265/1611109910379gSRmq_JPEG/SE-230ff03a-2da1-42db-a5d7-ca53903da2d2.jpg?type=w860
+https://shop-phinf.pstatic.net/20200316_231/15843439624832aeh9_JPEG/%B0%A1%C0%DA%B9%CC%B9%E4%BB%F3_%BB%F3%BC%BC%C6%E4%C0%CC%C1%F6200316-1-02.jpg?type=w860
+https://shop-phinf.pstatic.net/20230621_52/1687335214615kfkfi_JPEG/%EA%B0%80%EC%9E%90%EB%AF%B8%EB%B0%A5%EC%83%81_%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80200316-1-03.jpg?type=w860
+
+28 반건조 생선 임연수 이면수 양미리 명태 코다리 가자미 열기 볼락 도루묵 조기
+https://shop-phinf.pstatic.net/20200713_136/1594568579354hddow_JPEG/%EB%AA%85%EC%A0%95%EC%96%B4%EA%B0%80_%EB%A9%94%EC%9D%B8_04.jpg?type=w860
+https://shop-phinf.pstatic.net/20200713_84/1594568579333eXwf2_JPEG/%EB%AA%85%EC%A0%95%EC%96%B4%EA%B0%80_%EB%A9%94%EC%9D%B8_05.jpg?type=w860
+https://shop-phinf.pstatic.net/20200713_59/1594569207430KaPyY_JPEG/%EB%AA%85%EC%A0%95%EC%96%B4%EA%B0%80_%EB%A9%94%EC%9D%B8_43.jpg?type=w860
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

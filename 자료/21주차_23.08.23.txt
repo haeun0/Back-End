@@ -1,0 +1,366 @@
+취업세미나
+
+첫인상??
+
+면접의 시작은 그 전부터다
+전화를 받을때, 면접장에서도..
+
+지원자 면접 복장 영향 조사
+세미정장의 기준은?
+최소한 카라가 있는 남방, 블라우스
+와 슬랙스
+
+구김이 많이 가는 옷은 ㄴㄴ
+
+인사를 남기기..
+면접기회 주셔서 감사합니다 
+긴장을 해서 이런 이런 부분을 잘 말하지못했던것같다
+
+무료대여 희망옷장
+3박4일정도 세탁비 5천원만 납부
+
+35이상, 경산대학교 출신
+청년취업날개 코디네이터
+
+
+
+
+면접리허설
+두 문장 혹은 세문장은 간결하게
+
+질문의 논점을 벗어나지 말것!!
+살 덧붙이기보다 두 문장, 세 문장으로 간결하게!
+
+추상적이고 모호한 답변보다 소싯있게, 거짓 답변no
+답변의 끝을 정확히 맺도록
+암기식 답변 no
+동종업계나 경쟁사, 전직장 비난 금물
+
+
+이전 회사
+건설적인 답변
+향후 비전을 가지고 그만뒀다..
+공백기에는 자기관리 했던것..
+
+
+
+면접유형
+경혐면접많음
+내가 처해있던 상황에 대해 말하기
+내가 수행한 과제/과업은 무엇인지
+어떻게 행동(대응) 했는지
+그 행동의 결과는 어떤지
+
+기술질문은 수준 테스트니까 걱정말고 잘 얘기할것
+
+객체 지향언어가 뭔지 아는가?
+긱 보여달라
+밴엔드가 무엇이냐?
+과거 본인이 수행한 프로젝트 경험 및 보유기술
+기술용어
+개발자 직무에 대한이해
+
+
+
+
+
+
+다빈도 질문
+1분자기소개
+지원동기
+입사 후 포부
+퇴사사유
+공백사유
+
+관심분야
+직무관련 경험
+직무관련 지식
+일반상식
+실력테스트
+
+특 장점
+취미(여가활용)
+타전공 지원사유
+주량, 혈액형
+MBTI
+출퇴근거리
+
+
+
+
+1분자기소개
+안녕하십니까~
+
+직무연관성
+도입부인사
+__________________돌직구 도입
+직무연관성
+도입부 비전
+__________________
+뒷받침 근거
+
+
+
+사람인에 
+아이엠그라운드 1인당 3번까지 무료
+뷰인터 
+
+면접확인서
+입사지원서
+미리 챙겨가야할것
+노트북 챙겨가기
+
+
+
+
+___________________________________________________________________________________________________________
+security>handler 마이바티스의 인터셉터?
+
+구조가 달라짐
+
+디스패처 서블릿
+
+필터 -> 디스패처 서블릿-> 인터셉터 -> AOP
+
++++++++
+
+onAuthenticationSuccess에서 소셜 로그인 관련으로 내용이 들어온다??
+서블릿에서 정리해서 실행되는..
+
+
+determineTargetUri에서
+yaml파일에 똑같은 부분이 있는지 확인
+oauth2:
+    authorized-redirect-uris:
+      - http://localhost:8082/oauth/redirect
+      - http://192.168.0.62:8082/oauth/redirect
+
++++++++++
+
+signin.html에서
+url 붙여주는..
+
+????
+근데 이것을 확인 알할려면
+isAutorizedRedirectUri
+
+------------
+package com.green.greengram.common.config.properties;
+yaml의 내용을 가져와서 객체로 저장하고 쓰겠다는 파일
+
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@ConfigurationProperties(prefix = "app") // 먼저..? ""안에 있는 내용 밑으로
+public class AppProperties {
+    private final Auth auth = new Auth(); // yaml 내용 auth 저장
+    private final OAuth2 oauth2 = new OAuth2(); // yaml 내용 oauth2 저장
+
+    @Setter
+    public Key accessTokenKey;
+
+    @Setter
+    private Key refreshTokenKey;
+
+    @Getter
+    @Setter
+    public static class Auth {
+        private String headerSchemeName;
+        private String tokenType;
+        private String aceessSecret;
+        private long accessTokenExpiry;
+        private String refreshSecret;
+        private long refreshTokenExpiry;
+        private String redisAccessBlackKey;
+        private String redisRefreshKey;
+    }
+
+    @Getter
+    @Setter
+    public static final class OAuth2 {
+        private List<String> authorizedRedirectUris = new ArrayList<>();
+    }
+}
+
+
+아래 내용과 매칭
+app:
+  auth:
+    header-scheme-name: authorization
+    token-type: Bearer
+    aceess-secret: DeaguGreenArtAcademyClass502ForJavaSpringBoot
+    accessToken-expiry: 200000
+    refresh-secret: ForJavaSpringBootClass502DaeguGreenArtAcademy
+    refreshToken-expiry: 1296000000
+    redis-access-black-key: "Z-AT-BLACK"
+    redis-refresh-key: "Z-RT"
+  oauth2:
+    authorized-redirect-uris:
+      - http://localhost:8082/oauth/redirect
+      - http://192.168.0.62:8082/oauth/redirect
+
+값을 넣는이유..
+
+
+----------------------------------------------------------------------------------------------
+//common은 그대로 사용하면됨
+
+//SecurityConfiguration은 변경된 부분 확인
+
+//oauth2Login부분 추가
+
+.formLogin(form -> form.loginPage("/user/signin").usernameParameter("email").passwordParameter("pw").defaultSuccessUrl("/feed", true))
+        .csrf(csrf -> csrf.disable()) //CSRF 보안이 필요 X, 쿠키와 세션을 이용해서 인증을 하고 있기 때문에 발생하는 일, https://kchanguk.tistory.com/197
+        .exceptionHandling(except -> {
+            except.accessDeniedHandler(tokenAccessDeniedHandler);
+            except.authenticationEntryPoint(new RestAuthenticationEntryPoint());
+        })
+                .oauth2Login(oauth2 -> oauth2.loginPage("/user/signin")
+                        .authorizationEndpoint(authorization  -> authorization.baseUri("/oauth2/authorization")
+                                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
+                        .redirectionEndpoint(redirection -> redirection.baseUri("/*/oauth2/code/*"))
+                        .userInfoEndpoint(userInfo  -> userInfo.userService(oAuth2UserService))
+                        .successHandler(oAuth2AuthenticationSuccessHandler())
+                        .failureHandler(oAuth2AuthenticationFailureHandler())
+                )
+        .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
+프론트에 얘기할 부분
+url/oauth 주소값이 열려야함
+쿼리 스트링으로 
+돌아올때 엑세스 토큰을 담아서 와야한다
+
+
+메인컨드롤러에 추가
+    @GetMapping("/oauth/redirect")
+    public String getRedirect() {
+        return "oauth/index";
+    }
+
+
+http://localhost:8082/oauth/redirect?
+access_token=121212
+1. 화면이 열리는지 확인
+2. 받앋다는지 확인할수있는지
+
+
+리프레시 토큰을 우리가 쿠키에 담아서 보냄?
+엑세스 토큰을 json이 아니라 쿼리로 준다
+oauth통신의 특징!!
+
+그래서 쿼리 스트링을 받을수 있어야한다.
+
+못한다고하면 전달
+
+    <th:block layout:fragment="content">
+        <script>
+            const urlStr = window.location.href;
+            const url = new URL(urlStr);
+            const urlParams = url.searchParams;
+
+            const access_token = urlParams.get('access_token');
+            console.log(access_token);
+
+            window.localStorage.setItem("access_token", access_token);
+            location.href = '/feed';
+        </script>
+    </th:block>
+
+
++++++++++++++++++++++++
+
+OAuth2UserInfo 소셜 로그인 처리
+다른 소셜 로그인 info는 OAuth2UserInfo를 상속
+
+
+{
+  "id": "아이디값",
+  "properties": {
+      "nicname":"닉네임값",
+  },
+  "account_email":"이메일값"
+}
+
+++++++++++++++++++++++++
+컨버딩..
+
+package com.green.greengram.common.config.security.oauth.userinfo;
+
+import com.green.greengram.common.config.security.model.ProviderType;
+import java.util.Map;
+
+public class OAuth2UserInfoFactory {
+    public static OAuth2UserInfo getOAuth2UserInfo(ProviderType providerType, Map<String, Object> attributes) {
+        switch (providerType) {
+            case GOOGLE: return new GoogleOAuth2UserInfo(attributes);
+            case FACEBOOK: return new FacebookOAuth2UserInfo(attributes);
+            case NAVER: return new NaverOAuth2UserInfo(attributes);
+            case KAKAO: return new KakaoOAuth2UserInfo(attributes);
+            default: throw new IllegalArgumentException("Invalid Provider Type.");
+        }
+    }
+
+---------------------------------------------------------------
+
+MyUserDetails를 UserPrincipal로 변경?
+UserPrincipal이 oauth2user을 상속받음
+
+
+
+
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5Mjc2NDY3NiwiZXhwIjoxNjkyODUxMDc2fQ.e1usje1ukMfg2xFD7LMAVK_z_DxlVUsVULLvTC8FQ0I
+
+
+
+
+리뷰 사진 이미지 부분 수정 부탁드립니다
+
+
+
+{
+  "uid": "haeun",
+  "upw": "1234",
+  "email": "haun0@naver.com",
+  "name": "장하은",
+  "birth_date": "1991-12-16",
+  "phone": "01062931624",
+  "user_address": "충남 공주시 반포면 동학사1로 46",
+  "user_address_detail": "string"
+}
+
+
+
+
+위시리스트랑 조인
+
+
+
+
+유저값을 받고
+조회를 해서 조인
+
+
+
+
+위시 리스트: 유저, 아이템
+
+아이템
+상품명
+
+
+
+
+
+
+
+

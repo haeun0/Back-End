@@ -1,0 +1,176 @@
+Redis 메모리에 저장 휘발성..
+
+프로젝트 개요\
+
+____________________________________________________________________________________________________
+item 리스트 전체 셀렉 전
+
+    @GetMapping("/itemlist")
+    @Operation(summary = "아이템 카테고리별 리스트"
+            , description = "" +
+            "\"cate\": [-] 카테고리 PK,<br>" +
+            "\"page\": [-] 리스트 페이지,<br>" +
+            "\"row\": [고정] 아이템 개수<br>")
+    public List<ItemVo> getICateList(@RequestParam Long cate,
+                                     @RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "21")int row) {
+        ItemSelCateDto dto = new ItemSelCateDto();
+        dto.setIitemCategory(cate);
+        dto.setPage(page);
+        dto.setRow(row);
+        return SERVICE.selCateItem(dto);
+    }
+
+    // 판매순 리스트
+    @GetMapping("/itemlist/sales-rank")
+    @Operation(summary = "아이템 판매순 리스트"
+            , description = "" +
+            "\"cate\": [-] 카테고리 PK,<br>" +
+            "\"page\": [-] 리스트 페이지,<br>" +
+            "\"row\": [고정] 아이템 개수<br>")
+    public List<ItemVo> getSalesRank(@RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "21")int row) {
+        ItemSelDto dto = new ItemSelDto();
+        dto.setPage(page);
+        dto.setRow(row);
+        return SERVICE.selSalesRank(dto);
+    }
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// 카테고리별 리스트
+    public List<ItemVo> selCateItem(ItemSelCateDto dto) {
+        dto.setStartIdx((dto.getPage()-1)* dto.getRow());
+        return MAPPER.selCateItem(dto);
+    }
+    // 판매순 리스트
+    public List<ItemVo> selSalesRank(ItemSelDto dto) {
+        dto.setStartIdx((dto.getPage()-1)* dto.getRow());
+        return MAPPER.selSalesRank(dto);
+    }
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    //카테고리별 리스트
+    List<ItemVo> selCateItem(ItemSelCateDto dto);
+
+    //판매순 리스트
+    List<ItemVo> selSalesRank(ItemSelDto dto);
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    <!-- 카테고리별 리스트 -->
+    <select id="selCateItem" resultType="ItemVo">
+        SELECT iitem, `name`, pic, price, created_at createdAt
+        FROM item
+        WHERE iitem_category = #{iitemCategory}
+        AND del_yn = 1
+        ORDER BY created_at DESC
+        LIMIT ${startIdx}, ${row}
+    </select>
+
+
+
+    <!-- 판매순 리스트 -->
+    <select id="selSalesRank" resultType="ItemVo">
+        SELECT A.iitem, A.`name`, A.pic, A.price, A.created_at createdAt
+        FROM item A
+        INNER JOIN order_item B
+        ON A.iitem = B.iitem
+        AND del_yn = 1
+        ORDER BY order_item DESC
+        LIMIT ${startIdx}, ${row}
+    </select>
+____________________________________________________________________________________________________
+
+    @Data
+    public static class ItemSelCateDto {
+        private Long iitem;
+        private int startIdx;
+        private int page;
+        private int row;
+    }
+
+    @Data
+    public static class ItemSelDto {
+        private Long iitem;
+        private int startIdx;
+        private int page;
+        private int row;
+    }
+
+
+
+https://www.coupang.com/np/categories/176599?
+listSize=60
+&brand=
+&offerCondition=
+&filterType=
+&isPriceRange=false
+&minPrice=
+&maxPrice=
+&page=1
+&channel=user
+&fromComponent=N
+&selectedPlpKeepFilter=
+&sorter=salePriceDesc
+&filter=
+&component=176499
+&rating=0
+
+
+-----------------------------------------------------------------------------------------
+
+https://www.coupang.com/np/search?
+rocketAll=false
+&searchId=d15c7edcbc72496ca3853978747251e2
+&q=%EA%B3%BC%EC%9E%90&brand=
+&offerCondition=
+&filter=
+&availableDeliveryFilter=
+&filterType=
+&isPriceRange=false&priceRange=&minPrice=
+&maxPrice=
+&page=1
+&trcid=
+&traid=
+&filterSetByUser=true
+&channel=user
+&backgroundColor=
+&searchProductCount=992
+&component=176422
+&rating=
+0&sorter=latestAs
+&listSize=36
+-----------------------------------------------------------------------------------------
+
+
+
+    <select id="selTodo">
+        SELECT itodo,ctnt,created_at createdAt,pic, finish_yn finishYn, finished_at finishedAt
+        FROM t_todo
+        <where>
+            <if test="b !=null">
+                and ssdfs=#{}
+            </if>
+            <if test="pay >0">
+                and qp=#{pay}
+            </if>
+        </where>
+        <if test="sort = 1">
+            or
+        </if>
+        
+    </select>
+
+
+
+<!--    <select id="searchItem" resultType="ItemVo">
+        SELECT iitem, `name`, pic, price, created_at createdAt
+        FROM item
+        WHERE `name` LIKE CONCAT('%',#{text},'%')
+        AND del_yn = 1
+        ORDER BY created_at DESC
+        LIMIT ${startIdx}, ${row}
+    </select>-->
+

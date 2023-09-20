@@ -1,0 +1,390 @@
+(post) /api/todo
+ctnt
+
+-------------------------------------
+단위 테스트(보통 사람이..) > 슬라이스 테스트(컨트롤러, 서비스등 따로 테스트) > 통합테스트
+
+---------------
+얕게 테스트 하기
+창에서 마우스 오른쪽 클릭 / generate / 테스트
+
+
+package com.green.todoapp;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class TodoControllerTest {
+
+    @Test
+    @DisplayName("TODO - 등록")
+    void postTodo() {
+    }
+}
+//알아볼수있도록 네임추가
+
+
+>>>>>>>>>>>>>>>
+
+package com.green.todoapp;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+@WebMvcTest(TodoController.class)
+class TodoControllerTest {
+    
+    @Autowired
+    private MockMvc mvc; // 테스트단에서 요청을 보내줌
+    
+    
+    @Test
+    @DisplayName("TODO - 등록")
+    void postTodo() {
+    }
+}
+
+
++++++++++++++++++++++++++++++
+얕은 테스트 - 가짜 서비스 만들기
+
+>>>>>>>>>>>>>>
+
+
+package com.green.todoapp;
+
+import com.green.todoapp.model.TodoInsDto;
+import com.green.todoapp.model.TodoVo;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@WebMvcTest(TodoController.class)
+class TodoControllerTest {
+
+    @Autowired
+    private MockMvc mvc; // 테스트단에서 요청을 보내줌
+
+    @MockBean
+    private TodoService service;
+    
+
+    @Test
+    @DisplayName("TODO - 등록")
+    void postTodo() throws Exception {
+        //given 환경설정 단계 - when 실제로 데이터를 가져오는 단계 - then 실제로 가져왔는지 검증하는 단계
+
+        //given - 테스트 셋팅
+        given(service.insTodo(any(TodoInsDto.class))).willReturn(3);  // BDDMockito.given의 줄임 / 가짜 Totoservice에 일을 줌
+
+        //when - 실제 실행
+        String json = "{ \"ctnt\": \"빨래 개기\" }";
+        ResultActions ra = mvc.perform(post("/api/todo") // controller에게 통신요청
+                                        .content(json)
+                                        .contentType(MediaType.APPLICATION_JSON));
+
+        //then - 검증
+        ra.andExpect(status().isOk())
+           .andExpect(content().string("3"))
+           .andDo(print());
+        verify(service).insTodo(any()); // 여기에 쓰여있는부분이 실행되었는지 확인
+    }
+
+    @Test
+    @DisplayName("TODO - 리스트")
+    void getTodo() throws Exception {
+        //given - when - then
+        List<TodoVo> mockList = new ArrayList<>();
+        mockList.add(new TodoVo(1,"테스트1","2023",null));
+        mockList.add(new TodoVo(2,"테스트2","2024","abc.jpg"));
+
+        //given
+        given(service.selTodo()).willReturn(mockList);
+
+        //when
+        ResultActions ra = mvc.perform(get("/api/todo"));
+
+        //then
+        ra.andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(mockList.size())))
+        .andExpect(jsonPath("$[*].itodo").exists())
+        .andExpect(jsonPath("$[0].itodo").value(1))
+        .andExpect(jsonPath("$[0].ctnt").value("테스트1"))
+        .andDo(print());
+
+        verify(service).selTodo();
+    }
+}
+
+----------------------------------------------------------------------
+얕은 서비스 테스트
+
+
+package com.green.todoapp;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(SpringExtension.class)
+@Import({ TodoService.class })
+class TodoServiceTest {
+
+    @MockBean
+    private TodoMapper mapper;
+    
+    @Autowired
+    private TodoService service;
+
+    @Test
+    void insTodo() {
+    }
+
+    @Test
+    void selTodo() {
+    }
+}
+
+>>>>>>>>>>>>>>>>>>
+
+package com.green.todoapp;
+
+import com.green.todoapp.model.TodoEntity;
+import com.green.todoapp.model.TodoInsDto;
+import com.green.todoapp.model.TodoVo;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(SpringExtension.class)
+@Import({ TodoService.class })
+class TodoServiceTest {
+
+    @MockBean
+    private TodoMapper mapper;
+
+    @Autowired
+    private TodoService service;
+
+    @Test
+    @DisplayName("TodoService - Todo 등록")
+    void insTodo() {
+        when(mapper.insTodo(any(TodoEntity.class))).thenReturn(1);
+
+        TodoInsDto dto = new TodoInsDto();
+        dto.setCtnt("내용 입력");
+        int result = service.insTodo(dto);
+
+        assertEquals(0,result);
+
+        verify(mapper).insTodo(any(TodoEntity.class));
+    }
+
+    @Test
+    @DisplayName("TodoService - Todo 리스트 가져오기")
+    void selTodo() {
+
+        //given
+        List<TodoVo> mockList = new ArrayList<>();
+        mockList.add(new TodoVo(1,"테스트1","2023",null));
+        mockList.add(new TodoVo(2,"테스트2","2024","abc.jpg"));
+
+        //when
+        when(mapper.selTodo()).thenReturn(mockList);
+        List<TodoVo> actualList = service.selTodo();
+
+
+
+        assertEquals(mockList, actualList);
+        verify(mapper).selTodo();
+
+    }
+}
+
+
+
+---------------------------------------------------------------------
+(patch) /api/todo
+
+(itodo)
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------
+(get) /api/todo
+(리턴 리스트, del_yn값은 제외,
+where절 del_yn = 0인 것만 가져오도록)
+
+
+    @GetMapping
+    public List<TodoVo> getTodo(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "30") int row) {
+        TodoSelDto dto = new TodoSelDto();
+        dto.setPage(page);
+        dto.setRow(row);
+        return service.selTodo(dto);
+    }
+
+
++++++++
+
+    public List<TodoVo> selTodo(TodoSelDto dto) {
+        dto.setStartIdx((dto.getPage() -1) * dto.getRow());
+
+        return mapper.selTodo(dto);
+    }
+
+
+++++++++++
+
+    List<TodoVo> selTodo(TodoSelDto dto);
+
+
+++++++++++
+
+
+    <select id="selTodo">
+        SELECT itodo, ctnt, created_at createdAt, pic
+        FROM t_todo
+        WHERE del_yn = 0
+        LIMIT #{startIdx},#{row}
+    </select>
+
+----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

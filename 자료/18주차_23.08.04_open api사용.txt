@@ -1,0 +1,178 @@
+클래스 앞에 파이널이 붙었을때 extends 할 수없음 다른사람이 쓰는걸 원치 않을때 붙임...
+메소드 앞에 파이널은 오버라이딩 금지
+변수는 앞에 파이널은 수정금지
+
+
+----------------------------------------------------
+
+내 컴퓨터에서 작업하고 실제로는 주소값을 바꾸고 싶을 때 
+yaml 파일에서 
+---
+spring:
+  activate:
+    on-profile: "prod"
+
+  data:
+    redis:
+      host: 192.168.01.144
+
+  datasource:
+    url: jdbc:mariadb://192.168.01.144:3306/team_e
+
+file:
+  dir: /home/download/
+
+server:
+  port: 8080
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cd창에서..
+
+java - jar security-0.0.1-SNAOSHOT.jar 
+
+crtl c, ctrl c
+
+java - jar security-0.0.1-SNAOSHOT.jar --spring.profile.active=prod
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+- redis 팀별 키값 prefix 규칙
+
+(모든 팀이 하나의 redis를 사용한다. 다른 팀들과 중복되어 문제되는 상황을 피하기 위해 모든 키값은 prefix값을 갖도록 한다.)
+
+team_a : “a:”
+
+예를들어 원하는 키값이 “RT(Server):1:192.168.0.1” 였다면 “a:RT(Server):1:192.168.0.1” 이렇게 사용해야 함.
+
+team_b : “b:”
+
+
+++++++++++++++++++++++++++++++
+다시 도커를 키고 싶을 때
+
+$ docker run -d -p 5005:8080 -v vol_team_e:/home/download team_e
+
+
+
+
+
+
+
+________________________________________________________________________________________________________
+
+    <select id="selDetail" resultType="ItemSelDetailVo">
+        SELECT  A.iitem,A.`name`, A.pic, A.`name`, A.price, A.created_at createdAt, A.info, GROUP_CONCAT(B.pic) picList
+        FROM item A, item_detail_pic B
+        WHERE A.iitem = #{iitem}
+    </select>
+
+
+
+----------------------------------------------------------------------------------
+아이템 검색 수정전
+
+    @GetMapping("/search")
+    @Operation(summary = "아이템 검색 및 검색리스트"
+            , description = "" +
+            "\"text\": [-] 검색어,<br>" +
+            "\"page\": [-] 리스트 페이지,<br>" +
+            "\"row\": [고정] 아이템 개수,<br>" +
+            "\"cate\": [-] 카테고리(11: 축산물, 16: 수산물, 13: 소스/드레싱, 18: 밀키트, 17: 농산물),<br>" +
+            "\"sort\": [1] 판매순 랭킹(0 : 최신순, 1: 오래된순, 2: 높은가격순, 3: 낮은가격순)  <br>"
+    )
+    public List<ItemVo> getSearchItem(@RequestParam(value = "cate",required=false)Long cate,
+                                      @RequestParam(value = "text",required=false)String text,
+                                      @RequestParam(defaultValue = "1")int page,
+                                      @RequestParam(defaultValue = "21")int row,
+                                      @RequestParam(defaultValue = "0")int sort) {
+        ItemSearchDto2 dto = new ItemSearchDto2();
+        dto.setText(text);
+        dto.setPage(page);
+        dto.setRow(row);
+        dto.setIitemCategory(cate);
+        dto.setSort(sort);
+        return SERVICE.searchItem(dto);
+    }
+
+_____________________________________________________________________________________
+
+open api xml
+
+    /* api 아이템 불러오기
+    @PostMapping("/post")
+    @Operation(summary = "사용금지")
+    public int insItem(@RequestParam String text) {
+        return SERVICE.insApiItem(text);
+
+    }*/
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public int insApiItem(String text) {
+
+        String json = naverApi.search(text);
+
+        System.out.println("json!!!!");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> map = null;
+        ItemInsParam ipram = new ItemInsParam();
+
+
+        try {
+            map = mapper.readValue(json, Map.class);
+            List<LinkedHashMap<String, Object>> numList = (List<LinkedHashMap<String, Object>>) map.get("items");
+            System.out.println(numList);
+            for(LinkedHashMap<String, Object> item : numList) {
+
+                log.info("ipram.category2: {}",item.get("category2"));
+                String result = MAPPER.selCate((String)item.get("category2"));
+                log.info("cate : {}", MAPPER.selCate((String) item.get("category2")));
+
+
+                if (result == null) {
+                    MAPPER.insCate((String) item.get("category2"));
+                }
+                ipram.setIitemCategory(MAPPER.selIcate((String) item.get("category2")));
+                ipram.setName((String)item.get("title"));
+                ipram.setPrice(Integer.valueOf((String)item.get("lprice")));
+                ipram.setPic((String)item.get("image"));
+                log.info("ipram : {}",ipram);
+                MAPPER.insItem(ipram);
+
+                *//*if (result.equals(item.get("category2"))) {
+                    ipram.setIitemCategory(cate.getIitemCategory());
+                    ipram.setName((String)item.get("title"));
+                    ipram.setPrice(Integer.valueOf((String)item.get("lprice")));
+                    ipram.setPic((String)item.get("image"));
+                    log.info("ipram : {}",ipram);
+                    MAPPER.insItem(ipram);
+                }*//*
+
+            }
+            return 1;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+*/
+++++++++++++++++++++++++++++++++++++++++++++++++++
+// open api 아이템 추가
+//    int insItem(ItemInsParam ipram);
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+<!-- open api 아이템 추가  -->
+<!--    <insert id="insItem">
+        INSERT INTO item
+        SET iitem_category = #{iitemCategory},
+        name = #{name},
+        price = #{price},
+        pic = #{pic}
+    </insert>-->
+
+
+---------------------------------------------------------------------------------------

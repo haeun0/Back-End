@@ -1,0 +1,167 @@
+1 - Controller, Service : 정민
+1 - Mapper (interface, xml) :하은
+1 - 테스트 및 감독 : 원희
+
+(post) /user
+{ uid, upw, nm, gender, addr }
+
+
+----------------------------------------------------
+jsp 암호화
+
+utils 패키지 생성
+CommonUtils 생성
+@Component
+
+복붙..
+    public String encodeSha256(String source) {
+        String mSalt = "abcd123";
+        String result = "";
+
+        byte[] a = source.getBytes();
+        byte[] salt = mSalt.getBytes();
+        byte[] bytes = new byte[a.length + salt.length];
+
+        System.arraycopy(a, 0, bytes, 0, a.length);
+        System.arraycopy(salt, 0, bytes, a.length, salt.length);
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(bytes);
+
+            byte[] byteData = md.digest();
+
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xFF) + 256, 16).substring(1));
+            }
+
+            result = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+MessageDigest를 import하기
+
+
++++++++++++++
+
+Service에
+pribat final CommonUtils 및 Autowrired 추가
+
+package com.green.boardver3.user;
+
+import com.green.boardver3.user.model.UserEntity;
+import com.green.boardver3.user.model.UserInsDto;
+import com.green.boardver3.utils.CommonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+    private final UserMapper mapper;
+    private final CommonUtils commonUtils;
+
+    @Autowired
+    public UserService(UserMapper mapper, CommonUtils commonUtils) {
+        this.mapper = mapper;
+        this.commonUtils = commonUtils;
+    }
+    public int insUser(UserInsDto dto) {
+        String hashPw = commonUtils.encodeSha256(dto.getUpw());
+        dto.setUpw(hashPw);
+        return mapper.insUser(dto);
+    }
+
+}
+----------------------------------------------------------------------------------------
+
+프론트에게도 전달해주기
+에러코드를 숫자로
+-1
+-2 등등으로 표기
+예를 들어
+if(!(gender == 'M' || gender == 'F')) {
+returen -1;
+}
+
+----------------------------------------------------------------------------------------
+git stash
+git pull https://github.com/wonyy97/2023-1-board-ver3.git
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,157 @@
+todoapp
+
+
+참고사이트가,,,,
+
+주차별 프로젝트 절차 및 방법?
+
+
+브레이밍 스토밍..
+ERD
+
+
+구현기능
+회원가입, 탈퇴?
+
+
+자체평가의견!!
+(느낀점)잘 한 부분, 아쉬운 부분
+
+----------
+데이터 파싱??
+
+7월 7일 완성 마지노선....
+7월 12일 발표연습 안되면 안된대로!!
+7월 13일 발표????????????
+
+
+
+로그인
+https://velog.io/@zl0zb/spring-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A7%8C%EB%93%A4%EA%B8%B0-1
+
+
+
+---------------------------------------------------------------------------
+
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+
+Mapper test 설정
+test용 DB복사
+DB에서 데이터베이스 SQL로 내보내기 / 생성 생성 / 신규 데이터를 삽입 / 1024 / 클립보드
+
+
+-- --------------------------------------------------------
+-- 호스트:                          192.168.0.62
+-- 서버 버전:                        10.11.2-MariaDB - mariadb.org binary distribution
+-- 서버 OS:                        Win64
+-- HeidiSQL 버전:                  11.3.0.6295
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- todo_haeun 데이터베이스 구조 내보내기
+CREATE DATABASE IF NOT EXISTS `todo_haeun_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+
+-- 테이블 todo_haeun.t_todo 구조 내보내기
+CREATE TABLE IF NOT EXISTS `t_todo` (
+  `itodo` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ctnt` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `del_yn` tinyint(4) DEFAULT 0 CHECK (`del_yn` in (0,1)),
+  `pic` varchar(100) DEFAULT NULL,
+  `finish_yn` tinyint(4) DEFAULT 0,
+  `finished_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`itodo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- 테이블 데이터 todo_haeun.t_todo:~4 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `t_todo` DISABLE KEYS */;
+INSERT INTO `t_todo` (`itodo`, `ctnt`, `created_at`, `del_yn`, `pic`, `finish_yn`, `finished_at`) VALUES
+	(1, '첫번째', '2023-06-13 16:56:30', 0, NULL, 0, NULL),
+	(2, '두번째', '2023-06-13 16:56:37', 0, NULL, 0, NULL),
+	(3, '세번째', '2023-06-13 16:56:42', 0, NULL, 0, NULL),
+	(4, '네번째', '2023-06-13 16:56:47', 0, NULL, 1, '2023-06-13 17:21:44');
+/*!40000 ALTER TABLE `t_todo` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+
+
+
+++++++++++++++++++++++++
+
+yaml에 추가 --- 잊지 말것!
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mariadb://192.168.0.62:3306/todo_haeun_test
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:inint/schema.sql
+      data-locations: classpath:init/data.sql
+
++++++++++++++++
+
+resources파일에 init파일 만들고 schema.sql , data.sql파일생성
+
+
++++++++++++++++
+
+package com.green.todoapp;
+
+import org.junit.jupiter.api.Test;
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@MybatisTest
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class TodoMapperTest {
+
+    @Test
+    void insTodo() {
+    }
+
+    @Test
+    void selTodo() {
+    }
+
+    @Test
+    void updfinish() {
+    }
+}
+
+
+
+
+
+
+
+D:\Students\todoApp\src\main\resources\static
+
+
+http://192.168.0.50:8081/
+
+
+

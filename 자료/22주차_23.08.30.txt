@@ -1,0 +1,487 @@
+postProduct (수정) description, category_id, provider_id 값 추가, t_product_detail도 함께 insert가 될 수 있도록 변경
+
+// 일반적인 방법
+    public ProductRes saveProduct1(ProductDto dto){
+        CategoryEntity categoryEntity = categoryRepository.findById(dto.getCategoryId()).get();
+        ProviderEntity providerEntity = providerRepository.findById(dto.getProviderId()).get();
+
+        ProductEntity productEntity = ProductEntity.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
+                .cateogryEntity(categoryEntity)
+                .providerEntity(providerEntity)
+                .build();
+        productRepository.save(productEntity);
+
+        ProductDetailEntity productDetailEntity = ProductDetailEntity.builder()
+                .productEntity(productEntity)
+                .description(dto.getDescription())
+                .build();
+        return ProductRes.builder()
+                .number(productEntity.getNumber())
+                .name(productEntity.getName())
+                .price(productEntity.getPrice())
+                .stock(productEntity.getStock())
+                .description(productDetailEntity.getDescription())
+                .categoryNm(productEntity.getCateogryEntity().getName())
+                .providerNm(productEntity.getProviderEntity().getName())
+                .createdAt(productEntity.getCreatedAtDatetime())
+                .build();
+    }
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+// 영속성 전이시
+
+// 추가
+    @OneToOne(mappedBy = "productEntity", cascade = {CascadeType.PERSIST})
+    // cascade 전이..{CascadeType.PERSIST, CascadeType.REMOVE}: 연결된 부분 추가할때 같이 추가 삭제할때 같이 삭제??
+    // 서로서로 참조 하고 있을때만 영속성 전이가 가능 하다
+    private ProductDetailEntity productDetailEntity;
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+    public ProductRes saveProduct2(ProductDto dto){
+        CategoryEntity categoryEntity = categoryRepository.findById(dto.getCategoryId()).get();
+        ProviderEntity providerEntity = providerRepository.findById(dto.getProviderId()).get();
+
+        ProductDetailEntity productDetailEntity = ProductDetailEntity.builder()
+                .description(dto.getDescription())
+                .build();
+
+        ProductEntity productEntity = ProductEntity.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
+                .cateogryEntity(categoryEntity)
+                .providerEntity(providerEntity)
+                .build();
+
+        productEntity.setProductDetailEntity(productDetailEntity);
+        productDetailEntity.setProductEntity(productEntity);
+
+
+        productRepository.save(productEntity);
+        return null;
+    }
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+    @OneToOne(mappedBy = "productEntity", cascade = {CascadeType.PERSIST})
+    // cascade 전이..{CascadeType.PERSIST, CascadeType.REMOVE}: 연결된 부분 추가할때 같이 추가 삭제할때 같이 삭제??
+    // 서로서로 참조 하고 있을때만 영속성 전이가 가능 하다
+    private ProductDetailEntity productDetailEntity;
+
+    @ManyToOne
+    @JoinColumn(name= "category_id")
+    @ToString.Exclude
+    private CategoryEntity cateogryEntity;
+    
+    public void setProductDetailEntity(ProductDetailEntity productDetailEntity) {
+        if(this.productDetailEntity !=null) {
+            this.productDetailEntity.setProductEntity(null);
+        }
+        this.productDetailEntity = productDetailEntity;
+        this.productDetailEntity.setProductEntity(this);
+    }
+
+
+
++++++++++++++++++++++++++
+
+
+    public ProductRes saveProduct2(ProductDto dto){
+        CategoryEntity categoryEntity = categoryRepository.findById(dto.getCategoryId()).get();
+        ProviderEntity providerEntity = providerRepository.findById(dto.getProviderId()).get();
+
+        ProductDetailEntity productDetailEntity = ProductDetailEntity.builder()
+                .description(dto.getDescription())
+                .build();
+
+        ProductEntity productEntity = ProductEntity.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
+                .cateogryEntity(categoryEntity)
+                .providerEntity(providerEntity)
+                .build();
+
+        productEntity.setProductDetailEntity(productDetailEntity);
+        //productDetailEntity.setProductEntity(productEntity);
+
+
+        productRepository.save(productEntity);
+        return null;
+    }
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5MzM2OTgyMiwiZXhwIjoxNjkzNDU2MjIyfQ.AyYnI5oU--qjifzjQMsleGSoGTjkVqMtD2fsnc26rP8
+
+
+
+
+
+{
+    "iboard": 246,
+    "icategory": 1,
+    "title": "",
+    "createdat": "2023-08-22T14:34:50",
+    "boardview": 5
+  },
+
+
+
+마지막글 1065 유저 18
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+    @PostMapping()
+    public ResponseEntity<ItemVo> postItem(@RequestBody ItemInsDto dto) {
+        ItemVo vo = service.save(dto);
+        return ResponseEntity.ok(vo);
+    }
+
+
+
+
+
+
+__________________________________________________________________________________________________________________
+package com.green.campingsmore.common.item;
+
+import com.green.campingsmore.common.entity.ItemCategoryEntity;
+import com.green.campingsmore.common.entity.ItemEntity;
+import com.green.campingsmore.common.item.model.ItemCategoryInsDto;
+import com.green.campingsmore.common.item.model.ItemCategoryVo;
+import com.green.campingsmore.common.item.model.ItemInsDto;
+import com.green.campingsmore.common.item.model.ItemVo;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class ItemService {
+    private final ItemRepository itemRep;
+    private final ItemCategoryRepository itemCategoryRep;
+
+    public ItemCategoryVo saveCategory(ItemCategoryInsDto dto) {
+        ItemCategoryEntity entity = ItemCategoryEntity.builder()
+                .name(dto.getName())
+                .build();
+        itemCategoryRep.save(entity);
+        return null;
+    }
+
+    public ItemVo saveItem(ItemInsDto dto) {
+        ItemCategoryEntity itemCategoryEntity = itemCategoryRep.findById(dto.getIitemCategory()).get();
+
+        ItemEntity itemEntity = ItemEntity.builder()
+                .itemCategoryEntity(itemCategoryEntity)
+                .name(dto.getName())
+                .pic(dto.getPic())
+                .price(dto.getPrice())
+                .build();
+        itemRep.save(itemEntity);
+        
+        return null;
+    }
+
+}
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item.model;
+
+import lombok.Data;
+
+@Data
+public class ItemCategoryInsDto {
+    private String name;
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item.model;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Builder
+@Getter
+public class ItemCategoryVo {
+    private Long iitemCategory;
+    private String name;
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.util.List;
+@Data
+@AllArgsConstructor
+public class ItemInsDto {
+    private Long iitemCategory;
+    private String name;
+    private String pic;
+    private Integer price;
+    private List<String> picUrl;
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item.model;
+
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDate;
+
+@Builder
+@Getter
+public class ItemVo {
+    private Long iitem;
+    private String name;
+    private String pic;
+    private int price;
+    private LocalDate createdAt;
+    private int wish;
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item;
+
+import com.green.campingsmore.common.entity.ItemCategoryEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+public interface ItemCategoryRepository extends JpaRepository<ItemCategoryEntity, Long> {
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item;
+
+import com.green.campingsmore.common.item.model.ItemCategoryInsDto;
+import com.green.campingsmore.common.item.model.ItemCategoryVo;
+import com.green.campingsmore.common.item.model.ItemInsDto;
+import com.green.campingsmore.common.item.model.ItemVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@Tag(name = "아이템")
+@RequestMapping("/api/item")
+@RequiredArgsConstructor
+public class ItemController {
+    private final ItemService service;
+
+    @PostMapping("/category")
+    @Operation(summary = "아이템 카테고리 추가")
+    public ResponseEntity<ItemCategoryVo> postItemCategory(@RequestBody ItemCategoryInsDto dto) {
+        ItemCategoryVo vo = service.saveCategory(dto);
+        return ResponseEntity.ok(vo);
+    }
+
+
+    @PostMapping("/item")
+    public ResponseEntity<ItemVo> postItem(@RequestBody ItemInsDto dto) {
+        ItemVo vo = service.saveItem(dto);
+        return ResponseEntity.ok(vo);
+    }
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+package com.green.campingsmore.common.item;
+
+import com.green.campingsmore.common.entity.ItemEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+package com.green.campingsmore.common.item;
+
+import com.green.campingsmore.common.entity.ItemCategoryEntity;
+import com.green.campingsmore.common.entity.ItemEntity;
+import com.green.campingsmore.common.item.model.ItemCategoryInsDto;
+import com.green.campingsmore.common.item.model.ItemCategoryVo;
+import com.green.campingsmore.common.item.model.ItemInsDto;
+import com.green.campingsmore.common.item.model.ItemVo;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class ItemService {
+    private final ItemRepository itemRep;
+    private final ItemCategoryRepository itemCategoryRep;
+
+    public ItemCategoryVo saveCategory(ItemCategoryInsDto dto) {
+        ItemCategoryEntity entity = ItemCategoryEntity.builder()
+                .name(dto.getName())
+                .build();
+        itemCategoryRep.save(entity);
+        return null;
+    }
+
+    public ItemVo saveItem(ItemInsDto dto) {
+        ItemCategoryEntity itemCategoryEntity = itemCategoryRep.findById(dto.getIitemCategory()).get();
+
+        ItemEntity itemEntity = ItemEntity.builder()
+                .itemCategoryEntity(itemCategoryEntity)
+                .name(dto.getName())
+                .pic(dto.getPic())
+                .price(dto.getPrice())
+                .build();
+        itemRep.save(itemEntity);
+
+        return null;
+    }
+
+}
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________
+{
+  "uid": "qwe",
+  "upw": "123",
+  "email": "haun0@naver.com",
+  "name": "name",
+  "birth_date": "1991-12-16",
+  "phone": "01062931624",
+  "gender": 1,
+  "user_address": "주소",
+  "user_address_detail": "상세주소",
+  "role": "ADMIN"
+}
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpYXQiOjE2OTM0NzMwMTUsImV4cCI6MTY5MzQ4MzAxNX0.4oKwZKT1ccNp2hc5Ekcs_e1mClCJI-IqyqmvJy-vmcE
+
+
+
+{
+  "iitemCategory": 11,
+  "name": "JPA 테스트1",
+  "pic": "main.jpg",
+  "price": 15000,
+  "picUrl": [
+    "test1.jpg","test2.jpg","test3.jpg"
+  ]
+}
+
+
+
+{
+"iitem": 75,
+  "iitemCategory": 11,
+  "name": "JPA 테스트1",
+  "pic": "main.jpg",
+  "price": 15000,
+  "picUrl": [
+    "test1.jpg","test2.jpg","test3.jpg"
+  ]
+}
+
+
+
+{
+"iitem": 75,
+  "iitemCategory": 11,
+  "name": "JPA 테스트1 수정",
+  "pic": "main.jpg",
+  "price": 15000,
+  "picUrl": [
+    "test1 수정.jpg","test2 수정.jpg","test3 수정.jpg"
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

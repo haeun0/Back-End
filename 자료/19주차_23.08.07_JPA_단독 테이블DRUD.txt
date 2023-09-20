@@ -1,0 +1,574 @@
+DDL 데이터 정의어
+DCL 
+DML
+________________________________________________________________________________________________________셋팅
+yaml 파일
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/jpa_exam
+    username: root
+    password: green502
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+++++++++++++++++++++++++++++++++++
+resoureces에 logback-spring.xml파일 생성
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="LOG_PATH" value="./logs" />
+    <property name="LOG_FILE_NAME" value="logInfo" />
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR
+        trace : debug보다 더 상세한 메시지를 표현하기 위한 레벨 의미
+        debug : 앱 디버깅을 위한 메시지를 표시하는 레벨 의미
+        info : 앱의 상태 변경과 같은 정보 전달을 위해 사용
+        warn : 시스템 에러의 원인 될 수 있는 경고 레벨 의미
+        error : 로직 수행 중에 시스템에 심각한 문제가 발생해서 앱의 작동이 불가능한 경우를 의미
+    -->
+    <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %thread] [%logger] %msg%n" />
+    <!-- 파일 로그 출력 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}_${type}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- 콘솔 로그 출력 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
+
+++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+
+@Data
+@Table(name = "t_product")
+@EqualsAndHashCode
+//동등성과 동일성 : 데이터가 같으면 등성성(객체가 다름) 객체가 같으면 동일성
+@Entity
+public class ProductEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long number;
+
+    @Column(nullable = false) // notnull
+    private String name;
+
+    @Column(nullable = false)
+    private Integer price;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    @CreationTimestamp
+//    @Column(name = "created_at") // 컬럼명을 바꾸고 싶을때 BUT orm이라 지금은 쓰지 않음
+    private LocalDateTime createdAt;
+
+    @CreationTimestamp
+    private LocalDateTime updatedAt;
+
+}
+
++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductDto;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/product")
+@RequiredArgsConstructor
+public class ProductController {
+    private final ProductService service;
+
+    @PostMapping
+    public ResponseEntity<ProductRes> postProduct(@RequestBody ProductDto dto) {
+        ProductRes res = service.saveProduct(dto);
+        return ResponseEntity.ok(res);
+    }
+}
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductDto;
+import com.green.jpaexam.product.model.ProductEntity;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+    private final ProductDao dao;
+
+    public ProductRes saveProduct(ProductDto dto ){
+        ProductEntity entity = ProductEntity.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
+                .build();
+
+        ProductEntity result = dao.saveProduct(entity);
+        return ProductRes.builder()
+                .number(result.getNumber())
+                .price(result.getPrice())
+                .name(result.getName())
+                .stock(result.getStock())
+                .build();
+    }
+}
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductEntity;
+
+public interface ProductDao {
+    ProductEntity saveProduct(ProductEntity p);
+}
+
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class ProductDaoIml implements ProductDao{
+    public final ProductRepository rep;
+
+    @Override
+    public ProductEntity saveProduct(ProductEntity p) { return rep.save(p);
+
+    }
+}
+
+
+
++++++++++++++++++++++++++++++++++++++++
+package com.green.jpaexam.product.model;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class ProductRes {
+    private Long number;
+    private String name;
+    private int price;
+    private int stock;
+}
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+
+package com.green.jpaexam.product.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class ProductDto {
+    private final String name;
+    private final int price;
+    private final int stock;
+}
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+데이터 베이스는 만들어줘야함 테이블은 자동으로 만들어줌
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>실행
+리스트로 셀렉 가져오기
+(원래는 Dao 작업을 끝내놓고 작업시작..?)
+
+
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductEntity;
+
+import java.util.List;
+
+public interface ProductDao {
+    ProductEntity saveProduct(ProductEntity p);
+    List<ProductEntity> getProductAll();
+}
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class ProductDaoIml implements ProductDao{
+    public final ProductRepository rep;
+
+
+    @Override
+    public ProductEntity saveProduct(ProductEntity p) { return rep.save(p);
+
+    }
+
+    @Override
+    public List<ProductEntity> getProductAll() {
+        return rep.findAll();
+    }
+}
+
+
++++++++++++++++++++++++++++++++++++++++
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductDto;
+import com.green.jpaexam.product.model.ProductEntity;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+    private final ProductDao dao;
+
+    public ProductRes saveProduct(ProductDto dto ){
+        ProductEntity entity = ProductEntity.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
+                .build();
+
+        ProductEntity result = dao.saveProduct(entity);
+        return ProductRes.builder()
+                .number(result.getNumber())
+                .price(result.getPrice())
+                .name(result.getName())
+                .stock(result.getStock())
+                .build();
+    }
+
+    public List<ProductRes> getProductAll() {
+        List<ProductEntity> list = dao.getProductAll();
+        List<ProductRes> result = list.stream().map(item ->
+                ProductRes.builder()
+                        .number(item.getNumber())
+                        .name(item.getName())
+                        .price(item.getPrice())
+                        .stock(item.getStock())
+                        .build()
+        ).toList();
+        return result;
+    }
+}
+
++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductDto;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/product")
+@RequiredArgsConstructor
+public class ProductController {
+    private final ProductService service;
+
+    @PostMapping
+    public ResponseEntity<ProductRes> postProduct(@RequestBody ProductDto dto) {
+        ProductRes res = service.saveProduct(dto);
+        return ResponseEntity.ok(res);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductRes>> getProductAll() {
+        return ResponseEntity.ok(service.getProductAll());
+    }
+}
+
+---------------------------------------------------------------------------------
+한개 가져오기
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.product.model.ProductEntity;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ProductDao {
+    ProductEntity saveProduct(ProductEntity p);
+    List<ProductEntity> getProductAll();
+    Optional<ProductEntity> getProduct(Long number);
+}
+
++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++
+
+수정하려는 애를 데려와서 바꾸고 다시 세이브
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/home/download/user/iuser/revivew
+/home/download/user/iuser/boardimg
+/home/download/user/iuser/profileimg
+
+
+
+
+
+________________________________________________________________________________________
+
+/*    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "리뷰 추가"
+            , description = "" +
+            "\"iuser\": [-] 유저 PK,<br>" +
+            "\"iorder\": [-]  아이템 썸네일 pic url,<br>" +
+            "\"iitem\": [-] 아이템 PK,<br>" +
+            "\"reviewCtnt\": [-] 리뷰 내용,<br>" +
+            "\"starRating\": [-] 별점,<br>" +
+            "\"pic\": [-] 사진 이미지<br>")
+    public int postReview(@RequestBody ReviewInsDto dto,
+                          @RequestPart MultipartFile pic) {
+        return SERVICE.insReview(dto,pic);
+    }*/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*    public int insReview(ReviewInsDto dto, MultipartFile pic ) {
+        ReviewEntity entity = new ReviewEntity();
+        entity.setIuser(dto.getIuser());
+        entity.setIorder(dto.getIorder());
+        entity.setIitem(dto.getIitem());
+        entity.setReviewCtnt(dto.getReviewCtnt());
+        entity.setStarRating(dto.getStarRating());
+
+        MAPPER.insReview(entity);
+
+        if (pic != null) {
+            File tempDic = new File(FILE_DIR, "/temp");
+            if(!tempDic.exists()) {
+                tempDic.mkdirs();
+            }
+            String savedFileNm = FileUtils.makeRandomFileNm(pic.getOriginalFilename());
+
+            File tempFile = new File(tempDic.getPath(), savedFileNm);
+            try{
+                pic.transferTo(tempFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String targetDicPath = FILE_DIR + "/user/"+entity.getIuser()+"/review/"+entity.getIorder();
+            File targetDic = new File(targetDicPath);
+            if(!targetDic.exists()) {
+                targetDic.mkdirs();
+            }
+            File targetFile = new File(targetDicPath, savedFileNm);
+            tempFile.renameTo(targetFile);
+
+        }
+
+
+        return 0;
+    }*/
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//    int insReview(ReviewEntity entity);
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+<!--    <insert id="insReview" useGeneratedKeys="true" keyProperty="ireview">
+        INSERT INTO review
+        SET iuser = #{iuser},
+        iorder = #{iorder},
+        iitem = #{iitem},
+        review_ctnt = #{reviewCtnt},
+        star_rating = #{starRating},
+        pic = #{pic}
+    </insert>-->
+
+
+____________________________________________________________________________________________________________________________
+오류 안터지는데까지
+
+    @PostMapping
+    @Operation(summary = "리뷰 추가"
+            , description = "" +
+            "\"iuser\": [-] 유저 PK,<br>" +
+            "\"iorder\": [-]  아이템 썸네일 pic url,<br>" +
+            "\"iitem\": [-] 아이템 PK,<br>" +
+            "\"reviewCtnt\": [-] 리뷰 내용,<br>" +
+            "\"starRating\": [-] 별점,<br>" +
+            "\"pic\": [-] 사진 이미지<br>")
+    public int postReview(@RequestBody ReviewInsDto dto) {
+        return SERVICE.insReview(dto);
+    }
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public int insReview(ReviewInsDto dto ) {
+        ReviewEntity entity = new ReviewEntity();
+        entity.setIuser(dto.getIuser());
+        entity.setIorder(dto.getIorder());
+        entity.setIitem(dto.getIitem());
+        entity.setReviewCtnt(dto.getReviewCtnt());
+        entity.setStarRating(dto.getStarRating());
+
+        return MAPPER.insReview(entity);
+
+    }
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    int insReview(ReviewEntity entity);
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    <insert id="insReview">
+        INSERT INTO review
+        SET iuser = #{iuser},
+        iorder = #{iorder},
+        iitem = #{iitem},
+        review_ctnt = #{reviewCtnt},
+        star_rating = #{starRating}
+    </insert>
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*                File tempDic = new File(FILE_DIR, "/temp");
+                if(!tempDic.exists()) {
+                    tempDic.mkdirs();
+                }
+                String savedFileNm = FileUtils.makeRandomFileNm(pic.getOriginalFilename());
+
+                File tempFile = new File(tempDic.getPath(), savedFileNm);
+                try{
+                    pic.transferTo(tempFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+                int result = MAPPER.insReview(entity);
+
+                if( result == 1) {
+                    String targetDicPath = FILE_DIR + "/user/" + entity.getIuser() + "/review/" + entity.getIorder();
+                    File targetDic = new File(targetDicPath);
+                    if (!targetDic.exists()) {
+                        targetDic.mkdirs();
+                    }
+                    File targetFile = new File(targetDicPath, savedFileNm);
+                    tempFile.renameTo(targetFile);
+                    return new new;
+                }*/
+

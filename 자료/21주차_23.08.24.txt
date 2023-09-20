@@ -1,0 +1,84 @@
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5MjgzODQ1NywiZXhwIjoxNjkyOTI0ODU3fQ.EbXYm03aMIVBY3cpWkF93b-YjZnW65Q51ChhnUKg-kk
+
+
+
+
+
+
+
+    <!--아이템 검색 및 검색리스트-->
+    <select id="searchItem" resultType="ItemVo">
+        <if test = "iuser ==0">
+        SELECT iitem, `name`, pic, price, created_at createdAt, 0 as wish
+        FROM item
+        <where>
+            <if test = "iitemCategory != null">
+                and iitem_category = #{iitemCategory}
+            </if>
+            <if test = "text != null">
+                and `name` LIKE CONCAT('%',#{text},'%')
+            </if>
+            AND del_yn = 1
+        </where>
+        <if test = "sort == 0">
+            ORDER BY created_at DESC
+        </if>
+        <if test = "sort == 1">
+            ORDER BY created_at
+        </if>
+        <if test="sort == 2">
+            ORDER BY price DESC
+        </if>
+        <if test="sort == 3">
+            ORDER BY price
+        </if>
+        LIMIT ${startIdx}, ${row}
+        </if>
+
+
+        <if test= "iuser > 0">
+        SELECT iitem, `name`, pic, price, created_at createdAt,
+        IFNULL((SELECT del_yn
+        FROM wishlist
+        WHERE iitem = A.iitem and iuser = #{iuser}),0) wish
+        FROM item A
+        <where>
+            <if test = "iitemCategory != null">
+                and iitem_category = #{iitemCategory}
+            </if>
+            <if test = "text != null">
+                and `name` LIKE CONCAT('%',#{text},'%')
+            </if>
+            AND del_yn = 1
+        </where>
+        <if test = "sort == 0">
+            ORDER BY created_at DESC
+        </if>
+        <if test = "sort == 1">
+            ORDER BY created_at
+        </if>
+        <if test="sort == 2">
+            ORDER BY price DESC
+        </if>
+        <if test="sort == 3">
+            ORDER BY price
+        </if>
+        LIMIT ${startIdx}, ${row}
+        </if>
+    </select>
+
+
+
+
+
+
+/
+
+
+
+
+
+
+
+
+

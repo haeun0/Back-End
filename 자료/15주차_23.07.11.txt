@@ -1,0 +1,11 @@
+ch12
+지네릭스 
+
+static파일에
+index.html 파일 생성
+
+!
+
+<body>
+<h1>테스트</h1>
+</body>

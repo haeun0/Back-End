@@ -1,0 +1,89 @@
+에러메세지 띄우고싶을때 
+config에
+@RestControllerAdvice //핵심
+extends Respons....
+프론트 쪽에서 권한 에러가뜨면 확인 할 수 있도록?  
+
+어떠한 작업이 있는데
+특정부위만 똑같음
+A   B   C
+-    -   -
+-    -   -
+     -   -
+     -   -
+         -
+
+가 가 가
+-    -   -
+     -   -
+         -
+
+공통되는것만 따로 주입
+AOP를 이용해서 만들면 다 적힌것처럼 꾸밀 수있음
+
+
+________________________________________________________________________________________________________________
+junit before after
+    //@BeforeAll static으로 메소드를 만들어야됨, 실행하기전에 한번만 실행
+    @BeforeEach // 각 테스트 하나마다 실행되기 전에 한번씩 실행됨
+    @AfterEach // 테스트 하나마다 끝나면 실행하고 싶을때
+
+@BeforeClass  = @BeforeAll 
+@Before = @BeforeEach
+ 
+테스트 실행 순서는 랜덤
+
+
+________________________________________________________________________________________________________________
+login하면 filter에서 확인후 SecrutityContext의 Authentication으로 UsernamePasswordAuthenticationToken에 토큰 추가 추가
+
+
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5MTU2MjQ1NywiZXhwIjoxNjkxNjQ4ODU3fQ.svcUIlgG5wIhin8DtFqOQOrbIo4UwMnsWxqHtWLDvoQ
+
+
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5MTU2OTQ2NCwiZXhwIjoxNjkxNjU1ODY0fQ.g2s0prVyijjUjZ2QsANVOPI960pZiOdr6sDpB18Mqwc
+
+
+- 현재 실행 종료 중인 컨테이너 목록
+docker ps -a
+
+
+ssh team_e@192.168.0.144 
+
+docker stop 0767d2d88e16
+
+docker cp ./app.jar 0767d2d88e16:/home
+
+컨테이너 시작
+docker start 0767d2d88e16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

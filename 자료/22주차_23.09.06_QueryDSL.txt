@@ -1,0 +1,54 @@
+검색
+
+    @GetMapping("/qdsl")
+    public ResponseEntity<List<ProductResQdsl>> getProductAllQdsl(
+            @ParameterObject @PageableDefault(sort="number", direction = Sort.Direction.DESC, size=20) Pageable page
+            ,@RequestParam(required = false)String search) {
+        return ResponseEntity.ok(service.getProductAllQdsl(page, search));
+    }
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public List<ProductResQdsl> selProductAll(Pageable page,String search) {
+        BooleanBuilder whereBuilder = new BooleanBuilder();
+        if(search != null) {
+            whereBuilder.and(p.name.contains(search)).or(productDetailEntity.description.contains(search));
+        }
+
+        JPQLQuery<ProductResQdsl> query = jpaQueryFactory.select(Projections.bean(ProductResQdsl.class,
+                        p.number, p.name, p.price, p.stock,
+                        productDetailEntity.description, c.name.as("categoryNm"), pv.name.as("providerNm"),
+                        p.createdAt
+                        ))
+                .from(p)
+                .join(p.productDetailEntity, productDetailEntity)
+                .join(p.cateogryEntity, c)
+                .join(p.providerEntity, pv)
+                .where(whereBuilder)
+                .orderBy(getAllOrderSpecifiers(page))
+                .offset(page.getOffset())
+                .limit(page.getPageSize()); //on 걸기위해 p.productDetailEntity,추가
+
+        return query.fetch();
+    }
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public List<ProductResQdsl> getProductAllQdsl(Pageable page, String search) {
+        return productQdsl.selProductAll(page, search);
+    }
+
+
+
+
+
+
+
+http://192.168.0.144:5005/img/user/1/profile/42d0eae0-c0dc-40c0-84bb-4d16f15f5c74.jpg
+
+
+
+.loe는 이하
+.gt >
+goe >=

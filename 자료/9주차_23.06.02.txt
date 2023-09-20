@@ -1,0 +1,131 @@
+@Data
+public class CmtDelDto {
+    private int iboardCmt; //1
+    private int iuser; //2
+    private int iboard; //0
+}
+
+
+}
+
+
+ DELETE FROM t_board_cmt
+        WHERE iboardDmt = 1
+	AND iuser = 2
+???????????????
+
+
+----------------------
+
+@Data
+public class CmtDelDto {
+    private int iboardCmt; //0
+    private int iuser; //0
+    private int iboard; //3
+}
+
+
+ DELETE FROM t_board_cmt
+        WHERE iboard = 3
+
+
+----------------------
+
+@Data
+public class CmtDelDto {
+    private int iboardCmt; //1
+    private int iuser; //2
+    private int iboard; //0
+}
+
+
+------------------------------------------------------------------
+@Transactional(rollbackFor = Exception.class)
+여러 업무가 한번에 되야한다 
+프로그램에서는 문제가 생겼을때 처음으로 돌리겠다.
+
+
+
+
+/board/{iboard} 했을때 
+디테일에
+게시글 페이징 댓글 페이징
+
+
+
+
+-------------------------------------------------------------------
+
+대한민국 공식 전자정부 누리집
+data.go.kr
+
+-------------------------------------------------------------------
+
+호갱노노
+마이옥션..
+
+
+user/pk/uuid.jpg
+
+suer/1/abcd.jpg
+
+-----------------------------------------------------------------
+확장자 뽑기 잘만들었는지 확인..
+    public static void main(String[] args) {
+        String fileNm = "124.34343.3434.jpg";
+
+        String result = getFileNm(fileNm);
+        System.out.println(result);
+    }
+
+
+
+게시글 957 8
+1개 댓글 5
+
+
+
+
+
+
+
+    public int updUserPic(MultipartFile pic, UserPicDto dto) {
+        // user/pk/uuid.jpg
+        String dicPath = String.format("%s/user/%d"
+                , fileDir, dto.getIuser());  //D://download/board3/user/1   // e.g. iuser=1 경우 D:download/board3/user/1
+
+        File dic = new File(dicPath);
+        if (!dic.exists()) {     //해당하는 폴더가 있는지 확인 가능
+            dic.mkdirs();
+        }
+
+        String fileName = pic.getOriginalFilename();
+        String randomFileNm = FileUtils.makeRandomFileNm(fileName);
+        String filePath = dicPath+ "/" +randomFileNm;
+//        String filePath = String.format("%s/%s",dicPath,randomFileNm);
+
+
+        File file = new File(filePath);
+
+        try {
+            pic.transferTo(file);
+
+            return mapper.updUserPic(dto);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+
+    }
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+/board/cmt/1003?page=2&row=10
+row 기본값5
+
+iboard_cmt, iboard, iuser, writer, writerMainPic, ctnt, createdAt
+
+
+/board/cmt/{iboardCmt}?iuser=18 
+
+board/cmt/{iboardCmt} 수정 iuser,ctnt
+
+댓글 보내달라는 대로 보여줄수있고
+뒤에 댓글이 더있으면 더 있다 없으면 없다 알려주기
+
+
+{
+isMoaer:1
+list:[ ]
+}
+
+
+List<CmtVo> list;
+
+---------------------------------------------------------
+CmRes 생성
+
+
+count(iboard)
+
+
+
+
+
+
+
+
+
+
+

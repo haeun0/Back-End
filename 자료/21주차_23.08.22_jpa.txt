@@ -1,0 +1,268 @@
+selFeedList
+셀렉, 마이바티스 응용
+
+@GetMapping
+    public List<FeedVo> selFeedList(@PageableDefault(sort="ifeed", direction = Sort.Direction.DESC, size=20) Pageable pageable) {
+        return service.selFeedList(pageable);
+    }
+
+@PageableDefault
+
+//쿼리문 분석해보기
+
+<select id="selFeedList" resultMap="FeedDomainRM">
+        SELECT A.ifeed, A.location, A.ctnt, A.iuser, A.created_at createdAt
+             , C.unm, C.pic
+
+몇명이 좋아요를 눌렀는가
+             , IFNULL(E.cnt, 0) AS favCnt 
+            <if test="iuserForFav > 0">
+             , CASE WHEN D.ifeed IS NULL THEN 0 ELSE 1 END AS isFav
+            </if>
+         FROM t_feed A
+        INNER JOIN t_user C
+           ON A.iuser = C.iuser
+        <if test="iuserForMyFeed > 0">
+          AND C.iuser = ${iuserForMyFeed}
+        </if>
+
+좋아요를 내가 눌렀는가 안눌렀는가
+         LEFT JOIN (
+            SELECT ifeed, COUNT(ifeed) AS cnt
+              FROM t_feed_fav
+             GROUP BY ifeed
+         ) E
+           ON A.ifeed = E.ifeed
+        <if test="iuserForFav > 0">
+         LEFT JOIN t_feed_fav D
+           ON D.iuser = ${iuserForFav}
+          AND A.ifeed = D.ifeed
+        </if>
+        ORDER BY A.ifeed DESC
+        LIMIT ${startIdx}, ${size}
+    </select>
+
+
+좋아요 테이블 추가
+좋아요를 한것 안한것 둘다 나올려면 쿼리문이 좋음
+좋아요만 보여주기는 jpa로 나이스한 방법이 있음...
+
+http://192.168.0.84:8082/user/signin
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+    @GetMapping("/{ifeed}/fav")
+    public int feedFavProc(@PathVariable long ifeed, int type) { //type: 1 - ins(등록), 0 - del(취소)
+        return service.feedFavProc(ifeed, type);
+    }
+
+
+    public int feedFavProc(long ifeed, int type) { // 좋아요 처리 ( , 1 or 0)
+        FeedEntity feedEntity = feedRep.getReferenceById(ifeed);
+        UserEntity userEntity = userRep.getReferenceById(auth.getLoginUser().getIuser());
+
+        FeedFavId feedFavId = FeedFavId.builder()
+                .feedEntity(feedEntity)
+                .userEntity(userEntity)
+                .build();
+
+//Optional<UserEntity > userEntity =... 있는지 없는지 확인용
+if(user...)
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+셀렉트의 셀렉트 but 자바에서 처리하는것이 더 빠름
+
+<resultMap id="FeedDomainRM" type="FeedVo">
+        <result property="ifeed" column="ifeed"/>
+        <association property="cmt" column="ifeed" select="selFeedCmt"/>
+        <collection property="imgList" column="ifeed" select="selFeedImgList"/>
+    </resultMap>
+
+-----------------------
+
+package com.green.greengram.feed;
+
+import com.green.greengram.common.entity.FeedCmtEntity;
+import com.green.greengram.common.entity.FeedEntity;
+import com.green.greengram.common.entity.FeedPicEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface FeedCmtRepository extends JpaRepository<FeedCmtEntity, Long> {
+    List<FeedCmtEntity> findAllByFeedEntity(FeedEntity entity);
+    // 0개 가져올수도 여러개 가져올수도있다.findAll
+    //By 뒤에는 필드명?
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CSS BEM
+
+_____________________________________________________________________________________________________________________________________________
+시큐리티
+
+https://developers.kakao.com/
+https://developers.naver.com/main/
+https://developers.facebook.com/
+https://console.cloud.google.com/
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+https://console.cloud.google.com/
+프로젝트 선택 
+- 새 프로젝트
+- API 및 서비스
+- OAuth 동의 화면
+- 외부 만들기 - 저장후 계속
+- 범위 추가
+
+사용자 인증 정보 - 사용자 인증 정보 만들기 - OAuth 클라이언트 Id
+-  웹 애플리케이션
+- URL 추가
+
+http://localhost:8082/login/oauth2/code/google
+
+참고 https://deeplify.dev/back-end/spring/oauth2-social-login
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+https://developers.facebook.com/
+
+앱만들기
+- 사람들이 Facebook 로그인 하도록 허용
+- 앱만들기
+
+앱 - 테스트 앱만들기
+- 제품 - 구성 - 빠른시작
+- 웹
+- 사이트 주소 save - 계속
+- 제품 - 설정 - 주소설정
+- 설정 - 기본설정 - 앱ID, 앱 시크릿 코드 확인 
+
+http://localhost:8082/login/oauth2/code/facebook
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+https://developers.naver.com/main/
+
+Application
+- 내 애플리케이션 - 애플리케이션 추가
+- REST API 키(client-id)
+- 카카오 로그인 - 확성화 설정ON - Redirect URI 추가
+
+- 카카오 로그인 - 보안 - 코드(client-secret)
+http://localhost:8082/login/oauth2/code/naver
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

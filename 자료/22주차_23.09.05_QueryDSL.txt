@@ -1,0 +1,208 @@
+<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>5.0.0</version>
+    <classifier>jakarta</classifier>
+</dependency>
+<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+    <version>5.0.0</version>
+    <classifier>jakarta</classifier>
+</dependency>
+<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-core</artifactId>
+</dependency>
+
+----------------------------------------------------------------------------------------or
+
+        <!-- QueryDSL APT Config -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+            <scope>provided</scope>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+        <!-- QueryDSL JPA Config -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+
++++++++++++++++++++++++++++++++++++++++++
+
+
+<plugins>
+            <plugin>
+            <groupId>com.mysema.maven</groupId>
+            <artifactId>apt-maven-plugin</artifactId>
+            <version>1.1.3</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>process</goal>
+                    </goals>
+                    <!--                        <configuration>-->
+                    <!--                            <outputDirectory>target/generated-sources/java</outputDirectory>-->
+                    <!--                            <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>-->
+                    <!--                        </configuration>-->
+                    <configuration>
+                        <processors>
+                            <processor>com.querydsl.apt.QuerydslAnnotationProcessor</processor>
+                        </processors>
+                        <options>
+                            <querydsl.skip>true</querydsl.skip>
+                        </options>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+
+___________________________________________________________________________________________________________________________________________
+
+    @GetMapping("/qdsl")
+    public ResponseEntity<List<ProductResQdsl>> getProductAllQdsl() {
+        return ResponseEntity.ok(service.getProductAllQdsl());
+    }
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product.model;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+@Data
+public class ProductResQdsl {
+    private Long number;
+    private String name;
+    private int price;
+    private int stock;
+    private String description;
+    private String categoryNm;
+    private String providerNm;
+    private LocalDateTime createdAt;
+
+}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.entity.*;
+import com.green.jpaexam.product.model.ProductRes;
+import com.green.jpaexam.product.model.ProductResQdsl;
+
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import static com.green.jpaexam.entity.QProductDetailEntity.productDetailEntity;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class ProductQdsl {
+    private final JPAQueryFactory jpaQueryFactory;
+
+    public List<ProductResQdsl> selProductAll() {
+        QProductEntity p = QProductEntity.productEntity;
+        QCategoryEntity c = QCategoryEntity.categoryEntity;
+        QProviderEntity pv = QProviderEntity.providerEntity;
+
+        JPQLQuery<ProductResQdsl> query = jpaQueryFactory.select(Projections.bean(ProductResQdsl.class,
+                        p.number, p.name, p.price, p.stock,
+                        productDetailEntity.description, c.name.as("categoryNm"), pv.name.as("providerNm"),
+                        p.createdAt
+                        ))
+                .from(p)
+                .join(p.productDetailEntity, productDetailEntity)
+                .join(p.cateogryEntity, c)
+                .join(p.providerEntity, pv)
+                .orderBy(p.number.desc()); //on 걸기위해 p.productDetailEntity,추가
+
+        return query.fetch();
+    }
+}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public List<ProductResQdsl> getProductAllQdsl() {
+        return productQdsl.selProductAll();
+    }
+
+
+
+
+
+
+
+
+//다오를 만들고 mpl, repository
+//Qdsl에 들어있는 부분...
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 페이징 처리
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+    {
+      "ireview": 16,
+      "name": "장하은",
+      "reviewCtnt": "리뷰 테스트",
+      "pic": "user/2/review/16/6b420204-755a-46b5-ab1e-f543abae8a2f.jpg",
+      "starRating": 3,
+      "reviewLike": 0,
+      "createdAt": "2023-09-05T15:01:09.082762"
+    }
+
+
+
+
+
+
+
+
+
+/*    private final QItemCategoryEntity c;
+
+    public List<ItemSelCateVo> selCategory() {
+        JPQLQuery<ItemSelCateVo> query = jpaQueryFactory.select(Projections.bean(ItemSelCateVo.class,
+                c.iitemCategory, c.name
+                ))
+                .from(c)
+                .where(c.)
+    }*/
+}
+

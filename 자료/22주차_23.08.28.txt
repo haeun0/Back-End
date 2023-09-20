@@ -1,0 +1,346 @@
+mapper test??
+
+기술면접 연습 13일 오전...
+
+
+mappedBy를 적어주면 추가 테이블이 생기지 않는다
+    @OneToMany(mappedBy = "providerEntity")
+    @ToString.Exclude // 양방향일 때 필수
+    private List<ProductEntity> productEntityList; // 여러개여서 리스트로 들어와야함..
+
+// 이미 만들어진 그 테이블은 삭제가 되지않음 DB에서 지우고 다시 올리기
+
+
+
+단방향
+    @OneToMany
+    @JoinColumn(name = "provider_id") // 단방향일 때 provider 에 접근 하고 싶을 때
+    @ToString.Exclude // 양방향일 때 필수, toString 으로 호출할 때 제외 처리
+    private List<ProductEntity> productEntityList; // 여러개여서 리스트로 들어와야함..
+
+
+
+----------------------------------------------------------------------------------------
+
+양방향
+    @OneToMany(mappedBy = "providerEntity") // 연결되 있는 필드명 // 양방향
+    @ToString.Exclude // 양방향일 때 필수, toString 으로 호출할 때 제외 처리
+    private List<ProductEntity> productEntityList; // 여러개여서 리스트로 들어와야함..
+
+
+++++
+
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    @ToString.Exclude // 양방향일 때 필수, toString 으로 호출할 때 제외 처리, 여기는 뺄 수 있음..
+    private ProviderEntity providerEntity; // 필드명
+
+---------------------------------------------------------------------------------------------------------------------
+1대1관계 단방향
+table "t_product_detail"
+bigint id unsigned primary key auto_increment,
+varchar(255) description
+created_at datetime,
+updated_at datetime
+
+
+
+package com.green.jpaexam.entity;
+
+import com.green.jpaexam.config.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+@Entity
+@Table(name = "t_product_detail")
+@SuperBuilder
+@NoArgsConstructor
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProductDetailEntity extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long id;
+
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "product_number")
+    private ProductEntity productEntity;
+
+
+}
+
+
+
+---------------------------------------------------------------------------------------------
+양방향을 거는데 productEntity에는 FK가 안생기고 ProductDetailEntity 관계설정
+
+
+
+package com.green.jpaexam.entity;
+
+import com.green.jpaexam.config.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+@Entity
+@Table(name = "t_product_detail")
+@SuperBuilder
+@NoArgsConstructor
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProductDetailEntity extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long id;
+
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "product_number")
+    private ProductEntity productEntity;
+    
+}
+
+
+++++++++++++++++++++
+
+package com.green.jpaexam.entity;
+
+
+import com.green.jpaexam.config.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+
+@Data
+@Table(name = "t_product")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProductEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long number;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer price;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    @ToString.Exclude // 양방향일 때 필수, toString 으로 호출할 때 제외 처리, 여기는 뺄 수 있음..
+    private ProviderEntity providerEntity; // 필드명
+
+    @OneToOne(mappedBy = "productEntity")
+    private ProductDetailEntity productDetailEntity;
+
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+onetoone 양방향에서
+id컬럼 추가 하지않고
+FK가 걸리고 FK를 PK로 사용 할 수 있도록 변경
+
+참고 사이트
+https://mycup.tistory.com/223
+
+
+package com.green.jpaexam.entity;
+
+import com.green.jpaexam.config.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+@Entity
+@Table(name = "t_product_detail")
+@SuperBuilder
+@NoArgsConstructor
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProductDetailEntity extends BaseEntity {
+    @Id
+    private Long number;
+
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "product_number", columnDefinition = "BIGINT UNSIGNED")
+    private ProductEntity productEntity;
+
+
+    private String description;
+    
+}
+
+
+++++++++++++++++++++++++++++++++++
+
+
+package com.green.jpaexam.entity;
+
+
+import com.green.jpaexam.config.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+
+@Data
+@Table(name = "t_product")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProductEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
+    private Long number;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer price;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    @ToString.Exclude // 양방향일 때 필수, toString 으로 호출할 때 제외 처리, 여기는 뺄 수 있음..
+    private ProviderEntity providerEntity; // 필드명
+
+/*    @OneToOne(mappedBy = "productEntity")
+    private ProductDetailEntity productDetailEntity;*/
+
+}
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
+//컬럼순서?
+@ColumnPosition(1)
+@ColumnPosition(2)
+@ColumnPosition(3)
+
+
+---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

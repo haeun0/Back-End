@@ -1,0 +1,210 @@
+도커..?
+서비스하는 곳을 다른곳으로 옮기고싶을때 셋팅을 바꾸지않고 컨테이너만 옮기면 되서 간편함!
+
+----------------------------
+파일저장: 절대경로 > D:download/user/1/abc.jpg
+DB 저장: 상대경로 > user/1/abc.jpg
+
+폴더 존재 여부
+D:download/user
+
+
+-------------------------------
+Maven / package에서 jar 파일생성 
+
+테스트
+
+Terminal
+>dir
+>cd target
+>
+
+
+project stuctuer/SDKs
+or
+탐색기
+C:\Users\Administrator\.jdks\azul-17.0.7
+에서 확인
+
+
+PC 시스템설정 /  고급시스템설정 / 환경변수
+새 시스템 변수 
+이름 JAVA_HOME
+변수값 C:\Users\Administrator\.jdks\azul-17.0.7
+생성
+
+CLASSOATH
+%JAVA_HOME%\lib
+생성
+
+Path의 변수값 맨 뒤에
+;%JAVA_HOME%\bin 추가
+
+
+
+
+>D:\Students\boardver3\target
+>dir
+D:\Students\boardver3\target>java -jar boardver3-0.0.1-SNAPSHOT.jar
+
+
+
+
+-----------------------------------------
+HTTP 
+FTP
+
+https://filezilla-project.org/
+Download FileZilla Client for Windows (64bit x86)
+
+파일 / 새 사이트 /  프로토콜 SFTP / 호스트,사용자, 비번 연결/
+
+jar파일
+app.jar로 이름 변경후 업로드
+
+
+SSH접속(cmd) 공유노션 확인
+처음 접속할때 비번 입력하면 치고있지만 보이지않지만 입력이 되고있음
+- SSH 접속 (cmd)
+$ ssh #{계정명}@#{서버IP} (엔터)
+password: #{비밀번호}
+예) team_b 라면
+$ ssh team_b@192.168.0.144 (엔터)
+password: green502 (엔터)
+
+
+## Docker 명령어
+- 이미지 빌드 (명령어 끝에 . 있음) > 컨테이너 생성
+$ docker build -t #{계정명} .
+예) team_g 라면
+$ docker build -t team_g .
+
+
+- 이미지로 새로운 컨테이너 실행 ( -d 백그라운드 실행)
+$ docker run -d -p #{포트}:8080 #{계정명}
+예) team_g 라면
+$ docker run -d -p 5007:8080 team_g
+
+-------------------------------------------
+figma
+
+https://www.figma.com/@uidesignguide
+
+
+
+와이어프레임 참고
+https://blog.gangnamunni.com/post/communication-with-wireframe/
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

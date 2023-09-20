@@ -1,0 +1,223 @@
+tomcat
+
+php -> html
+php + Apacher -> WAS
+
+APM
+
+
+jsp(스프인개발방식전)-> .jsp(파일)-> 서블릿?
+
+앱개발..
+native를 먼저 알고
+flutter.dev
+
+google material design
+
+apple design
+
+기준은 아이폰으로 개발하고 안드로이트 개발
+안드로이드: ?,코틀린 / 애플: 스위프트
+
+
+비로그인 인경우 권한 설정
+그러면 비로그인에는 토큰이 없는가?
+토큰이 있는지 없는지 확인으로 처리하면 로그인인경우를 확인할수있는가?
+
+
+
+
+
+
+
+
+     public boolean validate() {
+        return this.getTokenClaims() != null;
+    }
+
+
+//cookie에서 값 가져오기
+        Optional<Cookie> refreshTokenCookie = MyHeaderUtils.getCookie(req, REFRESH_TOKEN);
+        if(refreshTokenCookie.isEmpty()) {
+            throw new RestApiException(AuthErrorCode.NOT_FOUND_REFRESH_TOKEN);
+        }
+
+
+
+싱글톤??
+
+
+
+
+    redis-access-black-key: "Z-AT-BLACK"
+    redis-refresh-key: "Z-RT"
+
+팀명으로 변경
+
+
+
+F12 > Application > Cookies
+refresh_token
+
+
+
+
+AOP의 기능 사용하면 일일이 log를 적지않아도 찍어줌
+
+
+
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY5Mjk1Mjc3MCwiZXhwIjoxNjkzMDM5MTcwfQ.5kjczk9y7awrNKteJySyICRzC1r0jZfyU52WK9-AeUE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

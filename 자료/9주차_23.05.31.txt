@@ -1,0 +1,227 @@
+?row=30
+
+
+1004개를 row값 30으로 나눈다 33 ceil처리 필요  -> 34
+
+limit ???, 30(14실제로 보이게되는) 
+
+---------------------
+
+(get) /maxpage?row=40 마지막 page값
+
+
+@Data
+public class BoardSelLastDto {
+
+    private int rowLen;
+    private int max;
+
+}
+
+++++++++++++++
+
+    <select id="selLastBoard" resultType="int">
+        SELECT COUNT(*) max
+        FROM t_board
+    </select>
+
+++++++++++++++
+
+    int selLastBoard(int row);
+
+++++++++++++++
+
+    public int selLastBoard(int row) {
+        double count = mapper.selLastBoard(row);
+        return (int)Math.ceil(count/ row);
+    }
+++++++++++++++
+
+    @GetMapping("/maxpage")
+    public int getLastBoard(@RequestParam int row) {
+        return service.selLastBoard(row);
+    }
+
+-------------------------------------------------------------
+delete 글삭제
+{iboard, iuser}
+
+
+JWT
+JSON WEB TOKEN
+
+
+---------------------------------------------------------------
+글쓰기후 바로 자신의 글 확인하기
+
+insert에 추가
+
+    <insert id="insBoard" useGeneratedKeys="true" keyProperty="iboard">
+        INSERT INTO t_board
+        SET title = #{title}
+        , ctnt = #{ctnt}
+        , iuser = #{iuser}
+    </insert>
+
+
+++++++++++++
+BoardEntity 생성
+private int iboard;
+private String title;
+private String ctnt;
+private int iuser;
+private String createdAt;
+private String updatedAt;
+
+
++++++++++++++++++++++++++
+
+int insBoard(BoardEntity dto);
+
+
++++++++++++++++++++++
+
+public int insBoard(BoardInsDto dto) {
+BoardEntity entity = new BoardEntity();
+entity.setTitle(dto.getTitle());
+entity.setCtnt(dto.getCtnt());
+entity.setIuser(dto.getIuser());
+int result = mapper.insBoard(entity);
+if(result == 1) {
+return entity.getIboard();
+}
+return result;
+}
+
+
+----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

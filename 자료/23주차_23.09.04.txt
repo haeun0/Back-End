@@ -1,0 +1,115 @@
+{
+  "item": {
+    "iitem": 0,
+    "name": "string",
+    "pic": "string",
+    "price": 0,
+    "createdAt": "2023-09-08",
+    "picList": [
+      "string"
+    ]
+  },
+  "review": {
+    "iitem": 0,
+    "startIdx": 0,
+    "maxPage": 0,
+    "isMore": 0,
+    "page": 0,
+    "row": 0,
+    "list": [
+      {
+        "ireview": 0,
+        "name": "string",
+        "reviewCtnt": "string",
+        "pic": "string",
+        "starRating": 0,
+        "reviewLike": 0
+      }
+    ]
+  }
+}
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+{
+  "item": {
+    "itemSelDetailVo": {
+      "iitem": 0,
+      "name": "string",
+      "pic": "string",
+      "price": 0,
+      "createdAt": "2023-09-08T06:37:33.783Z"
+    },
+    "picList": [
+      "string"
+    ]
+  },
+  "review": {
+    "iitem": 0,
+    "startIdx": 0,
+    "isMore": 0,
+    "page": 0,
+    "row": 0,
+    "list": [
+      {
+        "ireview": 0,
+        "name": "string",
+        "reviewCtnt": "string",
+        "pic": "string",
+        "starRating": 0,
+        "reviewLike": 0,
+        "createdAt": "2023-09-08T06:37:33.783Z"
+      }
+    ]
+  }
+}
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+리뷰 리스트에 sort 추가 되긴했는데 디폴트로 들어있어서 안받도록되어있었음.. 
+
+
+
+
+
+
+
+public CampingDetaillist2 campingdetail2(Long icamp) {
+    QCampEntity camp = QCampEntity.campEntity;
+    QCampPicEntity camppic = QCampPicEntity.campPicEntity;
+    CampingDetaillist2 campingDetailList2 =
+            jpaQueryFactory.select(Projections.constructor(CampingDetaillist2.class,
+                            camp.icamp, camp.name, camp.campPhone, camp.address, camp.price,
+                            camp.capacity, camp.quantity, camp.note, Expressions.as(JPAExpressions.select(camppic.pic).from(camppic)
+                                    .where(camppic.campEntity.icamp.eq(icamp)), "pic")))
+                    .from(camp)
+                    .leftJoin(camppic).on(camppic.campEntity.icamp.eq(camp.icamp))
+                    .where(camp.icamp.eq(icamp))
+                    .fetchOne();
+    List<CampingDetailList> categoryList = new ArrayList<>();
+        for (String categoryId : campingDetailList2.getPic()) {
+            CampingDetaillist2 campingDetaillist2 = new CampingDetaillist2();
+            campingDetaillist2.set
+        }
+    return campingDetailList2;
+}
+
+
+
+
+    public ItemSelDetailResTest selItemDetail(Long iitem) {
+        JPQLQuery<ItemSelDetailResTest> query = jpaQueryFactory.select(Projections.bean(ItemSelDetailResTest.class,
+                        i.iitem, i.name, i.pic, i.price, i.createdAt, Expressions.list(JPAExpressions.select(dp.pic)
+                                .from(dp)
+                                .where(dp.itemEntity.iitem.eq(iitem))) ))
+                .from(i)
+                .where(i.iitem.eq(iitem).and(i.status.eq(1)));
+
+        return query.fetchOne();
+    }

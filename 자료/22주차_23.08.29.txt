@@ -1,0 +1,127 @@
+다대다
+
+테이블명  t_producer
+bigint id unsigned primary key auto_increment
+varchar(255) code
+varchar(255) name
+
+
+
+
+
+--------------------------------------------------------------------------
+
+bigint id unsigned auto_increment primary key
+producerEntity 관계 설정 ManyToOne
+productEntity 관계 설정 ManyToOne
+
+
+
+package com.green.jpaexam.entity;
+
+import com.green.jpaexam.config.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+@Entity
+@Table(name = "t_producer_product")
+@SuperBuilder
+@NoArgsConstructor
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProducerProductEntity extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false, columnDefinition = "BIGINT UNSIGNED")
+    private Long id;
+
+
+    @ManyToOne
+    @JoinColumn(name = "product_number" , columnDefinition = "BIGINT UNSIGNED")
+    private ProductEntity productEntity;
+
+    
+    @ManyToOne
+    @JoinColumn(name = "i_producer" , columnDefinition = "BIGINT UNSIGNED")
+    private ProducerEntity producerEntity;
+}
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+M: Model
+V: View
+C: Controller
+
+
+@Transactional
+여러가지의 업무를 하나로 만든다
+예를 들어 은행이체
+A은행에서 B은행의 500만원 계좌이체를 할 경우
+A은행계좌, B은행계좌 update
+실행되는 도중 한개가 에러가 나면 처음으로 돌림
+
+
+
+구매내역
+- 제품수량 나오기
+총가격 처리 
+장바구니
+- 아이템을 어려개 넣은경우 수량이 1로 들어오는 현
+- 체크 후 결제시 장바구니 비워지는 현상
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

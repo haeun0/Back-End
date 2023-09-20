@@ -1,0 +1,254 @@
+JPQL
+QueryDSL(외부 라이브러리라 셋팅이 조금 어려움)
+
+RDB? 데이터를 저장할 때 안정화하기 위해서 정규화함
+중복최소화
+BUT 셀렉트 할 때 분리함..(join, join, join, join, join, join.....)
+
+반대로 NOSQL은 셀렉은 편하지만 업데이트가 어려움...(직접 하나하나 저장되어있는 컬럼을 바꿔야하는데 중간에 에러가 터지거나 놓친 부분이 있으면.....)
+
+
+
+
+셀렉위주
+JPQL
+
+    @GetMapping
+    public ResponseEntity<Page<ProductRes>> getProductAllJpql() {
+        return ResponseEntity.of(service.getProductAllJpql());
+   }
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.entity.ProductEntity;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+    @Query("select new com.green.jpaexam.product.model.ProductRes(p.number, p.name, p.price, p.stock, d.description, p.name, p.name, p.createdAt) " +
+            " from ProductEntity p join p.productDetailEntity d")
+    List<ProductRes> selProductAll();
+}
+
++++++++++++++++++++++++++++++++
+
+    public List<ProductRes> getProductAllJpql() {
+        List<ProductRes> list = productRepository.selProductAll();
+        return list;
+    }
+
++++++++++++++++++++++++++++++++++확인
+
+package com.green.jpaexam.product.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+public class ProductRes {
+    private Long number;
+    private String name;
+    private int price;
+    private int stock;
+    private String description;
+    private String categoryNm;
+    private String providerNm;
+    private LocalDateTime createdAt;
+
+    public ProductRes(Long number, String name, int price, int stock, String description, String categoryNm, String providerNm, LocalDateTime createdAt) {
+        this.number = number;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.description = description;
+        this.categoryNm = categoryNm;
+        this.providerNm = providerNm;
+        this.createdAt = createdAt;
+    }
+}
+
+---------------------------------------------------------------------------------
+디테일한 내용..
+박스갈이 하는것을 프로젝션? 이라고한다
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.entity.ProductEntity;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+    @Query("select p from ProductEntity p join p.productDetailEntity d")
+    List<ProductEntity> selProductAll();
+    
+    @Query("select d from ProducerProductEntity d join CategoryEntity c on d.productNumber = 1")
+    /*
+    SELECT * FROM t_product_detail d
+    LEFT JOIN t_dategory c
+    ON d.product_number = c.id;
+    */
+}
+
+
+// @Query("select p from ProductEntity p")
+// p는 와일드 카드, 알리아스
+
+    @Query("select p from ProductEntity p join p.productDetailEntity d on d.number = 1")
+    List<ProductEntity> selProductAll();
+// FK 연결이 되어있다면 on 생략 가능
+// FK로 연결이 되어있다면 on 으로 연결이 되지 않은 테이블이라면 and가 된다
+
+SELECT p.*
+FROM t_product p
+INNER JOIN t_product_detail d
+ON p.number = d.product_number
+AND d.number = 1;
+
+or
+
+SELECT p.*
+FROM t_product p
+INNER JOIN t_product_detail d
+ON d.number = 1;
+
+
+
+
+----------------------
+연결된 테이블
+    @Query("select new com.green.jpaexam.product.model.ProductRes(p.number, p.name, p.price, p.stock, d.description, c.name, p.name, p.createdAt) " +
+            " from ProductEntity p join p.productDetailEntity d join p.cateogryEntity c")
+    List<ProductRes> selProductAll();
+
+
+
+연결되지 않은 테이블
+    @Query("select new com.green.jpaexam.product.model.ProductRes(p.number, p.name, p.price, p.stock, d.description, c.name, p.name, p.createdAt) " +
+            " from ProductEntity p join p.productDetailEntity d join CategoryEntity c on p.cateogryEntity.id = c.id")
+    List<ProductRes> selProductAll();
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+페이징 처리
+
+    @GetMapping("/jpql")
+    public ResponseEntity<List<ProductRes>> getProductAllJpql(
+            @PageableDefault(sort="number", direction = Sort.Direction.DESC, size=20) Pageable page
+    ) {
+        return ResponseEntity.ok(service.getProductAllJpql(page));
+    }
+++++++++++++++++++++++++++++
+
+package com.green.jpaexam.product;
+
+import com.green.jpaexam.entity.ProductEntity;
+import com.green.jpaexam.product.model.ProductRes;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+    @Query("select new com.green.jpaexam.product.model.ProductRes(p.number, p.name, p.price, p.stock, d.description, c.name, v.name, p.createdAt) " +
+            " from ProductEntity p join p.productDetailEntity d join p.cateogryEntity c join p.providerEntity v ")
+    List<ProductRes> selProductAll(Pageable page);
+
+}
+
+
++++++++++++++++++++++++++++
+
+    public List<ProductRes> getProductAllJpql(Pageable page) {
+        List<ProductRes> list = productRepository.selProductAll(page);
+        return list;
+    }
+
++++++++++++++++++++++++
+swagger
+
+
+{
+  "page": 0,
+  "size": 2,
+  "sort": [
+"price","asc"
+  ]
+}
+________________________________________________________________________________________________________________________________________________________
+A테이블에는 있고 B테이블에는 없는 것 찾기
+SELECT *
+FROM t_product A
+LEFT JOIN t_product_detail B
+ON A.`number` = B.product_number
+WHERE B.product_number IS NULL;
+
+
+Lert join을 했을경우 B에는 없기에 null로 나오는 걸 이용해서
+PK(B.product_number)가 null 일수 없기에
+PK(B.product_number)가 null인 것을 삭제한다
+DELETE A
+FROM t_product A
+LEFT JOIN t_product_detail B
+ON A.`number` = B.product_number
+WHERE B.product_number IS NULL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

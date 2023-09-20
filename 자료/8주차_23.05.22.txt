@@ -1,0 +1,373 @@
+package com.green.board7;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/")
+public class BoardController {
+    
+}
+
+----------------------------------------------------------------------
+BoardDetailVo: 값 그자체, 변하지 않는 값, Value object, setter method가 없어야한다.?
+BoardDto: 프론트에서 넘어오는친구?
+BoardEntity: 데이터베이스 테이블이랑 구조가 같은, DB랑 1대1
+BaordVo: view objcet, 프론트에 넘겨줄 친구..
+----------------------------------------------------------------------
+
+package com.green.board7.model;
+
+import lombok.Data;
+
+@Data
+public class BoardEntity {
+    private int iboard;
+    private String title;
+    private String ctnt;
+    private String writer;
+    private String createdAt;
+    private String updatedAt;
+}
+
+---------------------------------------------------------------------
+package com.green.board7.model;
+
+public class BoardDto extends BoardEntity{
+    
+}
+
+
+//나중에 추가 될것들은 여기에
+private....
+
+----------------------------------------------------------------------
+에노테이션 주는 이유, 빈등록, 객체생성을 알아서 해준다 
++ 빈등록하면서 의미 부여 빈인데 로직담당이다, 요청응답이다 등등..
+----------------------------------------------------------------------
+package com.green.board7.model;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class BoardService {
+
+}
+
+----------------------------------------------------------------------
+
+
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.board7.BoardMapper">
+
+</mapper>
+
+
+
+
+
+----------------------------------------------------------------------
+//Swagger:API
+//스웨거
+//개발자 rest웹 서비스를 설계, 빌드, 문서화, 소비화하는 일을 도와주는 
+//대형도구 생태계의 지원을 받는 오픈 소스 소프트웨워 프레임워크이다.
+
+//https://springdoc.org/
+
+
+
+Important
+For spring-boot v3 support, make sure you use springdoc-openapi v2
+
+   <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.1.0</version>
+   </dependency>
+
+-------------------------------
+
+http://localhost:8080/swagger-ui.html
+
+
+
+--------------------------------------------------------------------------
+//Docker
+//도커는 리눅스의 응용 프로그램들을 프로세스 격리 기술들을 사용해 컨테이너로 실행하고 관리하는 오픈 소스 프로젝트이다. 
+
+package com.green.board7.model;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
+public class BoardInsDto {
+    private String title;
+    private String ctnt;
+    @Schema(description = "작성자", nullable = true)
+    private String writer;
+}
+
++++++++++++++++++++++++++
+
+package com.green.board7;
+
+import com.green.board7.model.BoardDetailVo;
+import com.green.board7.model.BoardDto;
+import com.green.board7.model.BoardInsDto;
+import com.green.board7.model.BoardVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Tag(name = "게시판")
+@RestController
+@RequestMapping("/")
+public class BoardController {
+    private final BoardService service;
+
+    @Autowired
+    private BoardController(BoardService service){
+        this.service = service;
+    }
+
+    @PostMapping
+    @Operation(summary = "글등록", description = "" +
+                "title : 제목<br>" +
+                "ctnt : 내용<br>"+
+                "writer : 작성자")
+
+
+    public int postBoard(@RequestBody BoardInsDto dto) {
+        return service.insBoard(dto);
+    }
+
+    @GetMapping
+    public List<BoardVo> getBoard() {
+        return service.selBoardAll();
+    }
+
+    @GetMapping("/{iboard}")
+    public BoardDetailVo getBoardById(@PathVariable int iboard) {
+        BoardDto dto = new BoardDto();
+        dto.setIboard(iboard);
+        return service.selBoardById(dto);
+    }
+
+    @PutMapping
+    public int putBoard(@RequestBody BoardDto dto) {
+        return service.updBoard(dto);
+    }
+
+    @DeleteMapping("/{iboard}")
+    public int delBoard(@PathVariable int iboard) {
+        BoardDto dto = new BoardDto();
+        dto.setIboard(iboard);
+        return service.delBoard(dto);
+    }
+
+}
+
+
+---------------------------------------------------------------------------------------------
+//spring24logback
+//resources에 logback-spring.xml 파일생성
+
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="LOG_PATH" value="./logs" />
+    <property name="LOG_FILE_NAME" value="logInfo" />
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR
+        trace : debug보다 더 상세한 메시지를 표현하기 위한 레벨 의미
+        debug : 앱 디버깅을 위한 메시지를 표시하는 레벨 의미
+        info : 앱의 상태 변경과 같은 정보 전달을 위해 사용
+        warn : 시스템 에러의 원인 될 수 있는 경고 레벨 의미
+        error : 로직 수행 중에 시스템에 심각한 문제가 발생해서 앱의 작동이 불가능한 경우를 의미
+    -->
+    <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %thread] [%logger] %msg%n" />
+    <!-- 파일 로그 출력 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}_${type}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- 콘솔 로그 출력 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
+
+-------------------------------------------------------
+Shift + Shift / plugins 검색
+Grep Consol검색및 instole
+
+// 로그추가하기 
+
+package com.green.board7;
+
+import com.green.board7.model.BoardDetailVo;
+import com.green.board7.model.BoardDto;
+import com.green.board7.model.BoardInsDto;
+import com.green.board7.model.BoardVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@Tag(name = "게시판")
+@RestController
+@RequestMapping("/")
+public class BoardController {
+    private final Logger LOGGER;
+    private final BoardService service;
+
+    @Autowired
+    private BoardController(BoardService service){
+        LOGGER = LoggerFactory.getLogger(BoardController.class);
+        this.service = service;
+    }
+
+    @PostMapping
+    @Operation(summary = "글등록", description = "" +
+                "title : 제목<br>" +
+                "ctnt : 내용<br>"+
+                "writer : 작성자")
+
+
+    public int postBoard(@RequestBody BoardInsDto dto) {
+        LOGGER.warn("경고, 글 등록이 됩니다.");
+        return service.insBoard(dto);
+    }
+
+    @GetMapping
+    public List<BoardVo> getBoard() {
+        return service.selBoardAll();
+    }
+
+    @GetMapping("/{iboard}")
+    public BoardDetailVo getBoardById(@PathVariable int iboard) {
+        BoardDto dto = new BoardDto();
+        dto.setIboard(iboard);
+        LOGGER.info(dto.toString());
+        return service.selBoardById(dto);
+    }
+
+    @PutMapping
+    public int putBoard(@RequestBody BoardDto dto) {
+        return service.updBoard(dto);
+    }
+
+    @DeleteMapping("/{iboard}")
+    public int delBoard(@PathVariable int iboard) {
+        BoardDto dto = new BoardDto();
+        dto.setIboard(iboard);
+        return service.delBoard(dto);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
